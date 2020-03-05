@@ -12,4 +12,3 @@ sqDist x y = x^2 + y^2
 
 trisqDist x y = triple $ sqDist x y
 ns n = sum [1..n]
-
