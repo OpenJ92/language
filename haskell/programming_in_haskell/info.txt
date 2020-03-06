@@ -1,0 +1,2 @@
+Programming in Haskell: Second Edition -- Graham Hutton
+	https://www.cs.nott.ac.uk/~pszgmh/pih.html
