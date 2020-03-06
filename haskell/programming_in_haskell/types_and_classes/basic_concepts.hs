@@ -35,5 +35,3 @@
 -- It should be stated that a single number might be simultaneously many 
 -- different types. For example, 3 is an element of type Int, Integer,
 -- Float | Double.
---
--- 
