@@ -1,0 +1,39 @@
+-- A type is a collection of related values. i.e. Bool == { True, False }
+-- == { 0*1, 0* }. The notation for the concept " v has a type T " is as 
+-- follows v :: T. 
+--
+-- 	False :: Bool
+-- 	True :: Bool
+-- 	not :: Bool -> Bool
+--
+-- We may also use the notation for expressions that have not been evaluated
+-- like the following examples
+-- 	
+-- 	not False :: Bool
+-- 	not True :: Bool
+-- 	not $ not False :: Bool
+--
+-- Suppose that f is a function from A to B and e is an expression of type A, 
+-- then the application of function f to e is nessesarily of type B
+-- 	
+-- 	f :: A -> B , e :: A ==> f a :: B
+--
+-- Note! Type inference, that previously described, preceds evaluation of 
+-- functions in haskell and therefore, we can say that haskell is type safe.
+--
+-- Haskell includes a collection of basic types that are built into the 
+-- language. Those included are considered in the following list.
+--
+-- 	Bool - Logical values, True
+-- 	Char - single characters from the unicode system, ''
+-- 	String - strings of characters, ""
+-- 	Int = fixed-precision integers
+-- 	Integer - arbitrary-precision integers
+-- 	Float - single-precision floating point numbers
+-- 	Double - double-precision floating point numbers
+--
+-- It should be stated that a single number might be simultaneously many 
+-- different types. For example, 3 is an element of type Int, Integer,
+-- Float | Double.
+--
+-- 

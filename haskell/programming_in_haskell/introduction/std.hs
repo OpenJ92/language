@@ -29,6 +29,11 @@ lst = [1..100]
 last xs = head $ reverse xs
 takeLast n xs = reverse $ take n $ reverse xs
 dropLast n xs = reverse $ drop n $ reverse xs
-
 myInit xs = reverse $ tail $ reverse xs
 
+-- Having looked at the above functions, particularly takeLast, dropLast and 
+-- and my init, they all follow the form of: 
+-- 	func xs n = reverse $ sub_func n? $ reverse xs
+-- and therefore might be able to be generalized further
+
+getElem xs n = head $ drop n xs
