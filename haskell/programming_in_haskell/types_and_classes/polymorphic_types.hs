@@ -17,3 +17,8 @@ t n (x:xs) = [x] ++ t (n-1) xs
 -- t 2 [1,2,3,4,5] == [1,2]
 -- t 2 ['a','b','c','d','e'] == ['a','b']
 -- t 2 [True, False, True, False, True] == [True, False]
+
+z :: [a] -> [b] -> [(a, b)]
+z xs [] = []
+z [] ys = []
+z (x:xs) (y:ys) = [(x,y)] ++ z xs ys 
