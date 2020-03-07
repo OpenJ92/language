@@ -15,3 +15,6 @@ cmult = mult 3
 
 cadd :: Int -> Int 
 cadd = add' 3
+
+w :: Int -> [Int]
+w a = map add [(a, b) | b <- [1..100]]
