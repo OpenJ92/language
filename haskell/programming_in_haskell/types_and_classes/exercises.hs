@@ -1,0 +1,26 @@
+-- 1. What are the types of the following values? 
+-- 	a. ['a', 'b', 'c'] :: [Char]
+-- 	b. ('a', 'b', 'c') :: (Char, Char, Char)
+-- 	c. [(False, '0'), (True, '1')] :: [(Bool, Char)]
+-- 	d. ([False, True], ['0', '1']) :: ([Bool], [Char])
+-- 	e. [tail, init, reverse] :: [ [a] -> [a] ]
+--
+-- 2. Write down definitions that have the following types.
+-- 	a. [True, False] :: [Bool]
+-- 	b. [[1,2], [3,4]] :: [[Int]] 
+-- 	c. Int -> Int -> Int -> Int
+-- 	   add a b c = a + b + c
+-- 	d. a -> (a, a)
+-- 	   copy a = (a, a)
+-- 	
+-- 3. What are the types of the following functions? 
+-- 	   second :: [a] -> a
+-- 	a. second xs = head $ tail xs
+-- 	   swap :: (a, b) -> (b, a)
+-- 	b. swap (x, y) = (y, x)
+-- 	   double :: Num a => a -> a
+-- 	c. double c = 2*c
+-- 	   palindrome :: [a] -> Bool
+-- 	d. palindrome xs = reverse xs == xs
+-- 	   twice :: (a -> a) -> a -> a
+-- 	e. twice f x = f $ f x

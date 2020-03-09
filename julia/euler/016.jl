@@ -37,8 +37,11 @@ function resolve(𝕧::Any)::Any
 	end
 end
 
-𝚞 = [get_digits(2^62) for _ in 1:div(1000, 62)] 
-𝚐 = [get_digits(2^rem(1000, 62))]
-l = append!(𝚞, 𝚐)
+## Consider reconstruction of the above BIG-INT to take a string of a number 
+## and store it as a set of base 10 integers. 
+
+u = [get_digits(2^62) for _ in 1:div(1000, 62)] 
+g = [get_digits(2^rem(1000, 62))]
+l = append!(u, g)
 a = reduce(⊗, l)
 answer = sum(a)
