@@ -32,3 +32,7 @@ scd' :: (a, b) -> b
 scd' (_, y) = y
 
 -- List Patterns
+
+testFirst' :: Eq a => a -> [a] -> Bool
+testFirst' e' [e , _, _] | e == e' = True
+                         | otherwise = False 
