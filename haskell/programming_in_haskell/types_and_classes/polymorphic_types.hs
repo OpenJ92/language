@@ -24,9 +24,16 @@ z xs [] = []
 z [] ys = []
 z (x:xs) (y:ys) = [(x,y)] ++ z xs ys 
 
+-- zip implementation
+zE :: (Num a, Num b) => [a] -> [b] -> [(a, b)]
+zE (x:xs) [] = [(x,0)] ++ z xs []
+zE [] (y:ys) = [(0,y)] ++ z [] ys
+zE [] [] = []
+zE (x:xs) (y:ys) = [(x,y)] ++ z xs ys 
+
 -- zip with implementation
-zW :: (a -> b -> c) -> [a] -> [b] -> [c]
+zW :: (a -> b -> c) -> [a] -> [b] -> [(a, b, c)]
 zW f xs [] = []
 zW f [] ys = []
-zW f (x:xs) (y:ys) = [f x y] ++ zW f xs ys 
+zW f (x:xs) (y:ys) = [(x, y, f x y)] ++ zW f xs ys 
 
