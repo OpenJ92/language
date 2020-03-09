@@ -18,7 +18,15 @@ t n (x:xs) = [x] ++ t (n-1) xs
 -- t 2 ['a','b','c','d','e'] == ['a','b']
 -- t 2 [True, False, True, False, True] == [True, False]
 
+-- zip implementation
 z :: [a] -> [b] -> [(a, b)]
 z xs [] = []
 z [] ys = []
 z (x:xs) (y:ys) = [(x,y)] ++ z xs ys 
+
+-- zip with implementation
+zW :: (a -> b -> c) -> [a] -> [b] -> [c]
+zW f xs [] = []
+zW f [] ys = []
+zW f (x:xs) (y:ys) = [f x y] ++ zW f xs ys 
+
