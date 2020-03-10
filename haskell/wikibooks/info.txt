@@ -1,0 +1,2 @@
+Wikibooks Information on Haskell
+	https://en.wikibooks.org/wiki/Haskell
