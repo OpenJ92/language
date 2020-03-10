@@ -36,3 +36,22 @@ scd' (_, y) = y
 testFirst' :: Eq a => a -> [a] -> Bool
 testFirst' e' [e , _, _] | e == e' = True
                          | otherwise = False 
+
+-- Note: lists are constructed one element at a time via the : 
+-- opperator. That is to say, the expression [1, 2, 3] may be
+-- expressed as the following atomic expression"
+-- 	
+-- 	[1, 2, 3] = 1 : ( 2 : ( 3 : [] ) ) 
+--
+-- With this, and the context of List Patterns from this chapter,
+-- we can say that one can carry out the following pattern matchs
+-- as follows
+--
+-- 	x:y:zs [1, 2, 3, 4, 5] => 1 2 [3, 4, 5]
+--	x:zs [1, 2, 3, 4, 5] => 1 [2, 3, 4, 5]
+--
+-- Now we can redefine the above function as follows
+
+testFirst'' :: Eq a => a -> [a] -> Bool
+testFirst'' x' (x:xs) | x == x' = True 
+                      | otherwise = False

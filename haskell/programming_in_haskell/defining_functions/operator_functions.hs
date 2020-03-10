@@ -1,0 +1,14 @@
+-- Operator Sections:
+--
+-- Suppose that # specifies a function of exactly 2 arguments. The following
+-- definitions are called Operator Sections:
+--
+-- 	(#) = \x -> (\y -> x # y) 
+-- 	(x #) = \y -> x # y
+-- 	(# y) = \x -> x # y
+--
+-- The following are useful constructions in the Operator Section paradigm:
+-- 	
+-- 	Successor Function (1+) \y -> 1 + y
+-- 	Recip Function (1/) \y -> 1 / y
+-- 	Doubling Function (*2)  \x -> x*2 
