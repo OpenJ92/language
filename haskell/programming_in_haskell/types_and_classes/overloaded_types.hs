@@ -1,9 +1,15 @@
--- Consider the following function type declaration:
--- 	
--- 	(+) :: Num a => a -> ( a -> a ) 
--- 	negate :: Num a => a -> a
+-- Overloaded Types:
+--
+-- In the construction or specification of a type in haskell, one
+-- may specify a family of types upon which the polymorphic type
+-- definition may act upon. That is to say that you can specify 
+-- a subset of types on which the function may act on. An example
+-- of this kind of definition is the opperator +
+--
+-- 	(+) :: Num a => a -> a -> a
+-- 	(*) :: Num a => a -> a -> a 
+-- 	negate :: Num a => a -> a 
 -- 	abs :: Num a => a -> a 
---
--- 	3 :: Num a => a 
---
-
+-- 
+-- A type that contains one or more of these class constraints is 
+-- called overloaded.

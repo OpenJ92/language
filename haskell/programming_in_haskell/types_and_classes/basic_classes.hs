@@ -1,0 +1,59 @@
+-- Recall that a type is a collection of related values. By extension,
+-- a class is a collection of types that supports certain overloaded 
+-- opperations called methonds. The following is a set of in-built 
+-- classes of the haskell language.
+--
+-- Eq - equality types
+-- This class contains types whose values can be compared for equality
+--
+-- 	(==) :: a -> a -> Bool
+-- 	(\=) :: a -> a -> Bool
+--
+-- Ord - ordered types
+-- This class contains types that are instances of the Eq with the 
+-- addition of a total order.
+-- 	
+-- 	(<) :: a -> a -> Bool
+-- 	(<=) :: a -> a -> Bool
+-- 	(>) :: a -> a -> Bool
+-- 	(>=) :: a -> a -> Bool
+-- 	min :: a -> a -> a
+-- 	max :: a -> a -> a
+--
+-- Show - showable types
+-- This class contains types whose values can be converted into strings
+--
+-- 	show :: a -> String
+--
+-- Read - readable types
+-- This class is the dual to Show class. 
+--
+-- 	read :: String -> a
+--
+--	read "123" :: Int 
+--	read "[1,2.3]" :: [Int] 
+--
+-- Num - numeric types
+-- This class contains types whose values are numeric, and as such can 
+-- be processed using the following methods.
+--
+-- 	(+) :: a -> a -> a
+-- 	(*) :: a -> a -> a
+-- 	(-) :: a -> a -> a
+-- 	negate :: a -> a
+-- 	abs :: a -> a
+-- 	signum :: a -> a
+--
+-- Integral - integral types
+-- This class contains types that are instances of Num with the extension of
+-- the following methods.
+--
+-- 	div :: a -> a -> a
+-- 	mod :: a -> a -> a 
+--
+-- Fractional - fractional types
+-- This class contains types that are instances of the numeric class Num with
+-- the extension of the following methods. 
+--
+-- 	(\) :: a -> a -> a
+-- 	recip :: a -> a
