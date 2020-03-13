@@ -11,7 +11,7 @@ and' :: Bool -> Bool -> Bool
 and' True True = True
 and' _ _ = False
 
-and'' :: Bool -> Bool -> Bool
+and'' :: Bool -> (Bool -> Bool)
 and'' b c | b == c = True
           | otherwise = False
 
