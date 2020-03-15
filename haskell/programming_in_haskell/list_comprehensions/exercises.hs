@@ -52,4 +52,19 @@ perfect' n = (-) (sum (factors' n)) n == n
 perfects' :: Int -> [Int]
 perfects' n = [x | x <- [1..n], perfect' x]
 
--- 7.
+-- 7. Show how the list comprehension [(x, y) | x <- xs, y <- ys] can 
+-- be re-expressed as a nested comprehension
+
+dual' :: [(Integer, Integer)]
+dual' = concat [[(x, y) | x <- [1..3]] | y <- [1..5]]
+
+-- 8. Redefine the function positions using the function find.
+
+positions' :: (Eq a) => a -> [a] -> [Int]
+positions' x' xs = [v | (v, x) <- zip [0..] xs, x == x']
+
+-- 9. Construct a function scalarProduct :: [Int] -> [Int] -> Int
+
+scalarProduct :: [Int] -> [Int] -> Int
+scalarProduct xs ys | length xs == length ys = sum [xs!!i*ys!!i | i <- [1..((-) (length xs) 1)]]
+                    | otherwise              = 0
