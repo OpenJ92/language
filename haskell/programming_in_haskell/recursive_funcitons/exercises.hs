@@ -50,3 +50,78 @@ euclid' m n | m > n = euclid' ((-) m n) n
 -- 			    = 1 : 2 : 3 : 4 : init [5]
 -- 			    = 1 : 2 : 3 : 4 : []
 -- 			    = [1,2,3,4]
+
+-- 6. Define the following: 
+-- 	a.and' :: [Bool] -> Bool function
+
+and' :: [Bool] -> Bool
+and' [] = True
+and' (x:xs) | x == True = and' xs
+            | otherwise = False
+
+-- 	b. concat' :: [[a]] -> [a]
+
+concat' :: [[a]] -> [a]
+concat' [] = []
+concat' (xs:xss) = xs ++ concat' xss
+
+--	c. replicate' :: Int -> a -> [a]
+
+replicate' :: Int -> a -> [a]
+replicate' 1 m = [m] 
+replicate' n m = [m] ++ replicate' ((-) n 1) m
+
+--	d. select :: Int -> [a] -> a
+
+select' :: Int -> [a] -> Maybe a
+select' 0 (x:xs) = Just x
+select' _ [] = Nothing
+select' n (x:xs) = select' ((-) n 1) xs
+
+-- Decide if a value is an element of a list
+-- 	e. elem' :: a -> [a] -> Bool
+
+elem' :: Ord a => a -> [a] -> Bool
+elem' _ [] = False
+elem' x' (x:xs) | x' == x = True
+                | otherwise = elem' x' xs
+
+-- 7. Define a merge function which takes two sorted lists and returns a
+-- merged ordered list using recusion and comparision only.
+
+merge' :: Ord a => [a] -> [a] -> [a]
+merge' [] ys = ys
+merge' xs [] = xs
+merge' (x:xs) (y:ys) | x <= y = [x] ++ merge' xs (y:ys)
+                     | y < x = [y] ++ merge' (x:xs) ys
+
+
+-- 8. Consrutct merge sort algorithm using merge' and recursion.
+
+msort' :: Ord a => [a] -> [a]
+msort' [x] = merge' [x] []
+msort' [x, y] = merge' [x] [y]
+msort' xs = merge' (msort' up) (msort' lo)
+            where 
+              mid = div (length xs) 2
+              up = take mid xs
+              lo = drop mid xs
+
+-- 9. Construct the following functions recursively
+--	a. sum' :: [Int] -> Int
+
+sum' :: [Int] -> Int
+sum' [x] = x
+sum' (x:xs) = x + sum' xs
+
+--	b. take' :: Int -> [a] -> [a]
+
+take' :: Int -> [a] -> [a]
+take' 0 (x:xs) = x : []
+take' n (x:xs) = x : take ((-) n 1) xs
+
+-- 	c. last' :: [a] -> a
+
+last' :: [a] -> a
+last' [x] = x
+last' (x:xs) = last' xs
