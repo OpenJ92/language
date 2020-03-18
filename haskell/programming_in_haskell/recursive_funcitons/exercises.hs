@@ -95,7 +95,6 @@ merge' xs [] = xs
 merge' (x:xs) (y:ys) | x <= y = [x] ++ merge' xs (y:ys)
                      | y < x = [y] ++ merge' (x:xs) ys
 
-
 -- 8. Consrutct merge sort algorithm using merge' and recursion.
 
 msort' :: Ord a => [a] -> [a]
