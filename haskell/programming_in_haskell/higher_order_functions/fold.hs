@@ -50,21 +50,21 @@ foldr' f v (x:xs) = f x (foldr' f v xs)
 --
 -- Which effectively accrues elements into some variable v.
 
-sum' :: Num a => [a] -> a
-sum' = foldl (+) 0
+sum'' :: Num a => [a] -> a
+sum'' = foldl (+) 0
 
-product' :: Num a => [a] -> a
-product' = foldl (*) 1
+product'' :: Num a => [a] -> a
+product'' = foldl (*) 1
 
-or' :: [Bool] -> Bool
-or' = foldl (||) False
+or'' :: [Bool] -> Bool
+or'' = foldl (||) False
 
-and' :: [Bool] -> Bool
-and' = foldl (&&) True
+and'' :: [Bool] -> Bool
+and'' = foldl (&&) True
 
 -- We can define foldl recursively in the following manner
 
-foldl' :: (a -> b -> a) -> a -> [b] -> [a]
+foldl' :: (a -> b -> a) -> a -> [b] -> a
 foldl' f v [] = v
 foldl' f v (x:xs) = foldl' f (f v x) xs
 
@@ -90,7 +90,7 @@ foldl' f v (x:xs) = foldl' f (f v x) xs
 -- folding direction is the length function:
 
 length' :: [z] -> Int
-length' = foldr' (\n _ -> 1+n) 0
+length' = foldr' (\_ n -> 1+n) 0
 
 length'' :: [z] -> Int
-length'' = foldl' (\_ n -> n+1) 0
+length'' = foldl' (\n _ -> n+1) 0
