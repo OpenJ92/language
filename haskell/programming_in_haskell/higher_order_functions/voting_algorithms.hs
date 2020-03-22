@@ -36,6 +36,5 @@ m v = map (filter (/=v))
 n :: Eq a => a -> [a] -> [a]
 n e = filter (/=e)
 
-
 winner' xss | length (unique xss) > 1 = winner' $ m (loser $ map head $ n [] xss) $ xss
             | otherwise = head $ unique xss
