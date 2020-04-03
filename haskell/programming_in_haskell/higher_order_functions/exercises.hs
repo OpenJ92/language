@@ -90,6 +90,10 @@ map'' f = unfold (null) (f.head) (tail)
 -- that alternately applies it's two argument functions to sucsessive 
 -- elements in a list. 
 
+-- 	I don't think this is what they're expecting. However, this 
+-- 	will due for the time being. We'll come back to this in the
+-- 	coming days.
+
 _altMap :: Bool -> (a -> b) -> (a -> b) -> [a] -> [b]
 _altMap _ _ _ [] = []
 _altMap b f g (x:xs) | b = f x : _altMap (not b) f g xs
