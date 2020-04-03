@@ -85,3 +85,15 @@ iterate' f = unfold (\x -> False) (f) (f)
 
 map'' :: (a -> b) -> [a] -> [b]
 map'' f = unfold (null) (f.head) (tail)
+
+-- 7. Define a function altMap :: (a -> b) -> (a -> b) -> [a] -> [b]
+-- that alternately applies it's two argument functions to sucsessive 
+-- elements in a list. 
+
+_altMap :: Bool -> (a -> b) -> (a -> b) -> [a] -> [b]
+_altMap _ _ _ [] = []
+_altMap b f g (x:xs) | b = f x : _altMap (not b) f g xs
+                     | otherwise = g x : _altMap (not b) f g xs
+
+altMap :: (a -> b) -> (a -> b) -> [a] -> [b]
+altMap = _altMap True
