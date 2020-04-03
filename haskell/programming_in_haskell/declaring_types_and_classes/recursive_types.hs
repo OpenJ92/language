@@ -5,7 +5,7 @@
 -- type of natural numbers from the previous section can 
 -- also be declared in a recursive manner:
 
-data Nat = Zero | Succ Nat
+data Nat = Zero | Succ Nat deriving (Show)
 
 -- That is, a value of type Nat is either Zero, or of the 
 -- form Succ n for some value n of type Nat. Hence, this 
@@ -37,3 +37,20 @@ nat2int (Succ n) = 1 + nat2int n
 int2nat :: Int -> Nat
 int2nat 0 = Zero
 int2nat n = Succ ( int2nat ( (-) n 1 ) )
+
+
+-- Addition can be considered a peeling off of Succ from the first
+-- argument and pasting it on the second argument. 
+
+add :: Nat -> Nat -> Nat
+add Zero n = n
+add (Succ m) n = Succ ( add m n )
+
+-- How would we extend this to define multiplication, division and 
+-- subtraction? 
+
+subtract' :: Nat -> Nat -> Maybe Nat 
+subtract' Zero n = Just n
+subtract' m Zero = Nothing
+subtract' (Succ m) (Succ n) = subtract' (m) (n)
+

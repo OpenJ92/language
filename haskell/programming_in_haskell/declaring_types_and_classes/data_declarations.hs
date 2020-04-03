@@ -8,6 +8,7 @@
 data Aool = False | True
 
 -- in such a declaration, | is read as or and the values 
+--
 -- of this type are called constructors. These values must
 -- also be of the form [A-Z].*. Additionally, these constructors
 -- must be unique. 
