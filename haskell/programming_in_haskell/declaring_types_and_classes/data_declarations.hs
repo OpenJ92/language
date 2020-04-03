@@ -47,6 +47,6 @@ area :: Shape -> Float
 area (Circle _ r) = pi * r^2
 area (Rect _ x y) = x * y
 
--- NOTE:: The difference between normal functions and constructor
+-- NOTE :: The difference between normal functions and constructor
 -- functions is that the latter have no defining equations, and exist
 -- purely for the purposes of building pieces of data. 
