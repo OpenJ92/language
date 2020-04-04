@@ -67,6 +67,19 @@ multiply = multiply' Zero
 -- 	divide' :: Nat -> Nat -> Nat -> Nat
 -- 	divide' k m n = divide' (add k 1) (subtract' m n) n 
 --
--- Continue
+-- ----------------------------------------
 --
--- 
+-- As another example, the data keyword can be used to declare our
+-- own versions of existing built-in types. Consider the construction
+-- of a list
+
+data List' a = Nil | Cons a (List' a) deriving (Show)
+
+-- That is, a value of type List' is either Nil, representing the 
+-- empty list, or of the the form Cons a (List a). Equipted with 
+-- this, we might define the funciton len to calculate the length 
+-- of this new form as follows:
+
+len' :: List' a -> Int
+len' Nil = 0
+len' (Cons _ xs) = 1 + len' xs 
