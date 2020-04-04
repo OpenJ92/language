@@ -54,3 +54,19 @@ subtract' Zero n = Just n
 subtract' m Zero = Nothing
 subtract' (Succ m) (Succ n) = subtract' (m) (n)
 
+multiply' :: Nat -> Nat -> Nat -> Nat
+multiply' k Zero n = k
+multiply' k (Succ m) n = multiply' (add k n) m n 
+
+multiply :: Nat -> Nat -> Nat
+multiply = multiply' Zero
+
+-- Division, in the way that I'm trying to construct it, will require
+-- type class ?? Ord defined on the data.
+--
+-- 	divide' :: Nat -> Nat -> Nat -> Nat
+-- 	divide' k m n = divide' (add k 1) (subtract' m n) n 
+--
+-- Continue
+--
+-- 
