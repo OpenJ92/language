@@ -40,6 +40,11 @@ class Measure a
   where
     area, perimiter :: a -> Int
 
+class Rigid_Transform a
+  where 
+    translate :: a -> Pos -> a
+    rotate, dialate :: a -> Int -> a
+
 instance Measure Shape
   where
     area (Circle _ r) = 3 * r^2
@@ -53,4 +58,10 @@ instance Eq Shape
     (==) (Circle c1 r1) (Circle c2 r2) = c1 == c2 && r1 == r2 
     (==) (Rectangle c1 x1 y1)(Rectangle c2 x2 y2) = c1 == c2 && x1 == x2 && y1 == y2 
 
+instance Rigid_Transform Shape
+  where
+    translate (Circle (x,y) r) (u,v) = (Circle (u+x, v+y) r)
+    rotate (Circle v r) t = (Circle v r)
+    dialate (Circle v r) s = (Circle v (s*r) )
+ 
 -- -- -- -- -- ---- -- ---- -- ---- -- ---- -- ---- -- 
