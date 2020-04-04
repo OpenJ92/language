@@ -76,10 +76,42 @@ multiply = multiply' Zero
 data List' a = Nil | Cons a (List' a) deriving (Show)
 
 -- That is, a value of type List' is either Nil, representing the 
--- empty list, or of the the form Cons a (List a). Equipted with 
--- this, we might define the funciton len to calculate the length 
+-- empty list, or of the form Cons a (List a). Equipped with 
+-- this, we might define the function len to calculate the length 
 -- of this new form as follows:
 
 len' :: List' a -> Int
 len' Nil = 0
 len' (Cons _ xs) = 1 + len' xs 
+
+-- Another interesting data structure is the Binary Tree
+
+data Tree a = Leaf a | Node (Tree a) a (Tree a) deriving (Show)
+
+t :: Tree Int
+t = Node ( Node ( Leaf 1 ) 3 ( Leaf 4 ) ) 5 ( Node ( Leaf 6 ) 7 ( Leaf 9 ) )
+
+occurs :: Eq a => a -> Tree a -> Bool
+occurs x (Leaf y) = x == y
+occurs x (Node l y r) = x == y || occurs x l || occurs x r 
+
+-- This is a more efficient implementation of occurs, as we do 
+-- not need to traverse the entire tree as the other procedure
+--
+occurs' :: Ord a => a -> Tree a -> Bool
+occurs' x (Leaf x') = x == x'
+occurs' x (Node r x' l) | x == x' = True
+                        | x < x' = occurs' x r
+                        | otherwise = occurs' x l
+
+flatten' :: Tree a -> [a]
+flatten' (Leaf a) = [a]
+flatten' (Node l a r) = flatten' l ++ [a] ++ flatten' r
+
+-- This, of course, is not the only form for a tree. Consider the
+-- following distinct forms of a tree
+
+data T a = L a | N ( T a ) ( T a ) deriving (Show)
+data T1 a = L1 a | N1 ( T1 a ) a ( T1 a ) deriving (Show)
+data T2 a b = L2 a | N2 ( T2 a b ) b ( T2 a b ) deriving (Show)
+data T3 a = N3 a [ T3 a ] deriving (Show)
