@@ -27,10 +27,13 @@ instance Eq' Boolean
     eq F T = F
 
 -- -- -- -- -- ---- -- ---- -- ---- -- ---- -- ---- -- 
+
 -- Attempt to use type, data, class and instance to construct 
 -- a concept of Shape
 
 type Pos = (Int, Int)
+type Shapes = [Shape]
+
 data Shape = Circle Pos Int | Rectangle Pos Int Int deriving (Show)
 
 class Measure a
@@ -44,5 +47,10 @@ instance Measure Shape
 
     perimiter (Circle _ r) = 6 * r
     perimiter (Rectangle _ x y) = 2*x + 2*y
+
+instance Eq Shape
+  where
+    (==) (Circle c1 r1) (Circle c2 r2) = c1 == c2 && r1 == r2 
+    (==) (Rectangle c1 x1 y1)(Rectangle c2 x2 y2) = c1 == c2 && x1 == x2 && y1 == y2 
 
 -- -- -- -- -- ---- -- ---- -- ---- -- ---- -- ---- -- 
