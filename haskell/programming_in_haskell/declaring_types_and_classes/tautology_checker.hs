@@ -40,8 +40,8 @@ vars' ( Imply p q ) = vars' p ++ vars' q
 bools' :: Int -> [[Bool]]
 bools' 0 = [[]]
 bools' n = map (False:) bss ++ map (True:) bss
-           where
-             bss = bools' ((-) n 1)
+             where
+               bss = bools' ((-) n 1)
 
 subst' :: Prop -> [Subst]
 subst' p = map (zip vs) (bools' (length vs))
