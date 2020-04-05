@@ -56,7 +56,16 @@ instance Measure Shape
 instance Eq Shape
   where
     (==) (Circle c1 r1) (Circle c2 r2) = c1 == c2 && r1 == r2 
-    (==) (Rectangle c1 x1 y1)(Rectangle c2 x2 y2) = c1 == c2 && x1 == x2 && y1 == y2 
+    (==) (Rectangle c1 x1 y1) (Rectangle c2 x2 y2) = c1 == c2 && x1 == x2 && y1 == y2 
+
+instance Ord Shape
+  where
+    (<) (Circle c1 r1) (Circle c2 r2) = r1 < r2
+    (<=) (Circle c1 r1) (Circle c2 r2) = r1 <= r2
+    max (Circle c1 r1) (Circle c2 r2) | r1 <= r2 = (Circle c2 r2)
+                                      | otherwise = (Circle c1 r1)
+    min (Circle c1 r1) (Circle c2 r2) | r1 >= r2 = (Circle c2 r2)
+                                      | otherwise = (Circle c1 r1)
 
 instance Rigid_Transform Shape
   where
