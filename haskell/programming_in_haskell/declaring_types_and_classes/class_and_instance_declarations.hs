@@ -43,7 +43,7 @@ class Measure a
 class Rigid_Transform a
   where 
     translate :: a -> Pos -> a
-    rotate, dialate :: a -> Int -> a
+    dialate :: a -> Int -> a
 
 instance Measure Shape
   where
@@ -61,7 +61,8 @@ instance Eq Shape
 instance Rigid_Transform Shape
   where
     translate (Circle (x,y) r) (u,v) = (Circle (u+x, v+y) r)
-    rotate (Circle v r) t = (Circle v r)
-    dialate (Circle v r) s = (Circle v (s*r) )
+    translate (Rectangle (x,y) i j) (u,v) =  (Rectangle (x+u,y+v) i j)
+    dialate (Circle v r) s = (Circle v (s*r))
+    dialate (Rectangle (x,y) i j) t = (Rectangle (x,y) (t*i) (t*j))
  
 -- -- -- -- -- ---- -- ---- -- ---- -- ---- -- ---- -- 
