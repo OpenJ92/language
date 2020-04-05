@@ -34,7 +34,8 @@ instance Eq' Boolean
 type Pos = (Int, Int)
 type Shapes = [Shape]
 
-data Shape = Circle Pos Int | Rectangle Pos Int Int deriving (Show)
+data Shape = Circle Pos Int | Rectangle Pos Int Int 
+             deriving (Show)
 
 class Measure a
   where
@@ -75,3 +76,6 @@ instance Rigid_Transform Shape
     dialate (Rectangle (x,y) i j) t = (Rectangle (x,y) (t*i) (t*j))
  
 -- -- -- -- -- ---- -- ---- -- ---- -- ---- -- ---- -- 
+
+data Bool' = Fa | Tr
+             deriving (Show, Eq, Ord, Read)
