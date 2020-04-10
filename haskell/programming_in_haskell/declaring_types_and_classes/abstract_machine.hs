@@ -6,7 +6,7 @@ data Expr = Var Int
 data Op = EVAL Expr | ADD Int
 type Cont = [Op]
 
-e = Add ( Add ( Var 2 ) ( Var 3 ) ) ( Var 4 )
+e = Add ( Add ( Mult ( Var 2 ) ( Var 2 ) ) ( Var 3 ) ) ( Var 4 )
 
 value' :: Expr -> Int
 value' ( Var x ) = x
