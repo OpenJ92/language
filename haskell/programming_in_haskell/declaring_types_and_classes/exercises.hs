@@ -43,7 +43,7 @@ occurs' x (Node r x' l) | x == x' = True
 
 -- 3. Consider the following type of binary Tree
 
-data T' a = Leaf' a | Node' ( T' a ) ( T' a )
+data T' a = Leaf' a | Node' ( T' a ) ( T' a ) deriving (Show)
 
 t' :: T' Int
 t' = Node' (Node' ( Node' ( Node' (Leaf' 5) (Leaf' 6)) ( Leaf' 4 ) ) ( Node' ( Leaf' 6 ) ( Leaf' 9 ) ))           (Node' ( Node' ( Leaf' 1 ) ( Leaf' 4 ) ) ( Node' ( Leaf' 6 ) ( Leaf' 9 ) ))
@@ -62,4 +62,18 @@ balenced :: T' a -> Bool
 balenced (Leaf' _)   = True
 balenced (Node' x y) = count_leaves x == count_leaves y
 
--- 4. 
+-- 4. Define a function 
+-- 	
+-- 	balance :: [a] -> T' a
+-- 
+-- that converts a non-empty list into a balanced tree
+
+balance :: [a] -> T' a
+balance [a] = Leaf' a
+balance xs = Node' ( balance l ) ( balance r )
+             where
+               lxsh = div (length xs) 2
+               l    = take lxsh xs
+               r    = drop lxsh xs
+
+-- 5. 
