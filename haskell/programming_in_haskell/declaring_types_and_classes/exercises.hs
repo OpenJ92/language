@@ -46,7 +46,7 @@ occurs' x (Node r x' l) | x == x' = True
 data T' a = Leaf' a | Node' ( T' a ) ( T' a ) deriving (Show)
 
 t' :: T' Int
-t' = Node' (Node' ( Node' ( Node' (Leaf' 5) (Leaf' 6)) ( Leaf' 4 ) ) ( Node' ( Leaf' 6 ) ( Leaf' 9 ) ))           (Node' ( Node' ( Leaf' 1 ) ( Leaf' 4 ) ) ( Node' ( Leaf' 6 ) ( Leaf' 9 ) ))
+t' = Node' (Node' ( Node' ( Node' (Leaf' 5) (Leaf' 6)) ( Leaf' 4 ) ) ( Node' ( Leaf' 6 ) ( Leaf' 9 ) )) (Node' ( Node' ( Leaf' 1 ) ( Leaf' 4 ) ) ( Node' ( Leaf' 6 ) ( Leaf' 9 ) ))
 
 -- Let us say that such a tree is balanced is the number of leaves in 
 -- the left and right subtree of every node differs by at most one, with
@@ -80,6 +80,7 @@ balance xs = Node' ( balance l ) ( balance r )
 
 data Expr = Val Int | Add Expr Expr deriving (Show)
 
+e :: Expr
 e = Add ( Add ( Val 2 ) ( Val 3 ) ) ( Val 4 )
 
 -- define a higher-order function 
@@ -100,4 +101,3 @@ folde f g ( Add x y ) = g ( folde f g x ) ( folde f g y )
 
 size :: Expr -> Int
 size = folde (\x -> 1) (\x y -> x + y)
-

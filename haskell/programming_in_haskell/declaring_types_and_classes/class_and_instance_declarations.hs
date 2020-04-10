@@ -70,10 +70,10 @@ instance Ord Shape
 
 instance Rigid_Transform Shape
   where
-    translate (Circle (x,y) r) (u,v) = (Circle (u+x, v+y) r)
+    translate (Circle (x,y) r)      (u,v) = (Circle (u+x, v+y) r)
     translate (Rectangle (x,y) i j) (u,v) =  (Rectangle (x+u,y+v) i j)
-    dialate (Circle v r) s = (Circle v (s*r))
-    dialate (Rectangle (x,y) i j) t = (Rectangle (x,y) (t*i) (t*j))
+    dialate   (Circle v r)          s     = (Circle v (s*r))
+    dialate   (Rectangle (x,y) i j) t     = (Rectangle (x,y) (t*i) (t*j))
  
 -- -- -- -- -- ---- -- ---- -- ---- -- ---- -- ---- -- 
 
