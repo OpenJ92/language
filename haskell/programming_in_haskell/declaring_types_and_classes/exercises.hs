@@ -1,4 +1,4 @@
--- Exersices
+-- Exercises
 --
 -- 1. In a similar manner to the function add, define a recursive 
 -- multiplication function mult :: Nat -> Nat -> Nat for the recursive
@@ -41,3 +41,25 @@ occurs' x (Node r x' l) | x == x' = True
                         | x < x' = occurs' x r
                         | otherwise = occurs' x l
 
+-- 3. Consider the following type of binary Tree
+
+data T' a = Leaf' a | Node' ( T' a ) ( T' a )
+
+t' :: T' Int
+t' = Node' (Node' ( Node' ( Node' (Leaf' 5) (Leaf' 6)) ( Leaf' 4 ) ) ( Node' ( Leaf' 6 ) ( Leaf' 9 ) ))           (Node' ( Node' ( Leaf' 1 ) ( Leaf' 4 ) ) ( Node' ( Leaf' 6 ) ( Leaf' 9 ) ))
+
+-- Let us say that such a tree is balanced is the number of leaves in 
+-- the left and right subtree of every node differs by at most one, with
+-- leaves themselves being trivially balanced. Define a function 
+-- 	
+-- 	balanced :: Tree a -> Bool
+
+count_leaves :: T' a -> Int
+count_leaves ( Leaf' n ) = 1
+count_leaves ( Node' x y ) = count_leaves x + count_leaves y 
+
+balenced :: T' a -> Bool
+balenced (Leaf' _)   = True
+balenced (Node' x y) = count_leaves x == count_leaves y
+
+-- 4. 
