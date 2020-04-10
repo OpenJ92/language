@@ -76,4 +76,28 @@ balance xs = Node' ( balance l ) ( balance r )
                l    = take lxsh xs
                r    = drop lxsh xs
 
--- 5. 
+-- 5. Given the type declaration
+
+data Expr = Val Int | Add Expr Expr deriving (Show)
+
+e = Add ( Add ( Val 2 ) ( Val 3 ) ) ( Val 4 )
+
+-- define a higher-order function 
+
+folde :: (Int -> a) -> (a -> a -> a) -> Expr -> a
+
+-- such that folde f g replaces each Val constructor in an
+-- expression by the function f, and each Add consrutctor is
+-- replaced by the constructor g.
+
+folde f g ( Val n ) = f n
+folde f g ( Add x y ) = g ( folde f g x ) ( folde f g y )
+
+-- 6. Using folde, define a function eval :: Expr -> Int
+-- that evaluates an expression to an integer value and
+-- a function size :: Expr -> Int that calculates the 
+-- number of the values in an expression
+
+size :: Expr -> Int
+size = folde (\x -> 1) (\x y -> x + y)
+
