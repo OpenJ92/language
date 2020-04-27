@@ -42,6 +42,8 @@ eval ( App o l r ) = [
                      ]
 
 -- Combinitorial functions 
+-- 	Write these functions out on an example so that we can 
+-- 	begin to understand what is happening with them.
 subs :: [a] -> [[a]]
 subs [] = [[]]
 subs (x:xs) = yss ++ map (x:) yss
