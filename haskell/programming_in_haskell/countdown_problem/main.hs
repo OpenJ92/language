@@ -1,5 +1,10 @@
-data Op = Add | Sub | Mul | Div
-data Expr = Val Int | App Op Expr Expr
+data Op = Add 
+        | Sub 
+        | Mul 
+        | Div
+
+data Expr = Val Int 
+          | App Op Expr Expr
 
 instance Show Op
   where
