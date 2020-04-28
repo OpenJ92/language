@@ -18,3 +18,9 @@ std::istream& read(std::istream& in, Student& s)
 	read_hw(in, s.homework);
 	return in;
 }
+
+bool insert_work(Student& student, Work& work)
+{
+	student.assignments.push_back(work);
+	return true;
+}
