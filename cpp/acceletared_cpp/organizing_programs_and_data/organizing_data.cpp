@@ -9,6 +9,18 @@ int main()
 
 double grade(Student& s, Class& c)
 {
+	std::map<std::string,int> course_assignments;
+
+	for
+	(
+	 	std::vector<std::string>::iterator it = c.assignment_type.begin(); 
+		it != c.assignment_type.end();
+		++it
+	)
+	{
+		course_assignments.insert(std::pair<std::string, int> (*it, 0));
+	}
+
 	int homework, test, term;
 	int homework_count, test_count, term_count;
 	for 
@@ -18,6 +30,7 @@ double grade(Student& s, Class& c)
 		++it
 	)
 	{
+		auto assignment_type = course_assignments.find(it->type);
 		if (it->type == "homemork" && it->course.name == c.name)
 		{
 			homework += it->grade;

@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <map>
 
 struct Student;
 struct Teacher;
@@ -22,6 +23,7 @@ struct Student
 {
 	std::string name;
 	std::vector<Work> assignments;
+	std::vector<Class> courses;
 	double _final, _midterm;
 	std::vector<double> homework;
 };
@@ -35,6 +37,7 @@ struct Teacher
 struct Class
 {
 	std::string name;
+	std::vector<std::string> assignment_type;
 	std::vector<Student> students;
 	std::vector<Teacher> teachers;
 };
