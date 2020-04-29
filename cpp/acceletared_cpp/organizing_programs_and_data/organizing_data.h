@@ -37,9 +37,9 @@ struct Teacher
 struct Class
 {
 	std::string name;
-	std::vector<std::string> assignment_type;
+	std::map<std::string, float> assignment_type;
 	std::vector<Student> students;
 	std::vector<Teacher> teachers;
 };
 
-double grade(Student& s);
+double grade(Student& s, Class& c);
