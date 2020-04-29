@@ -7,20 +7,34 @@ int main()
 }
 
 
-double grade(Student& s)
+double grade(Student& s, Class& c)
 {
-	return grade(s._midterm, s._final, s.homework);
-}
-
-std::istream& read(std::istream& in, Student& s)
-{
-	in >> s.name >> s._midterm >> s._final;
-	read_hw(in, s.homework);
-	return in;
-}
-
-bool insert_work(Student& student, Work& work)
-{
-	student.assignments.push_back(work);
-	return true;
+	int homework, test, term;
+	int homework_count, test_count, term_count;
+	for 
+	(
+	 	std::vector<Work>::iterator it = s.assignments.begin(); 
+		it != s.assignments.end();
+		++it
+	)
+	{
+		if (it->type == "homemork" && it->course.name == c.name)
+		{
+			homework += it->grade;
+			homework_count += 1;
+		}
+		else if (it->type == "test")
+		{
+			test += it->grade;
+			test_count += 1;
+		}
+		else if (it->type == "term")
+		{
+			term += it->grade;
+			term_count += 1;
+		}
+	}	
+	return .6 * (homework / homework_count) +
+		.2 * (test / test_count) +
+		 .2 * (term / term_count);
 }

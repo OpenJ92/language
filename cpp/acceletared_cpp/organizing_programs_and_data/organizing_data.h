@@ -12,6 +12,9 @@ struct Work
 {
 	std::string title;
 	std::string type;
+	std::string content;
+	Class& course;
+	Student& student;
 	int grade;
 };
 
@@ -26,7 +29,7 @@ struct Student
 struct Teacher
 {
 	std::string name;
-	std::vector<Class> classes;
+	std::vector<Class*> classes;
 };
 
 struct Class
@@ -36,6 +39,4 @@ struct Class
 	std::vector<Teacher> teachers;
 };
 
-
 double grade(Student& s);
-std::istream& read(std::istream& in, Student& s);
