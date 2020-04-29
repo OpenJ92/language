@@ -24,8 +24,6 @@ struct Student
 	std::string name;
 	std::vector<Work> assignments;
 	std::vector<Class> courses;
-	double _final, _midterm;
-	std::vector<double> homework;
 };
 
 struct Teacher
