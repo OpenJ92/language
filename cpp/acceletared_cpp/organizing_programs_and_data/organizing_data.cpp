@@ -5,7 +5,7 @@ int main()
 	std::vector<Class> classes{
 					Class{"F",std::map<std::string,float>{{"homework", .40}, {"final", .30}, {"midterm", .30}}}, 
 			                Class{"E",std::map<std::string,float>{{"homework", .40}, {"final", .30}, {"midterm", .30}}}, 
-					Class{"D",std::map<std::string,float>{{"homework", .40}, {"final", .30}, {"midterm", .30}}}, 
+					Class{"D",std::map<std::string,float>{{"homework", .10}, {"final", .60}, {"midterm", .30}}}, 
 					Class{"C",std::map<std::string,float>{{"homework", .40}, {"final", .30}, {"midterm", .30}}}, 
 					Class{"B",std::map<std::string,float>{{"homework", .40}, {"final", .30}, {"midterm", .30}}}, 
 					Class{"A",std::map<std::string,float>{{"homework", .40}, {"final", .30}, {"midterm", .30}}}
@@ -36,6 +36,21 @@ int main()
 
 	std::cout << grade(student, classes[2]);
 	return 0;
+}
+
+void populate(Teacher& t, Class& c)
+{
+	t.classes.push_back(c);
+}
+
+void populate(Student& s, Work& w)
+{
+	s.assignments.push_back(w);
+}
+
+void populate(Student& s, Class& c)
+{
+	s.courses.push_back(c);
 }
 
 double grade(Student& s, Class& c)

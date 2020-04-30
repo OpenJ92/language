@@ -38,3 +38,6 @@ struct Class
 };
 
 double grade(Student& s, Class& c);
+void populate(Student& s, Work& w);
+void populate(Student& s, Class& c);
+void populate(Teacher& t, Class& c);
