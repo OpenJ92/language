@@ -43,14 +43,53 @@ void populate(Teacher& t, Class& c)
 	t.classes.push_back(c);
 }
 
+void populate(Teacher& t, std::vector<Class> cs)
+{
+	for 
+	(
+		std::vector<Class>::iterator it = cs.begin(); 	
+		it != cs.end();
+		++it
+	)
+	{
+		t.classes.push_back(*it);
+	}
+}
+
 void populate(Student& s, Work& w)
 {
 	s.assignments.push_back(w);
 }
 
+void populate(Student& s, std::vector<Work> ws)
+{
+	for 
+	(
+		std::vector<Work>::iterator it = ws.begin(); 	
+		it != ws.end();
+		++it
+	)
+	{
+		s.assignments.push_back(*it);
+	}
+}
+
 void populate(Student& s, Class& c)
 {
 	s.courses.push_back(c);
+}
+
+void populate(Student& s, std::vector<Class> cs)
+{
+	for 
+	(
+		std::vector<Class>::iterator it = cs.begin(); 	
+		it != cs.end();
+		++it
+	)
+	{
+		s.courses.push_back(*it);
+	}
 }
 
 double grade(Student& s, Class& c)
