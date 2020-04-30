@@ -2,14 +2,48 @@
 
 int main()
 {
+	std::vector<Class> classes{
+					Class{"F",std::map<std::string,float>{{"homework", .40}, {"final", .30}, {"midterm", .30}}}, 
+			                Class{"E",std::map<std::string,float>{{"homework", .40}, {"final", .30}, {"midterm", .30}}}, 
+					Class{"D",std::map<std::string,float>{{"homework", .40}, {"final", .30}, {"midterm", .30}}}, 
+					Class{"C",std::map<std::string,float>{{"homework", .40}, {"final", .30}, {"midterm", .30}}}, 
+					Class{"B",std::map<std::string,float>{{"homework", .40}, {"final", .30}, {"midterm", .30}}}, 
+					Class{"A",std::map<std::string,float>{{"homework", .40}, {"final", .30}, {"midterm", .30}}}
+	                          };
+	std::vector<Teacher> teachers{
+					Teacher{"A", classes}, 
+					Teacher{"B", classes}, 
+					Teacher{"C", classes}
+	                             };
+	std::vector<Work> assignments{
+					Work{"A", "homework", "sdaf;lkajsdf", classes[1], 83},
+					Work{"A", "homework", "sdaf;lkajsdf", classes[1], 60},
+					Work{"A", "homework", "sdaf;lkajsdf", classes[1], 80},
+					Work{"A", "homework", "sdaf;lkajsdf", classes[1], 80},
+					Work{"A", "homework", "sdaf;lkajsdf", classes[1], 70},
+					Work{"A", "homework", "sdaf;lkajsdf", classes[1], 82},
+					Work{"A", "homework", "sdaf;lkajsdf", classes[2], 82},
+					Work{"A", "homework", "sdaf;lkajsdf", classes[2], 80},
+					Work{"A", "homework", "sdaf;lkajsdf", classes[2], 82},
+					Work{"A", "homework", "sdaf;lkajsdf", classes[1], 85},
+					Work{"A", "homework", "sdaf;lkajsdf", classes[1], 80},
+					Work{"A", "midterm", "sdaf;lkajsdf", classes[1], 70},
+					Work{"A", "final", "sdaf;lkajsdf", classes[1], 90},
+					Work{"A", "midterm", "sdaf;lkajsdf", classes[2], 70},
+					Work{"A", "final", "sdaf;lkajsdf", classes[2], 90}
+				     };
+	Student student{"Jacob Vartuli-Schonberg", assignments, classes};
+
+	std::cout << grade(student, classes[2]);
 	return 0;
 }
-
 
 double grade(Student& s, Class& c)
 {
 	std::map< std::string, std::pair<int, int> > course_assignments;
 
+	// create initial structure to store total grade and number of number of 
+	// course's assignment types.
 	for
 	(
 	 	std::map<std::string, float>::iterator it = c.assignment_type.begin(); 
@@ -21,6 +55,7 @@ double grade(Student& s, Class& c)
 		course_assignments.insert(std::pair<std::string, std::pair<int, int> > (it->first, data));
 	}
 
+	// populate above DS with data.
 	for 
 	(
 	 	std::vector<Work>::iterator it = s.assignments.begin(); 
@@ -28,10 +63,25 @@ double grade(Student& s, Class& c)
 		++it
 	)
 	{
-		std::pair<std::string, std::pair<int, int> > assignment_type = *course_assignments.find(it->type);
-		assignment_type.second.first += it->grade;
-		assignment_type.second.second += 1;
+		if (it->course.name == c.name)
+		{
+			course_assignments.find(it->type)->second.first += it->grade;
+			course_assignments.find(it->type)->second.second += 1;
+		}
 	}	
 
-	return 0;
+	// construct float from the average of the assignment types and the associated
+	// weight of that average for the class.
+	double total = 0;
+	for 
+	(
+	 	std::map< std::string, std::pair<int, int> >::iterator it = course_assignments.begin();
+		it != course_assignments.end();
+		++it
+	)
+	{
+		total += c.assignment_type.find(it->first)->second * (it->second.first / it->second.second);
+	}
+
+	return total;
 }
