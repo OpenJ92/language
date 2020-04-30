@@ -52,7 +52,7 @@ void populate(Teacher& t, std::vector<Class> cs)
 		++it
 	)
 	{
-		t.classes.push_back(*it);
+		populate(t, *it);
 	}
 }
 
@@ -70,7 +70,7 @@ void populate(Student& s, std::vector<Work> ws)
 		++it
 	)
 	{
-		s.assignments.push_back(*it);
+		populate(s, *it);
 	}
 }
 
@@ -88,7 +88,7 @@ void populate(Student& s, std::vector<Class> cs)
 		++it
 	)
 	{
-		s.courses.push_back(*it);
+		populate(s, *it);
 	}
 }
 
