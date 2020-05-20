@@ -53,4 +53,3 @@ for Τ in ∇_Sequence(1, 20001)
 		println(Τ," ", α, " ", β)
 	end
 end
-

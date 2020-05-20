@@ -21,8 +21,8 @@ int main()
 					Work{"A", "homework", "sdaf;lkajsdf", classes[1], 80},
 					Work{"A", "homework", "sdaf;lkajsdf", classes[1], 80},
 					Work{"A", "homework", "sdaf;lkajsdf", classes[1], 70},
-					Work{"A", "homework", "sdaf;lkajsdf", classes[1], 82},
-					Work{"A", "homework", "sdaf;lkajsdf", classes[2], 82},
+					Work{"A", "homework", "sdaf;lkajsdf", classes[1], 32},
+					Work{"A", "homework", "sdaf;lkajsdf", classes[2], 32},
 					Work{"A", "homework", "sdaf;lkajsdf", classes[2], 80},
 					Work{"A", "homework", "sdaf;lkajsdf", classes[2], 82},
 					Work{"A", "homework", "sdaf;lkajsdf", classes[1], 85},
@@ -43,6 +43,17 @@ void populate(Teacher& t, Class& c)
 	t.classes.push_back(c);
 }
 
+
+void populate(Student& s, Work& w)
+{
+	s.assignments.push_back(w);
+}
+
+void populate(Student& s, Class& c)
+{
+	s.courses.push_back(c);
+}
+
 void populate(Teacher& t, std::vector<Class> cs)
 {
 	for 
@@ -54,11 +65,6 @@ void populate(Teacher& t, std::vector<Class> cs)
 	{
 		populate(t, *it);
 	}
-}
-
-void populate(Student& s, Work& w)
-{
-	s.assignments.push_back(w);
 }
 
 void populate(Student& s, std::vector<Work> ws)
@@ -74,10 +80,6 @@ void populate(Student& s, std::vector<Work> ws)
 	}
 }
 
-void populate(Student& s, Class& c)
-{
-	s.courses.push_back(c);
-}
 
 void populate(Student& s, std::vector<Class> cs)
 {
