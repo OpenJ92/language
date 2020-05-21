@@ -36,3 +36,13 @@ putBoard b = sequence_ [putRow idx row | (idx, row) <- zip [1..] b]
 -- 4. Define an action adder :: IO () that reads a given number 
 -- of integers from the keyboard, one per line, and displays thier
 -- sum.
+
+adder :: Int -> Int -> IO ()
+adder val n = do element <- getLine
+                 let integer = read element :: Int
+                 if n == 1 then
+                    do putStrLn (show (val + integer))
+                       return ()
+                 else
+                    do adder (val+integer) (n-1)
+             
