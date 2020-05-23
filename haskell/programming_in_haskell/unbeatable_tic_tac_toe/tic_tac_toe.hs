@@ -144,6 +144,7 @@ prune :: Int -> Tree a -> Tree a
 prune 0 (Node x _) = Node x []
 prune n (Node x ts) = Node x [prune (n-1) t | t <- ts]
 
+-- minimax algorithm
 depth :: Int
 depth = 9
 
