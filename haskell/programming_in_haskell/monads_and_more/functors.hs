@@ -44,4 +44,4 @@ sqr' = map (^2)
 -- a structure of type f a whose elements have a type a and applies
 -- a function to each element to give a structure f b.
 
--- Examples:
+
