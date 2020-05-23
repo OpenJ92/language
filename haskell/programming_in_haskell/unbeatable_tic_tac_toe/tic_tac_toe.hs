@@ -188,3 +188,4 @@ play' g p
                       [g'] -> play g' (next p)
    | p == X   = do putStrLn "Player X is thinking... "
                    (play $! (bestmove g p)) (next p)
+
