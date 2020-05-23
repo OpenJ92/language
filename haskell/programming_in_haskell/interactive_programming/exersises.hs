@@ -45,4 +45,17 @@ adder val n = do element <- getLine
                        return ()
                  else
                     do adder (val+integer) (n-1)
+
+getVal :: IO Int 
+getVal = do element <- getLine
+            return (read element :: Int)
              
+makeList :: Int -> IO [Int]
+makeList n = sequence (replicate n getVal)
+
+adder' :: Int -> IO ()
+adder' n = do xs <- makeList n
+              let total = sum xs
+	putStrLn (show total)
+return ()
+
