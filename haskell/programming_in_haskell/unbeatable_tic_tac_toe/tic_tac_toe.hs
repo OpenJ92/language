@@ -13,6 +13,7 @@ data Player = O
             deriving (Eq, Ord, Show)
 
 type Grid = [[Player]]
+type Pos = (Int, Int)
 
 next :: Player -> Player
 next O = X
@@ -94,3 +95,36 @@ getNat prompt = do putStr prompt
                    else
                       do putStrLn "ERROR: Invalid number"
                          getNat prompt
+
+-- Human vs. Human
+
+cls :: IO ()
+cls = putStr "\ESC[2J"
+
+tictactoe :: IO ()
+tictactoe = run empty O
+
+run :: Grid -> Player -> IO ()
+run g p = do cls
+             goto (1, 1)
+             putGrid g
+             run' g p
+
+run' :: Grid -> Player -> IO ()
+run' g p | wins O g = putStrLn "Player O wins!\n"
+         | wins X g = putStrLn "Player X wins!\n"
+         | full g   = putStrLn "It's a draw!\n"
+         | otherwise = 
+             do i <- getNat (prompt p)
+                case move g i p of
+                   [] -> do putStrLn "ERROR: Invalid move"
+                            run' g p
+                   [g'] -> run g' (next p)
+
+goto :: Pos -> IO ()
+goto (x, y) = putStr ("\ESC[" ++ show y ++ ";" ++ show x ++ "H")
+
+prompt :: Player -> String
+prompt p = "Player " ++ show p ++ ", enter your move: "
+
+-- Game Trees
