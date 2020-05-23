@@ -43,5 +43,25 @@ sqr' = map (^2)
 -- The intuition is that fmap takes a function of type a -> b and 
 -- a structure of type f a whose elements have a type a and applies
 -- a function to each element to give a structure f b.
+--
+-- Consider the following example using the Maybe data type. 
+--
 
+data Maybe' a = Just' a
+              | Nothing'
 
+instance Functor Maybe' where
+   fmap _ Nothing'  = Nothing'
+   fmap g (Just' x) = Just' (g x)
+
+-- 
+-- Consider the following data and it's instance declaration for Functor
+--
+
+data Tree a = Leaf a 
+            | Node (Tree a) (Tree a)
+            deriving (Show)
+
+instance Functor Tree where
+   fmap g (Leaf x)  = Leaf $ g x
+   fmap g (Node l r) = Node (fmap g l) (fmap g r)
