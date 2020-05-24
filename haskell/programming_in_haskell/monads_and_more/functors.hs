@@ -65,3 +65,20 @@ data Tree a = Leaf a
 instance Functor Tree where
    fmap g (Leaf x)  = Leaf $ g x
    fmap g (Node l r) = Node (fmap g l) (fmap g r)
+
+--
+-- To extend the examples at the begining of the section, we redefine the 
+-- type of inc' to the following.
+--
+
+inc'' :: Functor f => f Int -> f Int
+inc'' = fmap (+1)
+
+-- Functor Laws
+
+-- In addition to providing a function fmap of the specified type, functors 
+-- are also required to satisfy two equational laws:
+--
+-- fmap id      = id
+-- fmap (g . h) = fmap g . fmap h
+

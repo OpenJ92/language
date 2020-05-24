@@ -1,0 +1,15 @@
+-- Applicatives\
+
+-- Functors abstract the idea of mapping a function over each element of a 
+-- structre. Suppose now that we wish to generalise this idea to allow for
+-- functions with any number of arguemnts to be mapped, rather than being 
+-- restricted to functions of a single arguemnt. Precisely stated, we wish 
+-- to define a hierarchy of fmap functions with the following types;
+--
+-- fmap0 :: a -> f a
+-- fmap1 :: (a->b) -> f a -> f b 
+-- fmap2 :: (a->b->c) -> f a -> f b -> f c
+-- fmap3 :: (a->b->c->d)-> f a -> f b -> f c -> f d
+--
+-- Note that fmap1 is another name for fmap proper and fmap0 is the degenerate
+-- case when the function being mapped has no arguments.
