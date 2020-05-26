@@ -36,7 +36,7 @@ sqr' = map (^2)
 -- definition:
 --
 -- class Functor f where
---       fmap :: (a -> b) -> [a] -> [b]
+--       fmap :: (a -> b) -> f a -> f b
 --
 -- That is, for a parameterised type f to be an instance of the class
 -- Functor, it must support a function fmap of the specified type. 
@@ -81,5 +81,13 @@ inc'' = fmap (+1)
 --
 -- fmap id      = id
 -- fmap (g . h) = fmap g . fmap h
-
-
+--
+-- class Functor f where
+--   fmap :: (a->b) -> f a -> f b
+--
+-- class => Applicative f where
+--   pure :: a -> f a
+--   <*> :: f (a->b) -> f a -> f b
+--
+-- class Monad m where
+--   >>= :: m a -> ( a -> m b ) -> m b

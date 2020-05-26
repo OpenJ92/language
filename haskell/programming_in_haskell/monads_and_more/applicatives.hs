@@ -92,3 +92,11 @@ instance Applicative Maybe' where
 -- programming in which we can apply pure functions to arguments that may fail
 -- without the need to manage the propogation of failiure ourselves, as this is
 -- taken care of by the applicative machinery. 
+--
+
+-- fmap ::  (a -> b) -> f a -> f b
+-- <*>  :: f (a -> b) -> f a -> f b
+-- >>=  :: f a -> (a -> f b) -> f b
+
+myAction :: IO String
+myAction = (++) <$> getLine <*> getLine
