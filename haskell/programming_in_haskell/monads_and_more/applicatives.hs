@@ -92,11 +92,35 @@ instance Applicative Maybe' where
 -- programming in which we can apply pure functions to arguments that may fail
 -- without the need to manage the propogation of failiure ourselves, as this is
 -- taken care of by the applicative machinery. 
+
+-- Consider another example of an Applicative instance, []
 --
+-- instance Applicative [] where
+--   pure x = [x]
+--   gs <*> xs = [g x | g <- gs, x <- xs]
+--
+-- That is to say the the implementiation of type [] as an Applicative defines
+-- pure :: a -> [] a as the singleton list, while <*> takes a list of functions
+-- and a list of arguments and applies each function to each argument in turn. 
 
--- fmap ::  (a -> b) -> f a -> f b
--- <*>  :: f (a -> b) -> f a -> f b
--- >>=  :: f a -> (a -> f b) -> f b
+-- > pure (+1) <*> [1,2,3]
+-- [2,3,4]
+--
+-- > pure (+) <*> [1] <*> [2]
+--   -- [(+1)] <*> [2]
+--   -- [3] 
+-- 
+-- > pure (+) <*> [1,2] <*> [3,4]
+--  -- [(+1), (+2)] <*> [3,4]
+--  -- [(+1) 3,(+1) 4,(+2) 3,(+2) 4]
+--  -- [4, 5, 6, 7]
 
-myAction :: IO String
-myAction = (++) <$> getLine <*> getLine
+prods :: [Int] -> [Int] -> [Int]
+prods xs ys = (*) <$> xs <*> ys
+
+sums :: [Int] -> [Int] -> [Int]
+sums xs ys = (+) <$> xs <$> ys
+
+-- In summary, the applicitave style for lists supports a form of non-deterministic 
+-- programming in which we can apply pure functions to multi-valued arguments without
+-- the need to manage the selection of values or the propogation of failiure.
