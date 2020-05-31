@@ -1,4 +1,6 @@
--- Applicatives\
+import Control.Applicative
+
+-- Applicatives
 
 -- Functors abstract the idea of mapping a function over each element of a 
 -- structre. Suppose now that we wish to generalise this idea to allow for
@@ -119,8 +121,34 @@ prods :: [Int] -> [Int] -> [Int]
 prods xs ys = (*) <$> xs <*> ys
 
 sums :: [Int] -> [Int] -> [Int]
-sums xs ys = (+) <$> xs <$> ys
+sums xs ys = (+) <$> xs <*> ys
 
--- In summary, the applicitave style for lists supports a form of non-deterministic 
+-- In summary, the applicative style for lists supports a form of non-deterministic 
 -- programming in which we can apply pure functions to multi-valued arguments without
--- the need to manage the selection of values or the propogation of failiure.
+-- the need to manage the selection of values or the propagation of failure.
+--
+-- The last example of an applicative functor is the IO type. 
+--
+-- instance Applicative IO where
+--   pure = return
+--   my <*> mx = do { g <- mg; x <- xs; return g x }
+
+
+getChars :: Int -> IO String
+getChars 0 = return []
+getChars n = (:) <$> getChar <*> getChars (n-1)
+
+sA :: Applicative f => [ f a ] -> f [a]
+sA [] = pure []
+sA (x:xs) = (:) <$> x <*> sA xs
+
+-- The Applicative Laws:
+--
+-- pure id <*> x = x
+-- pure (g x) = pure g <*> pure x
+-- x <*> pure y = pure (\g -> g y) <*> x
+-- x <*> ( y <*> z ) = (pure (.) <*> x <*> y) <*> z
+--
+-- There's a redefinition of Functors fmap as an infix operator in the following way:
+--
+-- f <$> x1 <*> x2 <*> ... <*> xn
