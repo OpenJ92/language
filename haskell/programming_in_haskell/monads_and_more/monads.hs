@@ -1,18 +1,18 @@
 -- Monads
 --
--- The final concept in the chapter is that of the monad. By way of example, 
+-- The final concept in the chapter is that of the monad. By way of example,
 -- consider the parameterized type Expr
 
 -- data Expr = Val Int
 --           | Div Expr Expr
 --           deriving (Show)
--- 
+--
 -- eval' :: Expr -> Int
 -- eval' (Val n) = n
 -- eval' (Div n m) = div (eval' n) (eval' m)
 
--- Unfortunately, this function does not take into account the posibility of 
--- division by zero and will resolve to an exception under the correct conditions. 
+-- Unfortunately, this function does not take into account the posibility of
+-- division by zero and will resolve to an exception under the correct conditions.
 -- In order to address this, we should make a safe division function.
 
 safediv' :: Int -> Int -> Maybe Int
@@ -33,11 +33,11 @@ data Expr = Val Int
 
 eval' :: Expr -> Maybe Int
 eval' (Val n) = Just n
-eval' (Div n m) = eval' n >>= \n -> 
-                  eval' m >>= \m -> 
+eval' (Div n m) = eval' n >>= \n ->
+                  eval' m >>= \m ->
                   safediv' n m
 
--- In general, a typical expression that is built from the >>= (bind) operation 
+-- In general, a typical expression that is built from the >>= (bind) operation
 -- will follow this structure;
 --
 -- m1 >>= \x1 ->
@@ -57,11 +57,11 @@ eval' (Div n m) = eval' n >>= \n ->
 -- Examples:
 
 data Maybe' a = Nothing'
-              | Just ' a
+              | Just' a
 
-instance Monad Maybe' where
-  Nothing' >>= f = Nothing'
-  (Just' n) >>= f = f n
+-- instance Monad Maybe' where
+--   Nothing' >>= f = Nothing'
+--   (Just' n) >>= f = f n
 
 -- instance Monad [] where
 --   xs >>= f = [y | x <- xs, y <- f x]

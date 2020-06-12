@@ -5,7 +5,7 @@ import System.IO
 -- Basic Declarations
 
 size :: Int
-size = 3
+size = 7
 
 data Player = O
             | B 
