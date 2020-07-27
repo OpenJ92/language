@@ -4,9 +4,7 @@ from functools import partial
 ## allows for partial application of functions in
 ## python as is seen in languages like Haskell.
 
-def hello(name, feeling = "!"):
+def hello(name : str, feeling : str = "!" ) -> str:
     return f"Hello, {name}{feeling}"
-
 confused_hello = partial(hello, feeling = "?")
-hello_jacob = partial(hello, "Jacob")
-
+hello_jacob    = partial(hello, "Jacob")

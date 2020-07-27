@@ -18,8 +18,8 @@ instance Applicative ST where
 
   -- <*> :: f (a -> b) -> f a -> f b
   stf <*> stx = S (
-                   \s -> let (f, s')  = app stf s
-                             (x, s'') = app stx s'
+                   \s -> let (f  , s' ) = app stf s
+                             (x  , s'') = app stx s'
                          in  (f x, s'')
                   )
 
@@ -62,8 +62,8 @@ alabel (Node l r) = Node <$> alabel l <*> alabel r
 -- Using the fact that ST is also a monad, we might write the following;
 
 mlabel :: Tree a -> ST (Tree Int)
-mlabel (Leaf _)    = fresh >>= \n ->
-                     return (Leaf n)
+mlabel (Leaf _)     = fresh >>= \n ->
+                      return (Leaf n)
 malabel (Node l r ) = mlabel l >>= \l' ->
-                     mlabel r >>= \r' ->
-                     return (Node l' r')
+                      mlabel r >>= \r' ->
+                      return (Node l' r')

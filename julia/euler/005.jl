@@ -12,7 +12,6 @@ function prime_from_hash(Ω::Dict{Int,Int})::Int
 	return prime_product
 end
 
-
 function LCM_hash(α::Array{Int, 1})::Dict{Int, Int}
 	Ω_hash = Dict{Int, Int}()
 	for a = α
