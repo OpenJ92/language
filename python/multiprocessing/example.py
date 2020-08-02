@@ -18,8 +18,8 @@ if __name__ == "__main__":
     start = time.perf_counter()
 
     processes = [Process(target = function, args = [6]) for _ in range(100)]
-    starts = [process.start() for process in processes]
-    joins = [process.join() for process in processes]
+    starts    = [process.start() for process in processes]
+    joins     = [process.join() for process in processes]
 
     finish = time.perf_counter()
 
