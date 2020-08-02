@@ -9,9 +9,9 @@ def function(sec):
 if __name__ == "__main__":
     start = time.perf_counter()
 
-    processes = [Thread(target = function, args = [6]) for _ in range(100)]
-    starts = [process.start() for process in processes]
-    joins = [process.join() for process in processes]
+    threads   = [Thread(target = function, args = [1]) for _ in range(100)]
+    starts    = [process.start() for process in threads]
+    joins     = [process.join() for process in threads]
 
     finish = time.perf_counter()
 
