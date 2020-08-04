@@ -1,3 +1,4 @@
+import os
 import time
 import random
 
@@ -25,12 +26,7 @@ def calculate(func, args):
 # Functions referenced by tasks
 #
 
-## def mul(a, b):
-##     time.sleep(0.5)
-##     return a * b
-
 def plus(terms):
-    time.sleep(0.5)
     return sum(terms)
 
 #
@@ -39,8 +35,8 @@ def plus(terms):
 
 def test():
     NUMBER_OF_PROCESSES = 4
-    TASKS1 = [(plus, (range(i, 7000),)) for i in range(20)]
-    TASKS2 = [(plus, (range(i, 8000),)) for i in range(10)]
+    TASKS1 = [(plus, (range(i, 700000000),)) for i in range(20)]
+    TASKS2 = [(plus, (range(i, 800000000),)) for i in range(10)]
 
     # Create queues
     task_queue = Queue()
@@ -80,8 +76,8 @@ if __name__ == '__main__':
     print(f"\n\tFinished in {finish - start} seconds;")
 
     start = time.perf_counter()
-    TASKS1 = [(plus, (range(i, 7000),)) for i in range(20)]
-    TASKS2 = [(plus, (range(i, 8000),)) for i in range(10)]
+    TASKS1 = [(plus, (range(i, 700000000),)) for i in range(20)]
+    TASKS2 = [(plus, (range(i, 800000000),)) for i in range(10)]
     for f, x in TASKS1:
         f(*x)
     finish = time.perf_counter()
