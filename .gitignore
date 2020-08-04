@@ -1,3 +1,4 @@
 *.swp
 *.out
 *.DS_Store
+/sql
