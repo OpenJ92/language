@@ -1,28 +1,5 @@
+import types
 from functools import wraps
-
-## class Meta(type):
-## 
-##     @classmethod
-##     def demo(fn):
-##         @wraps
-##         def wrapper(*args, **kwargs):
-##             print(dir(fn))
-##             fn(args, kwargs)
-## 
-##     def __new__(cls, name, bases, dct):
-##         print("In __new__", cls, name, bases, dct)
-##         import pdb;pdb.set_trace()
-##         return super().__new__(cls, name, bases, dct)
-## 
-##     def __prepare__(name, bases):
-##         print("In __prepare__", name, bases)
-##         import pdb;pdb.set_trace()
-##         return {"prepare__": lambda x: x + 1, "prepare___": lambda x: x - 1}
-## 
-##     def __call__(cls, *args, **kwargs):
-##         print(f"In __call__: *args = {args}, **kwargs = {kwargs}")
-##         import pdb;pdb.set_trace()
-##         return super().__call__(*args, **kwargs)
 
 class Meta(type):
 
@@ -42,7 +19,32 @@ class Meta(type):
         print('  Meta.__call__(cls=%s, args=%s, kwargs=%s)' % (cls, args, kwargs))
         return super().__call__(*args, **kwargs)
 
-class Class(metaclass=Meta, extra=1):
+
+def notify(fn, *args, **kwargs):
+
+    def fncomposite(*args, **kwargs):
+        # Normal notify functionality
+        print("running %s" % fn.__name__)
+        rt = fn(*args, **kwargs)
+        return rt
+    return fncomposite
+
+class Notifies(type):
+
+    def __new__(cls, name, bases, attr, **kwargs):
+        for name, value in attr.items():
+            print(name, type(value))
+            if type(value) is types.FunctionType or type(value) is types.MethodType:
+                attr[name] = notify(value)
+
+        return super(Notifies, cls).__new__(cls, name, bases, attr)
+
+class Class(metaclass=Notifies, extra=1):
+
+    random = []
+    @classmethod
+    def another(cls):
+        return None
 
     def __new__(cls, myarg):
         print('  Class.__new__(cls=%s, myarg=%s)' % (cls, myarg))
@@ -55,3 +57,6 @@ class Class(metaclass=Meta, extra=1):
 
     def __str__(self):
         return "<instance of Class; myargs=%s>" % ( getattr(self, 'myarg', 'MISSING'),)
+
+    def newfunc(self):
+        return "Hello, there!"
