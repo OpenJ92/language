@@ -45,14 +45,14 @@ class TypeCheck(type):
                 continue
             else:
                 raise TypeError(\
-                        f"parameter {var} = {__compiled_args__[var]} must be type {annotations[var]} currently {type(__compiled_args__[var])}")
+                        f"parameter {var} = {__compiled_args__[var]} {type(__compiled_args__[var]) : type {annotations[var]}}")
 
 
     @classmethod
     def __type_check_retval__(cls, retval, annotations):
         if not isinstance(retval, annotations['return']):
             raise TypeError(\
-                    f"""retval = {retval} must be type {annotations[var]}, currently {type(retval)}""")
+                    f"retval = {retval} {type(retval)} : {annotations[var]}")
 
     @classmethod
     def type_check(cls, fn):
@@ -94,8 +94,4 @@ class TypeCheck(type):
         return super().__init__(name, bases, attrs)
 
     def __call__(cls, *args, **kwargs):
-        for elmt in args:
-            if not isinstance(elmt, (float, int)):
-                raise TypeError(f'Argument {elmt} must be a int or float.')
-        import pdb;pdb.set_trace()
         return super().__call__(*args, **kwargs)
