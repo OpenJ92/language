@@ -1,10 +1,11 @@
-from __kablam__ import Meta
+from typing import List
+from __kablam__ import TypeCheck
 
 def A():
-    class rectangle(object, metaclass = Meta, this = 1, that = 2):
-        __type_check__ = ['area', 'perimiter', 'function_']
+    class rectangle(object, metaclass = TypeCheck):
+        __type_check__ = ['__init__', 'area', 'perimiter', 'function_']
 
-        def __init__(self:'rectangle', width:int = 10, height:int = 10):
+        def __init__(self, width:int = 10, height:int = 10) -> type(None):
             self._width : int = width
             self._height : int = height
 
@@ -17,7 +18,7 @@ def A():
         def __str__(self) -> str:
             return f"Rectangle: H - {self._height}, W - {self._width}"
 
-        def function_(self, a:int, b:int, c:int, d:int = 10, e:int = 20, f:int = 30) -> int:
+        def function_(self, a:int, b:int, c:int, d:int = 10, e:int = 20, f:int = 30, *args:list, **kwargs:dict) -> int:
             return a + b + c + d + e + f
 
     return rectangle
