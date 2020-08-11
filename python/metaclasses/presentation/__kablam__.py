@@ -45,18 +45,19 @@ class TypeCheck(type):
                 continue
             else:
                 raise TypeError(\
-                        f"parameter {var} = {__compiled_args__[var]} {type(__compiled_args__[var]) : type {annotations[var]}}")
+                        f"parameter {var} = {__compiled_args__[var]} {type(__compiled_args__[var])} : type {annotations[var]}")
 
 
     @classmethod
     def __type_check_retval__(cls, retval, annotations):
-        if not isinstance(retval, annotations['return']):
-            raise TypeError(\
-                    f"retval = {retval} {type(retval)} : {annotations[var]}")
+        if 'return' not in annotations:
+                raise TypeError(f"return value must be strictly typed")
+        elif not isinstance(retval, annotations['return']):
+            raise TypeError(f"retval = {retval} {type(retval)} : {annotations[var]}")
 
     @classmethod
     def type_check(cls, fn):
-        @wraps(fn)
+        ## @wraps(fn)
         def wrapper(*args, **kwargs):
 
             annotations = fn.__annotations__
@@ -76,22 +77,27 @@ class TypeCheck(type):
             TypeCheck.__type_check_retval__(retval, annotations)
 
             return retval
+
         return wrapper
 
 
-    def __prepare__(name, bases, **kwargs):
+    @classmethod
+    def __prepare__(cls, name, bases, **kwargs):
+        import pdb;pdb.set_trace()
         return {}
 
     def __new__(cls, name, bases, attrs, **kwargs):
-        for name, value in attrs.items():
+        for ident, value in attrs.items():
             if isinstance(value, (types.FunctionType, types.MethodType)):
-                if (name in attrs['__type_check__']):
-                    attrs[name] = TypeCheck.type_check(value)
-
+                if (ident in attrs['__type_check__']):
+                    attrs[ident] = TypeCheck.type_check(value)
+        import pdb;pdb.set_trace()
         return super().__new__(cls, name, bases, attrs)
 
     def __init__(cls, name, bases, attrs, **kwargs):
+        import pdb;pdb.set_trace()
         return super().__init__(name, bases, attrs)
 
     def __call__(cls, *args, **kwargs):
+        import pdb;pdb.set_trace()
         return super().__call__(*args, **kwargs)
