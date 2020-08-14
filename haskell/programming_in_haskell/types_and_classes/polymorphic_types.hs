@@ -36,4 +36,3 @@ zW :: (a -> b -> c) -> [a] -> [b] -> [(a, b, c)]
 zW f xs []         = []
 zW f [] ys         = []
 zW f (x:xs) (y:ys) = [(x, y, f x y)] ++ zW f xs ys
-

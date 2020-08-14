@@ -17,7 +17,6 @@ class Meta(type):
 
     def __call__(cls, *args, **kwargs):
         print('  Meta.__call__(cls=%s, args=%s, kwargs=%s)' % (cls, args, kwargs))
-        import pdb;pdb.set_trace()
         return super().__call__(*args, **kwargs)
 
 
@@ -55,12 +54,10 @@ def __A__():
 
         def __new__(cls, myarg):
             print('  Class.__new__(cls=%s, myarg=%s)' % (cls, myarg))
-            import pdb;pdb.set_trace()
             return super().__new__(cls)
 
         def __init__(self, myarg="There"):
             print('  Class.__init__(self=%s, myarg=%s)' % (self, myarg))
-            import pdb;pdb.set_trace()
             self.myarg = myarg
             return super().__init__()
 

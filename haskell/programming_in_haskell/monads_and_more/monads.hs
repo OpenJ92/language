@@ -51,7 +51,7 @@ eval' (Div n m) = eval' n >>= \n ->
 -- f x1 x2 x3 ... xn
 
 -- class Applicative m => Monad m where
---   (>>) :: m a -> (a -> m b) -> m b
+--   (>>=) :: m a -> (a -> m b) -> m b
 --   return :: a -> m a
 --
 -- Examples:

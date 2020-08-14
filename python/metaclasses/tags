@@ -1,0 +1,84 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/feffe43/
+Class	examples.py	/^    class Class(metaclass=Meta, extra=1):$/;"	c	function:__A__	file:
+Meta	examples.py	/^class Meta(type):$/;"	c
+Meta	slides/slide4.py	/^class Meta(type):$/;"	c
+Notifies	examples.py	/^class Notifies(type):$/;"	c
+Rectangle	presentation/rectangle.py	/^class Rectangle():$/;"	c
+Rectangle	slides/slide1.py	/^class Rectangle():$/;"	c
+Rectangle	slides/slide2.py	/^class Rectangle():$/;"	c
+Rectangle	slides/slide3.py	/^class Rectangle(metaclass = Meta):$/;"	c
+Rectangle	slides/slide5.py	/^class Rectangle():$/;"	c
+Square	presentation/rectangle.py	/^class Square(Rectangle, metaclass = TypeCheck):$/;"	c
+Square	slides/slide2.py	/^class Square(Rectangle):$/;"	c
+Square	slides/slide3.py	/^class Square(Rectangle):$/;"	c
+Square	slides/slide5.py	/^class Square(Rectangle, metaclass = Meta):$/;"	c
+TypeCheck	presentation/__kablam__.py	/^class TypeCheck(type):$/;"	c
+__A__	examples.py	/^def __A__():$/;"	f
+__call__	examples.py	/^    def __call__(cls, *args, **kwargs):$/;"	m	class:Meta
+__call__	presentation/__kablam__.py	/^    def __call__(cls, *args, **kwargs):$/;"	m	class:TypeCheck
+__call__	slides/slide4.py	/^    def __call__(cls, *args, **kwargs):$/;"	m	class:Meta
+__collect_args__	presentation/__kablam__.py	/^    def __collect_args__(cls, __args__, __compiled_args__):$/;"	m	class:TypeCheck
+__collect_defaults__	presentation/__kablam__.py	/^    def __collect_defaults__(cls, __default__, __compiled_args__):$/;"	m	class:TypeCheck
+__collect_kwargs__	presentation/__kablam__.py	/^    def __collect_kwargs__(cls, __kwargs__, __compiled_args__, annotations):$/;"	m	class:TypeCheck
+__construct__default__	presentation/__kablam__.py	/^    def __construct__default__(cls, fn, __vars__):$/;"	m	class:TypeCheck
+__init__	examples.py	/^        def __init__(self, myarg="There"):$/;"	m	class:__A__.Class
+__init__	examples.py	/^    def __init__(cls, name, bases, attrs, **kwargs):$/;"	m	class:Meta
+__init__	presentation/__kablam__.py	/^    def __init__(cls, name, bases, attrs, **kwargs):$/;"	m	class:TypeCheck
+__init__	presentation/rectangle.py	/^    def __init__(self, length : int) -> type(None):$/;"	m	class:Square
+__init__	presentation/rectangle.py	/^    def __init__(self, width : int = 10, height : int = 10) -> type(None):$/;"	m	class:Rectangle
+__init__	slides/slide1.py	/^    def __init__(self, width : int = 10, height : int = 10) -> type(None):$/;"	m	class:Rectangle
+__init__	slides/slide2.py	/^    def __init__(self, length : int) -> type(None):$/;"	m	class:Square
+__init__	slides/slide2.py	/^    def __init__(self, width : int = 10, height : int = 10) -> type(None):$/;"	m	class:Rectangle
+__init__	slides/slide3.py	/^    def __init__(self, length : int) -> type(None):$/;"	m	class:Square
+__init__	slides/slide3.py	/^    def __init__(self, width : int = 10, height : int = 10) -> type(None):$/;"	m	class:Rectangle
+__init__	slides/slide4.py	/^    def __init__(cls, name, bases, attrs, **kwargs):$/;"	m	class:Meta
+__init__	slides/slide5.py	/^    def __init__(self, length : int) -> type(None):$/;"	m	class:Square
+__init__	slides/slide5.py	/^    def __init__(self, width : int = 10, height : int = 10) -> type(None):$/;"	m	class:Rectangle
+__new__	examples.py	/^        def __new__(cls, myarg):$/;"	m	class:__A__.Class
+__new__	examples.py	/^    def __new__(cls, name, bases, attr, **kwargs):$/;"	m	class:Notifies
+__new__	examples.py	/^    def __new__(cls, name, bases, attrs, **kwargs):$/;"	m	class:Meta
+__new__	presentation/__kablam__.py	/^    def __new__(cls, name, bases, attrs, **kwargs):$/;"	m	class:TypeCheck
+__new__	slides/slide4.py	/^    def __new__(cls, name, bases, attrs, **kwargs):$/;"	m	class:Meta
+__prepare__	examples.py	/^    def __prepare__(name, bases, **kwargs):$/;"	m	class:Meta
+__prepare__	presentation/__kablam__.py	/^    def __prepare__(cls, name, bases, **kwargs):$/;"	m	class:TypeCheck
+__prepare__	slides/slide4.py	/^    def __prepare__(cls, name, bases, **kwargs):$/;"	m	class:Meta
+__str__	examples.py	/^        def __str__(self):$/;"	m	class:__A__.Class
+__type_check__	presentation/rectangle.py	/^    __type_check__ = ['another']$/;"	v	class:Square	file:
+__type_check__	presentation/rectangle.py	/^    __type_check__ = ['function_']$/;"	v	class:Rectangle	file:
+__type_check_args__	presentation/__kablam__.py	/^    def __type_check_args__(cls, __vars__, annotations, __compiled_args__):$/;"	m	class:TypeCheck
+__type_check_retval__	presentation/__kablam__.py	/^    def __type_check_retval__(cls, retval, annotations):$/;"	m	class:TypeCheck
+another	presentation/rectangle.py	/^    def another(self, x : str) -> str:$/;"	m	class:Square
+area	presentation/rectangle.py	/^    def area(self) -> int:$/;"	m	class:Rectangle
+area	slides/slide1.py	/^    def area(self) -> int:$/;"	m	class:Rectangle
+area	slides/slide2.py	/^    def area(self) -> int:$/;"	m	class:Rectangle
+area	slides/slide3.py	/^    def area(self) -> int:$/;"	m	class:Rectangle
+area	slides/slide5.py	/^    def area(self) -> int:$/;"	m	class:Rectangle
+example_rectangle	presentation/rectangle.py	/^    example_rectangle = Rectangle("Hello", 12)$/;"	v
+example_rectangle	slides/slide1.py	/^    example_rectangle = Rectangle("Hello", 12)$/;"	v
+example_rectangle	slides/slide2.py	/^    example_rectangle = Rectangle("Hello", 12)$/;"	v
+example_rectangle	slides/slide3.py	/^    example_rectangle = Rectangle("Hello", 12)$/;"	v
+example_rectangle	slides/slide5.py	/^    example_rectangle = Rectangle("Hello", 12)$/;"	v
+example_square	presentation/rectangle.py	/^    example_square = Square(10)$/;"	v
+example_square	slides/slide2.py	/^    example_square = Square("World!")$/;"	v
+example_square	slides/slide3.py	/^    example_square = Square(10)$/;"	v
+example_square	slides/slide5.py	/^    example_square = Square(10)$/;"	v
+fncomposite	examples.py	/^    def fncomposite(*args, **kwargs):$/;"	f	function:notify	file:
+greeting	presentation/__kablam__.py	/^    def greeting(cls, fn):$/;"	m	class:TypeCheck
+newfunc	examples.py	/^        def newfunc(self, arg1, arg2, arg3, arg4, kwarg1 = 10, kwarg2 = 20, kwarg3 = 30):$/;"	m	class:__A__.Class
+notify	examples.py	/^def notify(fn, *args, **kwargs):$/;"	f
+perimiter	presentation/rectangle.py	/^    def perimiter(self) -> int:$/;"	m	class:Rectangle
+perimiter	slides/slide1.py	/^    def perimiter(self) -> int:$/;"	m	class:Rectangle
+perimiter	slides/slide2.py	/^    def perimiter(self) -> int:$/;"	m	class:Rectangle
+perimiter	slides/slide3.py	/^    def perimiter(self) -> int:$/;"	m	class:Rectangle
+perimiter	slides/slide5.py	/^    def perimiter(self) -> int:$/;"	m	class:Rectangle
+random	examples.py	/^        random = []$/;"	v	class:__A__.Class
+type_check	presentation/__kablam__.py	/^    def type_check(cls, fn):$/;"	m	class:TypeCheck
+wrapper	presentation/__kablam__.py	/^        def wrapper(*args, **kwargs):$/;"	f	member:TypeCheck.greeting	file:
+wrapper	presentation/__kablam__.py	/^        def wrapper(*args, **kwargs):$/;"	f	member:TypeCheck.type_check	file:

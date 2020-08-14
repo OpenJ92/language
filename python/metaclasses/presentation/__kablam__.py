@@ -1,6 +1,7 @@
 import types
 from copy import deepcopy
 from functools import wraps
+import dis
 
 class TypeCheck(type):
 
@@ -14,7 +15,7 @@ class TypeCheck(type):
     @classmethod
     def __construct__default__(cls, fn, __vars__):
         if fn.__defaults__:
-            __default__ = dict(zip(__vars__[len(fn.__defaults__):], fn.__defaults__))
+            __default__ = dict(zip(__vars__[len(__vars__) - len(fn.__defaults__):], fn.__defaults__))
         else:
             __default__ = None
         return __default__
@@ -45,22 +46,20 @@ class TypeCheck(type):
                 continue
             else:
                 raise TypeError(\
-                        f"parameter {var} = {__compiled_args__[var]} {type(__compiled_args__[var])} : type {annotations[var]}")
+                        f"parameter {var} = {__compiled_args__[var]} is of type {type(__compiled_args__[var])} change to type {annotations[var]}")
 
 
     @classmethod
     def __type_check_retval__(cls, retval, annotations):
-        if 'return' not in annotations:
-                raise TypeError(f"return value must be strictly typed")
-        elif not isinstance(retval, annotations['return']):
+        if not isinstance(retval, annotations['return']):
             raise TypeError(f"retval = {retval} {type(retval)} : {annotations[var]}")
 
     @classmethod
-    def type_check(cls, fn):
-        ## @wraps(fn)
+    def runtime_type_check(cls, fn):
+        @wraps(fn)
         def wrapper(*args, **kwargs):
 
-            annotations = fn.__annotations__
+            annotations  = fn.__annotations__
             _, *__vars__ = fn.__code__.co_varnames
             _, *__args__ = args
             __kwargs__ = deepcopy(kwargs)
@@ -77,27 +76,38 @@ class TypeCheck(type):
             TypeCheck.__type_check_retval__(retval, annotations)
 
             return retval
+        return wrapper
+
+    @classmethod
+    def parsetime_type_check(cls, fn):
+        @wraps(fn)
+        def wrapper():
+
+            annotations  = fn.__annotations__
+            _, *__vars__ = fn.__code__.co_varnames
+            __vars__ += ['return']
+
+            for name in __vars__:
+                if name not in annotations.keys():
+                    import pdb;pdb.set_trace()
+                    raise TypeError(f"{fn.__module__}.{fn.__name__} @ {fn.__code__.co_filename} : line {fn.__code__.co_firstlineno} must be strictly typed. Update parameter '{name}' with a type")
 
         return wrapper
 
-
     @classmethod
     def __prepare__(cls, name, bases, **kwargs):
-        import pdb;pdb.set_trace()
         return {}
 
     def __new__(cls, name, bases, attrs, **kwargs):
         for ident, value in attrs.items():
             if isinstance(value, (types.FunctionType, types.MethodType)):
                 if (ident in attrs['__type_check__']):
-                    attrs[ident] = TypeCheck.type_check(value)
-        import pdb;pdb.set_trace()
+                    TypeCheck.parsetime_type_check(value)()
+                    attrs[ident] = TypeCheck.runtime_type_check(value)
         return super().__new__(cls, name, bases, attrs)
 
     def __init__(cls, name, bases, attrs, **kwargs):
-        import pdb;pdb.set_trace()
         return super().__init__(name, bases, attrs)
 
     def __call__(cls, *args, **kwargs):
-        import pdb;pdb.set_trace()
         return super().__call__(*args, **kwargs)
