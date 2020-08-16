@@ -1,5 +1,13 @@
 -- Problem Set 1: https://www.seas.upenn.edu/~cis194/spring13/hw/01-intro.pdf
 
+-- qsort
+qsort :: (Ord a) => [a] -> [a]
+qsort [    ] = []
+qsort (x:xs) = (qsort less) ++ [x] ++ (qsort more)
+                 where
+                   less = filter (<x) xs
+                   more = filter (<=x) xs
+
 -- problem 1
 toDigits :: Int -> [Int]
 toDigits = reverse . getDigits
