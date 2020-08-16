@@ -38,3 +38,21 @@ sumDigits (x:xs) = (sumDigits digits) + sumDigits xs
 -- problem 4
 validate :: Int -> Bool
 validate = (==0) . (flip rem 10) . sumDigits . doubleEveryOther . getDigits 
+
+-- problem 5
+type Peg = String
+type Move = (Peg, Peg)
+
+
+-- Note: I don't quite understand this yet. I'll put into words here
+-- what I think is happening. In order to move the current peg from 
+-- a to b via c, we must first move the peg above the considered from 
+-- a to c via b. This will trigger a recursive call untill we reach the
+-- base case where there is no action. having moved n from a to b, we 
+-- must move the above from c to b via a. This incarnation resolves to 
+-- the middle peg. 
+--
+-- ref: https://rosettacode.org/wiki/Towers_of_Hanoi#Haskell
+hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
+hanoi 0 _ _ _ = []
+hanoi n a b c = hanoi (n-1) a c b ++ [(a,b)] ++ hanoi (n-1) c b a
