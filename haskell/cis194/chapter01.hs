@@ -23,8 +23,9 @@ doubleEveryOther = doubleEveryOther' False
 
 doubleEveryOther' :: Bool -> [Int] -> [Int]
 doubleEveryOther' p [    ] = []
-doubleEveryOther' p (x:xs) | p = (*) 2 x : doubleEveryOther' (not p) xs
-                           | otherwise = x : doubleEveryOther' (not p) xs
+doubleEveryOther' p (x:xs) 
+  | p = (*) 2 x : doubleEveryOther' (not p) xs
+  | otherwise = x : doubleEveryOther' (not p) xs
 
 -- problem 3
 sumDigits :: [Int] -> Int
