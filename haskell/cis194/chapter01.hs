@@ -13,9 +13,10 @@ toDigits :: Int -> [Int]
 toDigits = reverse . getDigits
 
 getDigits :: Int -> [Int]
-getDigits n | n > 10 = (mod n 10) : getDigits (div n 10)
-            | n >= 0 = [n]
-            | otherwise = []
+getDigits n 
+  | n > 10 = (mod n 10) : getDigits (div n 10)
+  | n >= 0 = [n]
+  | otherwise = []
 
 -- problem 2 --> apply to reversed list constructed in getDigits
 doubleEveryOther :: [Int] -> [Int]
