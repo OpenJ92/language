@@ -53,6 +53,7 @@ type Move = (Peg, Peg)
 -- the middle peg. 
 --
 -- ref: https://rosettacode.org/wiki/Towers_of_Hanoi#Haskell
+-- ref: https://www.cs.cmu.edu/~cburch/survey/recurse/hanoiex.html
 hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
 hanoi 0 _ _ _ = []
 hanoi n a b c = hanoi (n-1) a c b ++ [(a,b)] ++ hanoi (n-1) c b a
