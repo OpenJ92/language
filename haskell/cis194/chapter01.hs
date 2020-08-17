@@ -31,9 +31,7 @@ doubleEveryOther' p (x:xs)
 -- problem 3
 sumDigits :: [Int] -> Int
 sumDigits [x] = x
-sumDigits (x:xs) = (sumDigits digits) + sumDigits xs
-                   where
-                     digits = getDigits x
+sumDigits (x:xs) = (sumDigits (getDigits x)) + sumDigits xs
 
 -- problem 4
 validate :: Int -> Bool
@@ -42,7 +40,6 @@ validate = (==0) . (flip rem 10) . sumDigits . doubleEveryOther . getDigits
 -- problem 5
 type Peg = String
 type Move = (Peg, Peg)
-
 
 -- Note: I don't quite understand this yet. I'll put into words here
 -- what I think is happening. In order to move the current peg from 
@@ -54,6 +51,7 @@ type Move = (Peg, Peg)
 --
 -- ref: https://rosettacode.org/wiki/Towers_of_Hanoi#Haskell
 -- ref: https://www.cs.cmu.edu/~cburch/survey/recurse/hanoiex.html
+
 hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
 hanoi 0 _ _ _ = []
 hanoi n a b c = hanoi (n-1) a c b ++ [(a,b)] ++ hanoi (n-1) c b a
