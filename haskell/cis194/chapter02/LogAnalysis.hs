@@ -52,4 +52,17 @@ module LogAnalysis where
   build = foldr (insert) (Leaf)
 
   inOrder :: MessageTree -> [LogMessage]
-  inOrder (Node Leaf log r) = inOrder r
+  inOrder (Node l log r) = inOrder l ++ [log] ++ inOrder r
+  inOrder (Leaf        ) = []
+
+  whatWentWrong :: [LogMessage] -> [String]
+  whatWentWrong [] = []
+  whatWentWrong xs = 
+    let ordered = (inOrder . build) xs
+    in whatWentWrong' ordered
+    where
+      whatWentWrong' [                          ] = []
+      whatWentWrong' ((LogMessage (Error sev) _ log):messages)
+        | sev > 50 = log : whatWentWrong' messages
+        | otherwise = whatWentWrong' messages
+      whatWentWrong' (_:messages) = whatWentWrong' messages
