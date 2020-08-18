@@ -26,12 +26,12 @@ module LogAnalysis where
   parseInformation = parse' Info
 
   parseMessage :: String -> LogMessage
-  parseMessage (mt:message) =
+  parseMessage log@(mt:message) =
     case mt of
       'E' -> parseError message
       'W' -> parseWarning message
       'I' -> parseInformation message
-      otherwise -> Unknown (mt:message)
+      otherwise -> Unknown log
 
   parse :: String -> [LogMessage]
   parse filestream =
@@ -40,13 +40,14 @@ module LogAnalysis where
         messages = lines filestream
   
   -- Part Two - Tree Traversal
-  
+  -- fixed the following, I think. The tree is completely unbalanced, though
+
   insert :: LogMessage -> MessageTree -> MessageTree
   insert (Unknown _) tree =  tree
   insert (log) (Leaf) = Node (Leaf) (log) (Leaf)
-  insert (LogMessage mt timeI message) (Node l (LogMessage _ timeC _) r)
-    | timeI >= timeC = insert (LogMessage mt timeI message) l
-    | otherwise = insert (LogMessage mt timeI message) r
+  insert log@(LogMessage mt time message) (Node l clog@(LogMessage _ ctime _) r)
+    | time <= ctime  = Node (insert log l) clog r
+    | otherwise      = Node l clog (insert log r)
 
   build :: [LogMessage] -> MessageTree
   build = foldr (insert) (Leaf)
@@ -57,12 +58,12 @@ module LogAnalysis where
 
   whatWentWrong :: [LogMessage] -> [String]
   whatWentWrong [] = []
-  whatWentWrong xs = 
+  whatWentWrong xs =
     let ordered = (inOrder . build) xs
     in whatWentWrong' ordered
     where
       whatWentWrong' [                          ] = []
-      whatWentWrong' ((LogMessage (Error sev) _ log):messages)
-        | sev > 50 = log : whatWentWrong' messages
+      whatWentWrong' ((LogMessage (Error sev) _ message):messages)
+        | sev >= 50 = message : whatWentWrong' messages
         | otherwise = whatWentWrong' messages
       whatWentWrong' (_:messages) = whatWentWrong' messages
