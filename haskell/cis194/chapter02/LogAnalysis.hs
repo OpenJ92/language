@@ -44,7 +44,7 @@ module LogAnalysis where
 
   insert :: LogMessage -> MessageTree -> MessageTree
   insert (Unknown _) tree =  tree
-  insert (log) (Leaf) = Node (Leaf) (log) (Leaf)
+  insert log@(LogMessage _ _ _) (Leaf) = Node (Leaf) (log) (Leaf)
   insert log@(LogMessage _ time _) (Node l clog@(LogMessage _ ctime _) r)
     | time <= ctime  = Node (insert log l) clog r
     | otherwise      = Node l clog (insert log r)

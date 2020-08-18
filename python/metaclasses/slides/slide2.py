@@ -9,13 +9,18 @@ class Rectangle():
     def area(self) -> int:
         return self._width*self._height
 
-class Square(Rectangle):
+class Foo:
+    def __init__(self):
+        pass
+
+class Square(Foo, Rectangle):
     def __init__(self, length : int) -> type(None):
+        Foo.__init__(self)
         Rectangle.__init__(self, length, length)
 
 if __name__ == "__main__":
-    example_rectangle = Rectangle("Hello", 12)
-    example_square = Square("World!")
+    example_rectangle = Rectangle.__call__("Hello", 12)
+    example_square = Square(10)
 
 # goback: slide1
 # goto:   slide3

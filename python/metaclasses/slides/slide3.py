@@ -3,7 +3,7 @@ from slide4 import Meta
 print("\n(Parsing)+ file")
 print("Class Creation!\n")
 
-class Rectangle(metaclass = Meta, this = "that"):
+class Rectangle(metaclass = Meta, db = "DATABASE"):
 
     def __init__(self, width : int = 10, height : int = 10) \
             -> type(None):
@@ -30,4 +30,3 @@ if __name__ == "__main__":
 
 ## goback: slide2
 ## goto:   slide4
-## goto:   slide6

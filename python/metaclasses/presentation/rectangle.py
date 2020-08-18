@@ -1,8 +1,7 @@
-from typing import List, Union
-from __kablam__ import TypeCheck
+from typing import List, Union from __kablam__ import TypeCheck
 
 class Rectangle(metaclass = TypeCheck):
-    __type_check__ = []
+    __type_check__ = ['__init__']
 
     def __init__(self, width : int = 10, height : int = 10) -> type(None):
         self._width : int = width
@@ -16,6 +15,7 @@ class Rectangle(metaclass = TypeCheck):
 
 class Square(Rectangle):
     __type_check__ = ['hello', 'there']
+
     def __init__(self, length : int) -> type(None):
         Rectangle.__init__(self, length, length)
 
@@ -27,5 +27,6 @@ class Square(Rectangle):
 
 if __name__ == "__main__":
     print("\n\tCOMPLETE: Class Instance Construction\n")
-    example_rectangle = Rectangle("Hello", 12)
+    example_rectangle = Rectangle(10, 12)
     example_square = Square(10)
+    example_square.hello(1,2,3,'there')
