@@ -14,7 +14,7 @@ toDigits = reverse . getDigits
 
 getDigits :: Int -> [Int]
 getDigits n 
-  | n > 10 = (mod n 10) : getDigits (div n 10)
+  | n >= 10 = (mod n 10) : getDigits (div n 10)
   | n >= 0 = [n]
   | otherwise = []
 
@@ -30,6 +30,7 @@ doubleEveryOther' p (x:xs)
 
 -- problem 3
 sumDigits :: [Int] -> Int
+sumDigits [ ] = 0
 sumDigits [x] = x
 sumDigits (x:xs) = (sumDigits (getDigits x)) + sumDigits xs
 

@@ -45,7 +45,7 @@ module LogAnalysis where
   insert :: LogMessage -> MessageTree -> MessageTree
   insert (Unknown _) tree =  tree
   insert (log) (Leaf) = Node (Leaf) (log) (Leaf)
-  insert log@(LogMessage mt time message) (Node l clog@(LogMessage _ ctime _) r)
+  insert log@(LogMessage _ time _) (Node l clog@(LogMessage _ ctime _) r)
     | time <= ctime  = Node (insert log l) clog r
     | otherwise      = Node l clog (insert log r)
 
@@ -62,7 +62,7 @@ module LogAnalysis where
     let ordered = (inOrder . build) xs
     in whatWentWrong' ordered
     where
-      whatWentWrong' [                          ] = []
+      whatWentWrong' [                                           ] = []
       whatWentWrong' ((LogMessage (Error sev) _ message):messages)
         | sev >= 50 = message : whatWentWrong' messages
         | otherwise = whatWentWrong' messages
