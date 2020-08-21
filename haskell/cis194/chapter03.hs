@@ -35,14 +35,12 @@ module Golf where
       skim = map (0>=) values
       next = map (flip (-) 1) values
 
-  histogram' :: (Ord a , Num a) => [a] -> [Char]
-  histogram' values = unlines (reverse (footer ++ map (map (convert)) (extrude values)))
-    where
-      convert True  = ' '
-      convert False = '*'
-      footer = [map (intToDigit) [1..(length values)], replicate (length values) '=']
-
   histogram :: (Ord a, Num a) => [a] -> [Char]
   histogram xs = histogram' $ map snd $ construct_histogram' m xs
     where
       m = maximum xs
+      histogram' values = unlines (reverse (footer ++ map (map (convert)) (extrude values)))
+        where
+          convert True  = ' '
+          convert False = '*'
+          footer = [map (intToDigit) [1..(length values)], replicate (length values) '=']
