@@ -8,18 +8,18 @@ module HOF where
   -- as wholemeal programming. Ask at the next 
   -- FP Study Group.
   fun2' :: Integer -> Integer
-  fun2' = sum . map (sum) . make_total
+  fun2' = sum . map (sum) . sequence_total
 
-  make_partial :: Integer -> [Integer]
-  make_partial = takeWhile (even) 
-        . iterate (flip div 2) 
-        . (\n -> if even n then n else 3 * n + 1)
+  sequence_partial :: Integer -> [Integer]
+  sequence_partial = takeWhile (even) 
+                   . iterate (flip div 2) 
+                   . (\n -> if even n then n else 3 * n + 1)
 
-  make_total :: Integer -> [[Integer]]
-  make_total 1 = [] 
-  make_total n = partial : make_total (div (last partial) 2)
+  sequence_total :: Integer -> [[Integer]]
+  sequence_total 1 = [] 
+  sequence_total n = partial : sequence_total (div (last partial) 2)
    where
-     partial = make_partial n
+     partial = sequence_partial n
 
   -- problem 3
   
