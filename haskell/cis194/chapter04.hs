@@ -46,10 +46,8 @@ module HOF where
 
   -- problem 6
   myfoldr :: (a -> b -> a) -> a -> [b] -> a
-  myfoldr _ hook    [    ] = hook
+  myfoldr _ hook [    ] = hook
   myfoldr f hook (b:bs) = f (myfoldr f hook bs) (b)
 
   myfoldl :: (b -> a -> a) -> a -> [b] -> a
-  myfoldl f hook (b:bs) = myfoldl f a bs
-    where
-      a = f b hook
+  myfoldl f hook (b:bs) = myfoldl f (f b hook) bs
