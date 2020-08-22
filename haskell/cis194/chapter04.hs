@@ -17,10 +17,9 @@ module HOF where
 
   make_total :: Integer -> [[Integer]]
   make_total 1 = [] 
-  make_total n = partial : make_total continu
+  make_total n = partial : make_total (div (last partial) 2)
    where
      partial = make_partial n
-     continu = div (last partial) 2
 
   -- problem 3
   
@@ -38,4 +37,5 @@ module HOF where
   myfoldr f hook (b:bs) = f (myfoldr f hook bs) (b)
 
   myfoldl :: (b -> a -> a) -> a -> [b] -> a
+  myfoldl _ hook [    ] = hook
   myfoldl f hook (b:bs) = myfoldl f (f b hook) bs
