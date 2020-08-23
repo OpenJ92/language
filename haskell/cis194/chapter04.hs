@@ -22,6 +22,19 @@ module HOF where
      partial = sequence_partial n
 
   -- problem 3
+  data Tree a = Node Int (Tree a) a (Tree a)
+              | Leaf
+              deriving (Show, Eq)
+  
+  balance :: Tree a -> Tree a
+  balance = undefined
+
+  insert :: a -> Tree a -> Tree a
+  insert = undefined
+
+  -- ?? Something like this?
+  balanced_insert :: a -> Tree a -> Tree a
+  balanced_insert z tree@(Node num l x r) = balance . insert
   
   -- problem 4
   xor :: [Bool] -> Bool
