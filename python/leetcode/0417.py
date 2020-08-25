@@ -6,6 +6,7 @@ class Solution:
 
         rows = len(matrix)
         cols = len(matrix[0])
+
         atlantic = [[False for _ in range(cols)] for _ in range(rows)]
         pacific  = [[False for _ in range(cols)] for _ in range(rows)]
 
@@ -24,22 +25,20 @@ class Solution:
                     queue.append([i, j])
         return queue
 
-
     def dfs(self, can_reach, heights, row, col):
 
         moves = self.get_moves(heights, row, col)
-        height = heights[row][col]
 
+        height = heights[row][col]
         can_reach[row][col] = True
 
         for move in moves:
             if  move \
-            and heights[row+move[0]][col+move[1]] >= height \
+            and heights[row+move[0]][col+move[1]]   >= height \
             and can_reach[row+move[0]][col+move[1]] == False:
                 self.dfs(can_reach, heights, row+move[0], col+move[1])
 
         return None
-
 
     def get_moves(self, mat, x, y):
         up    = [-1,0]   if x > 0               else None
