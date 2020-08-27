@@ -1,3 +1,5 @@
+// https://leetcode.com/problems/unique-email-addresses/
+
 typedef struct Email
 {
     char* start;
@@ -77,34 +79,31 @@ char* find_end(char* email)
 {
     do
     {
-        printf("Stuck in here. %c\n", *email);
         email++;
     } while (*email != '\0');
-    return --email;
+    return email;
 }
 
 int numUniqueEmails(char ** emails, int emailsSize)
 {
-    //String** split_strings;
-    //if ((split_strings = (String**)malloc(sizeof(String*)*emailsSize)) == NULL) { return NULL; }
+    String** split_strings;
+    if ((split_strings = (String**)malloc(sizeof(String*)*emailsSize)) == NULL) { return NULL; }
     
     for (int email = 0; email < emailsSize; email++)
     {
         Email* current_email;
         if ((current_email = (Email*)malloc(sizeof(Email))) == NULL) { return -1; }
         char* end = find_end(*emails + email);
-        printf("\n%p : %p == %c : %c\n", *emails + email, end, *(*emails + email), *end);
+
         current_email = construct_string(current_email,(*emails + email),end);
         
-        Email** split_at = split(current_email, compare_at, 1);
-        printf("%p", (split_at + 1));
+        Email** split_at = split(current_email, compare_at, 1); // split_at malformed.
         Email** split_plus = split(*split_at, compare_plus, 1);
-        printf("here?");
         Email** split_dot = split(*split_plus, compare_dot, -1);
         
         Email* collect_dot = append_string(*split_dot, *split_dot + 1);
         Email* collect_address = append_string(*split_at + 1, collect_dot);
-        //split_strings[email] = collect_address;
+        split_strings[email] = collect_address;
     }
     return 0;
 }
