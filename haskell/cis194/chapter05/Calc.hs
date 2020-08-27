@@ -10,3 +10,6 @@ module Calc where
 
   evalStr :: String -> Maybe Integer
   evalStr = (eval <$>) . parseExp Lit Add Mul
+
+  testExp :: Expr a => Maybe a
+  testExp = parseExp lit add mul "(3 * -4) + 5"
