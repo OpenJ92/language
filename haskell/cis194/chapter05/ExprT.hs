@@ -35,8 +35,8 @@ instance Expr Bool where
 
 instance Expr MinMax where
   lit = MinMax . id
-  add (MinMax x) (MinMax y) = MinMax (min x y)
-  mul (MinMax x) (MinMax y) = MinMax (max x y)
+  add (MinMax x) (MinMax y) = lit (min x y)
+  mul (MinMax x) (MinMax y) = lit (max x y)
 
 instance Expr Mod7 where
   lit = Mod7 . (flip mod 7)
