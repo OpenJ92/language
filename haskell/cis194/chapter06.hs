@@ -1,3 +1,5 @@
+{-# LANGUAGE FlexibleInstances #-}
+
 import Data.List
 import Data.Bits
 
@@ -38,9 +40,23 @@ interleaveStream :: a -> Stream a -> Stream a
 interleaveStream n (Element x elems) 
   = Element n (Element x (interleaveStream n elems))
 
--- Reference: https://www.geeksforgeeks.org/highest-power-of-two-that-divides-a-given-number/
 ruler :: Stream Integer
 ruler 
   = streamMap (f) . interleaveStream 0 $ streamFromSeed 2 (+2)
   where
     f n = (.&.) (n) (complement (n - 1))
+
+x :: Stream Integer
+x = Element 0 . Element 1 $ streamRepeat 0
+
+instance Num (Stream Integer) where
+  fromInteger n = Element n $ streamRepeat 0
+  negate (Element n elems) = Element (negate n) (negate elems)
+  (+) (Element n xs) (Element m ys) = Element ((+) n m) ((+) xs ys)
+  (*) (Element n xs) st@(Element m ys) = Element ((*) n m) ((+) (streamMap (*n) ys) ((*) xs st))
+
+instance Fractional (Stream Integer) where
+  (/) stA@(Element n xs) stB@(Element m ys) = Element ((div) n m) (streamMap ((*) (div 1 m)) (q))
+    where
+      q = (-) (xs) ((/) ((*) stA ys) (stB))
+
