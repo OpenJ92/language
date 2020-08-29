@@ -60,3 +60,5 @@ instance Fractional (Stream Integer) where
     where
       q = (-) (xs) ((/) ((*) stA ys) (stB))
 
+fibs3 :: Stream Integer
+fibs3 = x^2 / (1 - x - x^2)
