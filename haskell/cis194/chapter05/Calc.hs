@@ -67,29 +67,35 @@ module Calc where
   testSat = testExp :: Maybe Mod7
 
   instance Expr Program where
+    -- lit :: Integer -> Program
+    -- add :: Program -> Program -> Program
+    -- mul :: Program -> Program -> Program
     lit = (flip (:) []) . StackVM.PushI . id 
     add a b =  a ++ b ++ [StackVM.Add]
     mul a b =  a ++ b ++ [StackVM.Mul]
 
+  instance HasVars VarExprT where
+    -- var :: String -> VarExprT
+    var = VarExprT.Var
 
   instance Expr VarExprT where
+    -- lit :: Integer -> VarExprT
+    -- add :: VarExprT -> VarExprT -> VarExprT
+    -- mul :: VarExprT -> VarExprT -> VarExprT
     lit = VarExprT.Lit
     add = VarExprT.Add
     mul = VarExprT.Mul
-
-  instance HasVars VarExprT where
-    var = VarExprT.Var
 
   instance HasVars (M.Map String Integer -> Maybe Integer) where
     -- String -> (M.Map String Integer -> Maybe Integer)
     var = M.lookup
 
   instance Expr (M.Map String Integer -> Maybe Integer) where
-    -- Integer -> (M.Map String Integer -> Maybe Integer) 
-    lit x = \_ -> Just x
+    -- lit :: Integer -> (M.Map String Integer -> Maybe Integer) 
     -- add :: (M.Map String Integer -> Maybe Integer) -> (M.Map String Integer -> Maybe Integer) -> (M.Map String Integer -> Maybe Integer)
-    add a b = \d -> (+) <$> a d <*> b d
     -- mul :: (M.Map String Integer -> Maybe Integer) -> (M.Map String Integer -> Maybe Integer) -> (M.Map String Integer -> Maybe Integer)
+    lit x = \_ -> Just x
+    add a b = \d -> (+) <$> a d <*> b d
     mul a b = \d -> (*) <$> a d <*> b d
 
   withVars :: [(String, Integer)] -> (M.Map String Integer -> Maybe Integer) -> Maybe Integer
