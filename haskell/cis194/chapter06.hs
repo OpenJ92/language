@@ -28,6 +28,12 @@ instance Fractional (Stream Integer) where
       q = (-) (xs) ((/) ((*) stA ys) (stB))
 
 instance (Num a) => Num (Matrix a) where
+  (+) (Mat a b c d) (Mat w x y z) = Mat w11 w12 w21 w22
+    where
+      w11 = a + w
+      w12 = b + x
+      w21 = c + y
+      w22 = d + z
   (*) (Mat a b c d) (Mat w x y z) = Mat w11 w12 w21 w22 
     where
       w11 = a*w + b*y
