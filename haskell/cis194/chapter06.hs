@@ -14,7 +14,7 @@ data Matrix a = Mat a a a a
   deriving (Show)
 
 instance (Show a) => Show (Stream a) where
-  show stream = show . take 2000 $ streamtolist stream
+  show = show . take 2000 . streamtolist
 
 instance Num (Stream Integer) where
   fromInteger n                        = Element n          $ streamRepeat 0
@@ -74,7 +74,7 @@ fib1 :: [Integer]
 fib1 = map fib [1..]
 
 fibs2 :: [Integer]
-fibs2 = unfoldr (\(f0, f1) -> Just (f1, (f1, f0+f1))) (0, 1) 
+fibs2 = map fst $ iterate (\(n, m) -> (m, n+m)) (0, 1)
 
 fibs3 :: Stream Integer
 fibs3 = x / (1 - x - x^2)
