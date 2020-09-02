@@ -131,7 +131,7 @@ sums xs ys = (+) <$> xs <*> ys
 --
 -- instance Applicative IO where
 --   pure = return
---   my <*> mx = do { g <- mg; x <- xs; return g x }
+--   mg <*> mx = do { g <- mg; x <- xs; return g x }
 
 
 getChars :: Int -> IO String

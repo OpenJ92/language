@@ -1,5 +1,4 @@
--- State Monad
--- We must consider what exactly is happening in this construction.
+-- State Monad -- We must consider what exactly is happening in this construction.
 -- What is the logic of this?
 
 type State = Int
