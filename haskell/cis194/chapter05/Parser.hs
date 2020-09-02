@@ -20,6 +20,7 @@ data Expr = Const Integer
             deriving Show
 
 instance Functor (State s) where
+    -- g :: s -> Maybe (r, s)
     fmap f (State g) = State $ fmap (first f) . g
 
 instance Applicative (State s) where
@@ -38,7 +39,7 @@ instance Alternative (State s) where
 type Parser a = State String a
 
 -- Parse one numerical digit.
-digit :: Parser Integer
+digit :: Parser Integer -- State String Integer
 digit = State $ parseDigit
     where parseDigit [] = Nothing
           parseDigit s@(c:cs)

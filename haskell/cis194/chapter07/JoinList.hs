@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -fwarn-incomplete-patterns #-}
 module JoinList where
 
   import Sized
@@ -16,3 +17,9 @@ module JoinList where
   (+++) jlo jlt = Append ((tag jlo) <> (tag jlt)) jlo jlt
 
   indexJ :: (Sized b, Monoid b) => Int -> JoinList b a -> Maybe a
+  indexJ n     _                | n < 0			
+  indexJ +     (Empty         )          = Nothing
+  indexJ index (Single _ value)          = Just value
+  indexJ index (Append (Size n) jlo jlt) =
+    | index < tag jlo = indexJ index jlt
+    | otherwise       = indexJ ((tag jlo) - index) jlo

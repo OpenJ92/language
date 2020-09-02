@@ -1,4 +1,5 @@
 module HOF where
+  import Data.List hiding (insert)
   
   -- problem 1
   fun1' :: [Integer] -> Integer
