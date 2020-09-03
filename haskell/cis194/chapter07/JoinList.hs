@@ -1,6 +1,7 @@
 {-# OPTIONS_GHC -fwarn-incomplete-patterns #-}
 module JoinList where
   import Sized
+  import Scrabble
 
 
   data JoinList m a = Empty
@@ -50,4 +51,18 @@ module JoinList where
     | otherwise               = dropJ (n - (collect . tag) jll) jlr
     where 
       collect = getSize . size
-  dropJ n _ = Empty
+  dropJ _ _ = Empty
+
+  takeJ :: (Sized b, Monoid b) => Int -> JoinList b a -> JoinList b a
+  takeJ 0 _ = Empty
+  takeJ n jl@(Append m jll jlr)
+    | n >= collect m           = jl
+    | n <  (collect . tag) jll = takeJ n jll
+    | n == (collect . tag) jll = jll
+    | otherwise                = jll +++ takeJ (n - (collect . tag) jll) jlr
+    where
+      collect = getSize . size
+  takeJ _ jl = jl
+
+  scoreLine :: String -> JoinList Score String
+  scoreLine = 
