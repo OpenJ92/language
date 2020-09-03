@@ -2,4 +2,4 @@
 *.pyc
 *.out
 *.DS_Store
-/sql
+sql/curious_moon

@@ -1,3 +1,7 @@
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+
+import Data.Monoid hiding (Sum, getSum)
+
 -- 1. Define an instance of the Functor class for the following
 -- type of binary trees that have data in thier nodes.
 

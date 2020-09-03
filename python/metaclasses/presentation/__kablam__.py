@@ -1,4 +1,5 @@
-import types from copy import deepcopy
+import types
+from copy import deepcopy
 from functools import wraps
 import dis
 
@@ -22,7 +23,6 @@ class TypeCheck(type):
     @classmethod
     def __collect_kwargs__(cls, __kwargs__, __compiled_args__, annotations):
         for key, _ in annotations.items():
-            ## double check for the need for deep copy here.
             __compiled_args__[key] = __kwargs__.pop(key) if key in __kwargs__.keys() else None
 
     @classmethod
@@ -62,7 +62,7 @@ class TypeCheck(type):
             annotations  = fn.__annotations__
             _, *__vars__ = fn.__code__.co_varnames
             _, *__args__ = args
-            __kwargs__ = deepcopy(kwargs) ## consider removing.
+            __kwargs__ = deepcopy(kwargs)
 
             __default__ = TypeCheck.__construct__default__(fn, __vars__)
 
@@ -70,7 +70,6 @@ class TypeCheck(type):
             TypeCheck.__collect_kwargs__(__kwargs__, __compiled_args__, annotations)
             TypeCheck.__collect_args__(__args__, __compiled_args__)
             TypeCheck.__collect_defaults__(__default__, __compiled_args__)
-            ## Take another look at this later
 
             TypeCheck.__type_check_args__(__vars__, annotations, __compiled_args__)
             retval = fn(*args, **kwargs)
@@ -90,24 +89,24 @@ class TypeCheck(type):
 
             for name in __vars__:
                 if name not in annotations.keys():
+                    import pdb;pdb.set_trace()
                     raise TypeError(f"{fn.__module__}.{fn.__name__} @ {fn.__code__.co_filename} : line {fn.__code__.co_firstlineno} must be strictly typed. Update parameter '{name}' with a type")
 
         return wrapper
 
     @classmethod
-    def __prepare__(mcls, name, bases, **kwargs):
+    def __prepare__(cls, name, bases, **kwargs):
         return {}
 
-    def __new__(mcls, name, bases, attrs, **kwargs):
+    def __new__(cls, name, bases, attrs, **kwargs):
         for ident, value in attrs.items():
             if isinstance(value, (types.FunctionType, types.MethodType)):
                 if (ident in attrs['__type_check__']):
                     TypeCheck.parsetime_type_check(value)()
                     attrs[ident] = TypeCheck.runtime_type_check(value)
-        return super().__new__(mcls, name, bases, attrs)
+        return super().__new__(cls, name, bases, attrs)
 
     def __init__(cls, name, bases, attrs, **kwargs):
-        ## cls -> Rectangle I'll be able to check self.
         return super().__init__(name, bases, attrs)
 
     def __call__(cls, *args, **kwargs):

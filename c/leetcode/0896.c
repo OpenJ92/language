@@ -26,5 +26,6 @@ int lessThan(int a, int b)
 
 bool isMonotonic(int* A, int ASize) 
 {
-    return isMonotonicGeneric(A, ASize, greaterThan) || isMonotonicGeneric(A, ASize, lessThan);
+    return isMonotonicGeneric(A, ASize, greaterThan) 
+	    || isMonotonicGeneric(A, ASize, lessThan);
 }

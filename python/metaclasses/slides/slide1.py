@@ -10,7 +10,19 @@ class Rectangle():
     def area(self) -> int:
         return self._width*self._height
 
+    def say(self, name):
+        return f"Hello, {name}!"
+
+class Couches():
+    def __init__(self, height, width, depth, softness, pillows, cushions):
+        self._pillow = pillows
+        self._cushions = cushions
+        self._softeness = softness
+
+    def comfy(self):
+        return self._pillow ** self._cushions / self._softeness
+
 if __name__ == "__main__":
-    example_rectangle = Rectangle("Hello", 12)
+    example_rectangle = Rectangle(10, 12)
 
 ## goto: slide2
