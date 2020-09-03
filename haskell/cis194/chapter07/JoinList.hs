@@ -27,8 +27,8 @@ module JoinList where
   (+++) :: (Monoid m) => JoinList m a -> JoinList m a -> JoinList m a
   (+++) jlo jlt = Append ((tag jlo) <> (tag jlt)) jlo jlt
 
-  construct_jl :: [Char] -> JoinList Size Char
-  construct_jl = foldr1 (+++) . map (Single (Size 1))
+  construct_jl :: (Monoid m, Sized m) => m -> [Char] -> JoinList m Char
+  construct_jl unt = foldr1 (+++) . map (Single (unt))
 
   indexJ :: (Sized b, Monoid b) => Int -> JoinList b a -> Maybe a
   indexJ index (Single _ value)
@@ -41,3 +41,12 @@ module JoinList where
     where 
       collect = getSize . size 
   indexJ _ _ = Nothing
+
+  dropJ :: (Sized b, Monoid b) => Int -> JoinList b a -> JoinList b a
+  dropJ 0 jl = jl
+  dropJ n (Append m jll jlr)
+    | n >= collect m          = Empty
+    | n < (collect . tag) jll = (dropJ n jll) +++ jlr
+    | otherwise               = dropJ (n - (collect . tag) jll) jlr
+      where collect = getSize . size
+  dropJ n _ = Empty
