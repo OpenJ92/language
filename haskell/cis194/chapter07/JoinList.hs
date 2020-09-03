@@ -48,5 +48,6 @@ module JoinList where
     | n >= collect m          = Empty
     | n < (collect . tag) jll = (dropJ n jll) +++ jlr
     | otherwise               = dropJ (n - (collect . tag) jll) jlr
-      where collect = getSize . size
+    where 
+      collect = getSize . size
   dropJ n _ = Empty
