@@ -1,5 +1,7 @@
+{-# LANGUAGE GeneralizedNewtypeDeriving, FlexibleInstances #-}
 {-# OPTIONS_GHC -fwarn-incomplete-patterns #-}
 module JoinList where
+  import Buffer
   import Sized
   import Scrabble
 
@@ -64,5 +66,9 @@ module JoinList where
       collect = getSize . size
   takeJ _ jl = jl
 
-  scoreLine :: String -> JoinList Score String
-  scoreLine = 
+  scoreLine :: String -> JoinList (Size, Score) String
+  scoreLine = foldl1 (+++) . map (\s -> Single (Size 1, scoreString s) s) . words
+
+  instance Buffer (JoinList (Size, Score) String) where
+    fromString = scoreLine
+    
