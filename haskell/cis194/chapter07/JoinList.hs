@@ -83,13 +83,16 @@ module JoinList where
     toString                = unlines . jlToList
     fromString              = scoreLine
     line                    = indexJ
-    replaceLine index string joinlist = 
-      let
-        newline      = fromString string
-        before       = takeJ (index) joinlist
-        after        = dropJ (index + 1) joinlist
-      in
-        before +++ newline +++ after
-    numLines = getSize . snd . tag
+    replaceLine index string joinlist 
+      | index < numLines joinlist && index >= 0 
+        = 
+          let
+            newline      = fromString string
+            before       = takeJ (index    ) joinlist
+            after        = dropJ (index + 1) joinlist
+          in
+            before +++ newline +++ after
+     | otherwise = joinlist
+    numLines = getSize  . snd . tag
     value    = getScore . fst . tag
     
