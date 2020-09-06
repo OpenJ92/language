@@ -7,6 +7,9 @@ module Scrabble where
   newtype Score = Score Int
     deriving (Eq, Ord, Show, Num)
 
+  getScore :: Score -> Int
+  getScore (Score x) = x
+
   score :: Char -> Score
   score = Score . convert . toLower
     where

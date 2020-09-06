@@ -1,6 +1,7 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving, FlexibleInstances #-}
 {-# OPTIONS_GHC -fwarn-incomplete-patterns #-}
 module JoinList where
+
   import Buffer
   import Sized
   import Scrabble
@@ -89,4 +90,6 @@ module JoinList where
         after        = dropJ (index + 1) joinlist
       in
         before +++ newline +++ after
+    numLines = getSize . snd . tag
+    value    = getScore . fst . tag
     
