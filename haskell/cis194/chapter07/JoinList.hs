@@ -30,9 +30,6 @@ module JoinList where
   (+++) :: (Monoid m) => JoinList m a -> JoinList m a -> JoinList m a
   (+++) jlo jlt = Append ((tag jlo) <> (tag jlt)) jlo jlt
 
-  construct_jl :: (Monoid m, Sized m) => m -> [Char] -> JoinList m Char
-  construct_jl unt = foldr1 (+++) . map (Single (unt))
-
   indexJ :: (Sized b, Monoid b) => Int -> JoinList b a -> Maybe a
   indexJ index (Single _ value)
     | index == 0 = Just value
@@ -66,9 +63,30 @@ module JoinList where
       collect = getSize . size
   takeJ _ jl = jl
 
-  scoreLine :: String -> JoinList (Size, Score) String
-  scoreLine = foldl1 (+++) . map (\s -> Single (Size 1, scoreString s) s) . words
+  scoreLine :: String -> JoinList (Score, Size) String
+  scoreLine cs = 
+    let 
+      transformed = map (\s -> Single (scoreString s, Size 1) s) . lines $ cs
+    in 
+      construct_JoinList transformed
+    where
+      construct_JoinList [ ] = Empty
+      construct_JoinList [t] = t
+      construct_JoinList css = construct_JoinList left +++ construct_JoinList right
+        where
+          half  = div (length css) 2
+          left  = take half css
+          right = drop half css
 
-  instance Buffer (JoinList (Size, Score) String) where
-    fromString = scoreLine
+  instance Buffer (JoinList (Score, Size) String) where
+    toString                = unlines . jlToList
+    fromString              = scoreLine
+    line                    = indexJ
+    replaceLine index string joinlist = 
+      let
+        newline      = fromString string
+        before       = takeJ (index) joinlist
+        after        = dropJ (index + 1) joinlist
+      in
+        before +++ newline +++ after
     

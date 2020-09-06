@@ -47,3 +47,4 @@ module Scrabble where
   instance Monoid Score where
     mempty  = Score 0
     mappend = (+)
+
