@@ -1,7 +1,7 @@
 module Employee where
 
 import           Data.Tree
-import Data.Monoid
+import           Data.Monoid
 
 -- Employee names are represented by Strings.
 type Name = String
@@ -13,6 +13,15 @@ type Fun  = Integer
 -- An Employee consists of a name and a fun score.
 data Employee = Emp { empName :: Name, empFun :: Fun }
   deriving (Show, Read, Eq)
+
+orphan :: Employee
+orphan = Emp "" 0
+
+-- Can we can remove the base case provided we add the orphan employee?
+treeFold :: (Monoid b) => (a -> b) -> Tree a -> b
+treeFold f (Node dat [   ]) = f dat
+treeFold f (Node dat trees) = f dat <> (foldl1 (<>) . map (treeFold f) $ trees)
+
 
 -- A small company hierarchy to use for testing purposes.
 testCompany :: Tree Employee
@@ -57,4 +66,4 @@ instance Semigroup GuestList where
 
 instance Monoid GuestList where
   mappend = (<>) 
-  mempty  = GL [(Emp "" 0)] 0
+  mempty  = GL [orphan] 0

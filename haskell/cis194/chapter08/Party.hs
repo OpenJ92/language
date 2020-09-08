@@ -1,5 +1,6 @@
 module Party where
   
+  import Data.Tree
   import Employee
   
   glCons :: Employee -> GuestList -> GuestList
@@ -12,3 +13,6 @@ module Party where
          EQ -> gl
          GT -> gl
          LT -> gl'
+
+  treetoGL :: Tree Employee -> GuestList
+  treetoGL = treeFold (\emp -> GL [emp] (empFun emp))
