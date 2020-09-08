@@ -17,11 +17,8 @@ data Employee = Emp { empName :: Name, empFun :: Fun }
 orphan :: Employee
 orphan = Emp "" 0
 
--- Can we can remove the base case provided we add the orphan employee?
 treeFold :: (Monoid b) => (a -> b) -> Tree a -> b
-treeFold f (Node dat [   ]) = f dat
-treeFold f (Node dat trees) = f dat <> (foldl1 (<>) . map (treeFold f) $ trees)
-
+treeFold f (Node leaf trees) = f leaf <> (mconcat . map (treeFold f) $ trees)
 
 -- A small company hierarchy to use for testing purposes.
 testCompany :: Tree Employee
