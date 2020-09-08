@@ -73,26 +73,25 @@ module JoinList where
     where
       construct_JoinList [ ] = Empty
       construct_JoinList [t] = t
-      construct_JoinList css = construct_JoinList left +++ construct_JoinList right
-        where
-          half  = div (length css) 2
-          left  = take half css
-          right = drop half css
+      construct_JoinList css = 
+        construct_JoinList left +++ construct_JoinList right
+          where
+            half  = div (length css) 2
+            left  = take half css
+            right = drop half css
 
   instance Buffer (JoinList (Score, Size) String) where
     toString                = unlines . jlToList
     fromString              = scoreLine
     line                    = indexJ
     replaceLine index string joinlist 
-      | index < numLines joinlist && index >= 0 
-        = 
+      | index < numLines joinlist && index >= 0 = 
           let
             newline      = fromString string
             before       = takeJ (index    ) joinlist
             after        = dropJ (index + 1) joinlist
           in
             before +++ newline +++ after
-     | otherwise = joinlist
+      | otherwise = joinlist
     numLines = getSize  . snd . tag
     value    = getScore . fst . tag
-    
