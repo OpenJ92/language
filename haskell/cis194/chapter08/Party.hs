@@ -2,7 +2,7 @@ module Party where
   
   import Data.Tree
   import Employee
-  
+
   glCons :: Employee -> GuestList -> GuestList
   glCons emp@(Emp _ fun) (GL emps fun') = GL (emp:emps) (fun + fun')
   
@@ -14,5 +14,8 @@ module Party where
          GT -> gl
          LT -> gl'
 
-  treetoGL :: Tree Employee -> GuestList
-  treetoGL = treeFold (\emp -> GL [emp] (empFun emp))
+  nextlevel :: Employee -> [(GuestList, GuestList)] -> (GuestList, GuestList)
+  nextlevel emp [ ] = (GL [emp] (empFun emp), GL [orphan] 0)
+  nextlevel emp gls = (GL [emp] (empFun emp), act gls)
+    where
+      act = mconcat . map (uncurry moreFun)

@@ -17,8 +17,9 @@ data Employee = Emp { empName :: Name, empFun :: Fun }
 orphan :: Employee
 orphan = Emp "" 0
 
-treeFold :: (Monoid b) => (a -> b) -> Tree a -> b
-treeFold f (Node leaf trees) = f leaf <> (mconcat . map (treeFold f) $ trees)
+treeFold :: (Monoid b) => (a -> b -> b) -> b -> Tree a -> b
+treeFold f e (Node x []) = f x e
+treeFold f e (Node x xs) = f x (mconcat . map (treeFold f e) $ xs)
 
 -- A small company hierarchy to use for testing purposes.
 testCompany :: Tree Employee
