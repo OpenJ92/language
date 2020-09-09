@@ -15,7 +15,7 @@ module Party where
          LT -> gl'
 
   nextlevel :: Employee -> [(GuestList, GuestList)] -> (GuestList, GuestList)
-  nextlevel emp [ ] = (GL [emp] (empFun emp), GL [orphan] 0)
+  nextlevel emp [ ] = (GL [emp] (empFun emp), mempty::GuestList)
   nextlevel emp gls = (GL [emp] (empFun emp), act gls)
     where
       act = mconcat . map (uncurry moreFun)

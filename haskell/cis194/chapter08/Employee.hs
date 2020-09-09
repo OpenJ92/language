@@ -17,9 +17,23 @@ data Employee = Emp { empName :: Name, empFun :: Fun }
 orphan :: Employee
 orphan = Emp "" 0
 
-treeFold :: (Monoid b) => (a -> b -> b) -> b -> Tree a -> b
-treeFold f e (Node x []) = f x e
-treeFold f e (Node x xs) = f x (mconcat . map (treeFold f e) $ xs)
+treeFold :: (Monoid b) => (a -> [b] -> b) -> b -> Tree a -> b
+treeFold f e (Node x []) = f x [e]
+treeFold f e (Node x xs) = f x (map (treeFold f e) $ xs)
+
+-- A type to store a list of guests and their total fun score.
+data GuestList = GL [Employee] Fun
+  deriving (Show, Eq)
+
+instance Ord GuestList where
+  compare (GL _ f1) (GL _ f2) = compare f1 f2
+
+instance Semigroup GuestList where
+  (<>) (GL as a') (GL bs b') = GL (as ++ bs) (a' + b')
+
+instance Monoid GuestList where
+  mappend = (<>) 
+  mempty  = GL [orphan] 0
 
 -- A small company hierarchy to use for testing purposes.
 testCompany :: Tree Employee
@@ -51,17 +65,3 @@ testCompany2
       [ Node (Emp "Sam" 4) [] -- (4, 0)
       ]
     ]
-
--- A type to store a list of guests and their total fun score.
-data GuestList = GL [Employee] Fun
-  deriving (Show, Eq)
-
-instance Ord GuestList where
-  compare (GL _ f1) (GL _ f2) = compare f1 f2
-
-instance Semigroup GuestList where
-  (<>) (GL as a') (GL bs b') = GL (as ++ bs) (a' + b')
-
-instance Monoid GuestList where
-  mappend = (<>) 
-  mempty  = GL [orphan] 0
