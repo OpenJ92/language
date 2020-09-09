@@ -10,7 +10,7 @@ module Party where
   moreFun gl gl' = 
     let comp = compare gl gl'
     in case comp of
-         EQ -> gl
+         EQ -> gl'
          GT -> gl
          LT -> gl'
 
@@ -19,3 +19,16 @@ module Party where
   nextlevel emp gls = (GL [emp] (empFun emp), act gls)
     where
       act = mconcat . map (uncurry moreFun)
+
+  maxFun :: Tree Employee -> GuestList
+  maxFun = uncurry max . treeFold nextlevel (mempty::GuestList, mempty::GuestList)
+
+  readTree :: String -> Tree Employee
+  readTree = read
+
+  -- main :: IO ()
+  -- main = readFile "company.txt" >>= \content   -> 
+  --        readTree content       >>= \tree      ->
+  --        maxFun tree            >>= \guestlist ->
+         
+  -- maxFun <$> (readData <$> readFile "company.txt")
