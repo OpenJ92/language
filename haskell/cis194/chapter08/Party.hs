@@ -25,10 +25,19 @@ module Party where
 
   readTree :: String -> Tree Employee
   readTree = read
+  
+  filterOrphans :: GuestList -> GuestList
+  filterOrphans (GL as a') = GL (filter (/=orphan) as) a'
 
-  -- main :: IO ()
-  -- main = readFile "company.txt" >>= \content   -> 
-  --        readTree content       >>= \tree      ->
-  --        maxFun tree            >>= \guestlist ->
-         
-  -- maxFun <$> (readData <$> readFile "company.txt")
+  formatGL :: GuestList -> String
+  formatGL (GL as a') 
+    = "Total fun: " ++ show a' ++ "\n" 
+      ++ (mconcat . map (flip (++) "\n" . empName)) as
+  
+  main :: IO ()
+  main =  formatGL 
+      <$> filterOrphans
+      <$> maxFun 
+      <$> readTree 
+      <$> readFile "company.txt" 
+      >>= putStrLn
