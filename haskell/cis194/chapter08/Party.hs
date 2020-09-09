@@ -21,7 +21,7 @@ module Party where
       act = mconcat . map (uncurry moreFun)
 
   maxFun :: Tree Employee -> GuestList
-  maxFun = uncurry max . treeFold nextlevel (mempty::GuestList, mempty::GuestList)
+  maxFun = uncurry moreFun . treeFold nextlevel (mempty::GuestList,mempty::GuestList)
 
   readTree :: String -> Tree Employee
   readTree = read
