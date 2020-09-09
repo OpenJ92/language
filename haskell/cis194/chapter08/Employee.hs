@@ -17,14 +17,14 @@ module Employee where
   orphan :: Employee
   orphan = Emp "" 0
   
-  treeFold :: (Monoid b) => (a -> [b] -> b) -> b -> Tree a -> b
+  treeFold :: (a -> [b] -> b) -> b -> Tree a -> b
   treeFold f e (Node x []) = f x [e]
   treeFold f e (Node x xs) = f x (map (treeFold f e) $ xs)
   
   -- A type to store a list of guests and their total fun score.
   data GuestList = GL [Employee] Fun
     deriving (Show, Eq)
-  
+   
   instance Ord GuestList where
     compare (GL _ f1) (GL _ f2) = compare f1 f2
   
