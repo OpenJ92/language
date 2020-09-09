@@ -31,8 +31,8 @@ module Party where
 
   formatGL :: GuestList -> String
   formatGL (GL as a') 
-    = "Total fun: " ++ show a' ++ "\n" 
-      ++ (mconcat . map (flip (++) "\n" . empName)) as
+    = "Total fun: " ++ show a'
+      ++ (mconcat . map ((++) "\n" . empName)) as
   
   main :: IO ()
   main =  formatGL 
