@@ -41,7 +41,7 @@ module Party where
   
   main :: IO ()
   main =  formatGL 
-      <$> maxFun 
-      <$> readTree 
+       .  maxFun 
+       .  readTree 
       <$> readFile "company.txt" 
       >>= putStrLn
