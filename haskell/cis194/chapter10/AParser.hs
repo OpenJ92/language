@@ -62,8 +62,8 @@ posInt = Parser f
 first :: (a -> b) -> (a, c) -> (b, c)
 first f (x, y) = (f x, y)
 
-second :: (a -> b) -> (a, c) -> (b, c)
-second f (x, y) = (f x, y)
+app :: ((a -> c), b) -> (a, b) -> (c, b)
+app (f, _) (y, z) = (f y, z)
 
 instance Functor Parser where
   fmap f parser = Parser (fmap (first f) . runParser parser)
@@ -71,11 +71,12 @@ instance Functor Parser where
 -- psudo code. How are we going to match on these?
 instance Applicative Parser where
   pure a    = Parser (\input -> Just (a, input))
-  pf <*> pv = Parser (\input -> Just (f v, remain'))
-    where
-      fun string = case runParser pf string of
-        Just (f, remain ) -> Just (f, remain )
-        Nothing           -> Nothing
-      val string = case runParser pf string of
-        Just (v, remain') -> Just (v, remain')
-        Nothing           -> Nothing
+
+  -- pf <*> pv = Parser (\input -> Just (f v, remain'))
+  --   where
+  --     fun string = case runParser pf string of
+  --       Just (f, remain ) -> Just (f, remain )
+  --       Nothing           -> Nothing
+  --     val string = case runParser pf string of
+  --       Just (v, remain') -> Just (v, remain')
+  --       Nothing           -> Nothing

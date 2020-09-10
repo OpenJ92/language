@@ -2,6 +2,7 @@ module Party where
   
   import Data.Tree
   import Employee
+  import Data.List
 
   glCons :: Employee -> GuestList -> GuestList
   glCons emp@(Emp _ fun) (GL emps fun') = GL (emp:emps) (fun + fun')
@@ -40,7 +41,6 @@ module Party where
   
   main :: IO ()
   main =  formatGL 
-      <$> filterOrphans
       <$> maxFun 
       <$> readTree 
       <$> readFile "company.txt" 
