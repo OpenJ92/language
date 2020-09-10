@@ -16,7 +16,7 @@ module Party where
          LT -> gl'
 
   nextlevel :: Employee -> [(GuestList, GuestList)] -> (GuestList, GuestList)
-  nextlevel emp [ ] = (GL [emp] (empFun emp), mempty::GuestList)
+  nextlevel emp [ ] = (glCons emp mempty, mempty)
   nextlevel emp gls = (glCons emp (act' gls), act gls)
     where
       act  = mconcat . map (uncurry moreFun)
@@ -25,7 +25,7 @@ module Party where
   maxFun :: Tree Employee -> GuestList
   maxFun = filterOrphans
          . uncurry moreFun 
-         . treeFold nextlevel (mempty::GuestList,mempty::GuestList)
+         . treeFold nextlevel (mempty,mempty)
 
   readTree :: String -> Tree Employee
   readTree = read
