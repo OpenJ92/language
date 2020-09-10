@@ -1,5 +1,6 @@
 module Employee where
 
+  import           Data.Tuple
   import           Data.Tree
   import           Data.Monoid
   

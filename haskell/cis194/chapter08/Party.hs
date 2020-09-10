@@ -21,7 +21,8 @@ module Party where
       act = mconcat . map (uncurry moreFun)
 
   maxFun :: Tree Employee -> GuestList
-  maxFun = uncurry moreFun . treeFold nextlevel (mempty::GuestList,mempty::GuestList)
+  maxFun = uncurry moreFun 
+         . treeFold nextlevel (mempty::GuestList,mempty::GuestList)
 
   readTree :: String -> Tree Employee
   readTree = read
@@ -31,8 +32,9 @@ module Party where
 
   formatGL :: GuestList -> String
   formatGL (GL as a') 
-    = "Total fun: " ++ show a'
-      ++ (mconcat . map ((++) "\n" . empName)) as
+    = "Total fun: " 
+    ++ show a'
+    ++ (mconcat . map ((++) "\n" . empName)) as
   
   main :: IO ()
   main =  formatGL 
