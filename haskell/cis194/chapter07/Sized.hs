@@ -23,4 +23,3 @@ module Sized where
   
   instance Monoid Size where
     mempty  = Size 0
-    mappend = (+)
