@@ -89,3 +89,7 @@ intPair :: Parser [Integer]
 -- (<*) :: f a -> f b -> f a
 -- (*>) :: f a -> f b -> f b 
 intPair = (\m n -> m:n:[]) <$> posInt <* char ' ' <*> posInt
+
+intOrUppercase :: Parser ()
+intOrUppercase =  (\_ -> ()) <$> satisfy isUpper 
+              <|> (\_ -> ()) <$> posInt
