@@ -73,3 +73,15 @@ instance Applicative Parser where
     in  (,) 
         <$> (($) <$> (fst <$> mayfi) <*> (fst <$> mayvi)) 
         <*> (snd <$> mayvi))
+
+abParser :: Parser (Char, Char)
+abParser = (,) <$> char 'a' <*> char 'b'
+
+abParser_ :: Parser ()
+abParser_ = (\_ -> ()) <$> abParser 
+
+intPair :: Parser [Integer]
+-- Note: defined in applicative
+-- (<*) :: f a -> f b -> f a
+-- (*>) :: f a -> f b -> f b 
+intPair = (\m n -> m:n:[]) <$> posInt <* char ' ' <*> posInt
