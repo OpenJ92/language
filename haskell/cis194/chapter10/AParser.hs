@@ -76,7 +76,7 @@ instance Applicative Parser where
 
 instance Alternative Parser where
   empty       = Parser (\_ -> Nothing)
-  (<|>) pa pb = Parser (\input -> runParser pa input <|> runParser pb input)
+  (<|>) pa pb = Parser ((<|>) <$> runParser pa <*> runParser pb)
 
 abParser :: Parser (Char, Char)
 abParser = (,) <$> char 'a' <*> char 'b'
@@ -93,3 +93,4 @@ intPair = (\m n -> m:n:[]) <$> posInt <* char ' ' <*> posInt
 intOrUppercase :: Parser ()
 intOrUppercase =  (\_ -> ()) <$> satisfy isUpper 
               <|> (\_ -> ()) <$> posInt
+
