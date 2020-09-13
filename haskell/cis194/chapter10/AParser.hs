@@ -74,6 +74,10 @@ instance Applicative Parser where
         <$> (($) <$> (fst <$> mayfi) <*> (fst <$> mayvi)) 
         <*> (snd <$> mayvi))
 
+instance Alternative Parser where
+  empty       = Parser (\_ -> Nothing)
+  (<|>) pa pb = Parser (\input -> runParser pa input <|> runParser pb input)
+
 abParser :: Parser (Char, Char)
 abParser = (,) <$> char 'a' <*> char 'b'
 
