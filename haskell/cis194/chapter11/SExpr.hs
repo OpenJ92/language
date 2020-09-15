@@ -49,9 +49,7 @@ data SExpr = A Atom
 
 comb :: Parser SExpr
 comb =  A <$> atom
-    <|> spaces *> char '(' *> spaces *> 
-        (Comb <$> oneOrMore comb) 
-        <* spaces <* char ')' <* spaces
+    <|> spaces *> char '(' *> spaces *> (Comb <$> oneOrMore comb) <* spaces <* char ')' <* spaces
  
 atom :: Parser Atom
 atom =  spaces *> (N <$> posInt) <* spaces
