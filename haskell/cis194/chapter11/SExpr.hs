@@ -56,3 +56,9 @@ comb =  A <$> atom
 atom :: Parser Atom
 atom =  spaces *> (N <$> posInt) <* spaces
     <|> spaces *> (I <$> ident ) <* spaces
+
+main :: IO ()
+main =  putStrLn (show (runParser comb "5"))
+     >> putStrLn (show (runParser comb "foo3"))
+     >> putStrLn (show (runParser comb "(((lambda x (lambda y (plus x y))) 3) 5)"))
+     >> putStrLn (show (runParser comb "( lots of ( spaces in ) this ( one ) )"))
