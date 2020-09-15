@@ -60,3 +60,9 @@ main =  putStrLn (show (runParser comb "5"))
      >> putStrLn (show (runParser comb "foo3"))
      >> putStrLn (show (runParser comb "(((lambda x (lambda y (plus x y))) 3) 5)"))
      >> putStrLn (show (runParser comb "( lots of ( spaces in ) this ( one ) )"))
+
+-- λ: main -- [Expected output]
+-- Just (A (N 5),"")
+-- Just (A (I "foo3"),"")
+-- Just (Comb [Comb [Comb [A (I "lambda"),A (I "x"),Comb [A (I "lambda"),A (I "y"),Comb [A (I "plus"),A (I "x"),A (I "y")]]],A (N 3)],A (N 5)],"")
+-- Just (Comb [A (I "lots"),A (I "of"),Comb [A (I "spaces"),A (I "in")],A (I "this"),Comb [A (I "one")]],"")
