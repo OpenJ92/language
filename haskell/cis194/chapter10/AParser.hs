@@ -71,7 +71,7 @@ instance Applicative Parser where
     let mayfi = runParser pf input
         mayvi = (snd <$> mayfi) >>= runParser pv 
     in  (,) 
-        <$> (($) <$> (fst <$> mayfi) <*> (fst <$> mayvi)) 
+        <$> ((fst <$> mayfi) <*> (fst <$> mayvi)) 
         <*> (snd <$> mayvi))
 
 instance Alternative Parser where
