@@ -48,9 +48,11 @@ data SExpr = A Atom
   deriving Show
 
 comb :: Parser SExpr
-comb =  (Comb <$> many (A <$> atom))
-    <|> A <$> atom
-
+comb =  A <$> atom
+    <|> spaces *> char '(' *> spaces *> 
+        (Comb <$> oneOrMore comb) 
+        <* spaces <* char ')' <* spaces
+ 
 atom :: Parser Atom
 atom =  spaces *> (N <$> posInt) <* spaces
     <|> spaces *> (I <$> ident ) <* spaces
