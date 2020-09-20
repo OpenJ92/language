@@ -19,11 +19,17 @@ instance Applicative Parser where
         <$> ((fst <$> mfs) <*> (fst <$> mvs))
         <*> (snd <$> mvs))
 
+constructParser :: Maybe (a, String) -> (a -> Parser b) -> Maybe (b, String)
+constructParser Nothing        _   = Nothing
+constructParser (Just (a, s')) apb = runParser (apb a) s'
+
 instance Monad Parser where
   -- return :: a -> Parser a
   return = pure
   -- >>= :: Parser a -> (a -> Parser b) -> Parser b
-  (>>=) pa apb = Parser (\s ->
-    case runParser pa s of
-      Nothing      -> Nothing
-      Just (a, s') -> runParser (apb a) s')
+  -- (>>=) pa apb = Parser (\s ->
+  --   case runParser pa s of
+  --     Nothing      -> Nothing
+  --     Just (a, s') -> runParser (apb a) s')
+
+  (>>=) pa apb = Parser (\s -> constructParser (runParser pa s) apb)
