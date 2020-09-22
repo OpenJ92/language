@@ -26,3 +26,5 @@ die = getRandom
 type Army = Int
 
 data Battlefield = Battlefield { attackers :: Army, defenders :: Army }
+
+sampleBattlefield :: Battlefield

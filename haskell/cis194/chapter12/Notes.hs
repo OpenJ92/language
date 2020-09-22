@@ -26,10 +26,5 @@ constructParser (Just (a, s')) apb = runParser (apb a) s'
 instance Monad Parser where
   -- return :: a -> Parser a
   return = pure
-  -- >>= :: Parser a -> (a -> Parser b) -> Parser b
-  -- (>>=) pa apb = Parser (\s ->
-  --   case runParser pa s of
-  --     Nothing      -> Nothing
-  --     Just (a, s') -> runParser (apb a) s')
-
+  -- (>>=) :: Parser a -> (a -> Parser b) -> Parser b
   (>>=) pa apb = Parser (\s -> constructParser (runParser pa s) apb)
