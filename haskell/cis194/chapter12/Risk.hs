@@ -74,7 +74,7 @@ countlosses losses
  <*> ((length . filter (==False)) <$> losses)
 
 battle :: Battlefield -> Rand StdGen Battlefield
-battle battlefield = ((-) battlefield) <$> losses
+battle battlefield = (-) <$> pure battlefield <*> losses
  where
    losses = countlosses $ fight battlefield
 
