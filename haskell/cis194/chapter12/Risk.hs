@@ -42,7 +42,7 @@ instance Num Battlefield where
 battlefield = Battlefield 20 20
 
 rollDice :: Int -> Rand StdGen [DieValue]
-rollDice n = sequence $ replicate n die
+rollDice = sequence . flip replicate die
 
 policyAttackers :: Battlefield -> Int
 policyAttackers battlefield
