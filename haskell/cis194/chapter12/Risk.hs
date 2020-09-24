@@ -39,7 +39,7 @@ instance Num Battlefield where
   (abs) _         = undefined
 
 
-battlefield = Battlefield 20 20
+battlefield = Battlefield 100 100
 
 rollDice :: Int -> Rand StdGen [DieValue]
 rollDice = sequence . flip replicate die
@@ -77,10 +77,10 @@ battle :: Battlefield -> Rand StdGen Battlefield
 battle battlefield 
   = (-) 
  <$> pure battlefield 
- <*> (fight battlefield >>= countlosses)
+ <*> (pure battlefield >>= fight >>= countlosses)
 
 invade :: Battlefield -> Rand StdGen Battlefield
-invade battlefield = battle battlefield >>= dispatcher
+invade battlefield = pure battlefield >>= battle >>= dispatcher
 
 dispatcher :: Battlefield -> Rand StdGen Battlefield
 dispatcher battlefield@(Battlefield att def)
@@ -95,6 +95,10 @@ wl battlefield@(Battlefield att def)
 successProb :: Battlefield -> Rand StdGen Double
 successProb battlefield = (/) <$> num <*> dem
  where
-  resolve f = (fmap) sum . sequence . (fmap . fmap) (f) . replicate 1000 . invade
+  resolve f = (fmap) sum 
+            . sequence 
+            . (fmap . fmap) (f) 
+            . replicate 1000 
+            . invade
   num       = resolve wl        battlefield
   dem       = resolve (const 1) battlefield
