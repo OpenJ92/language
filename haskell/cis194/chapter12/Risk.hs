@@ -75,7 +75,11 @@ battle battlefield = ((-) battlefield) <$> losses
  where
    losses = countlosses $ fight battlefield
 
--- This is the infinite version of the process. How
--- do we carry out checks for stopping resursion?
 invade :: Battlefield -> Rand StdGen Battlefield
-invade battlefield = battle battlefield >>= invade
+invade battlefield = battle battlefield >>= dispatcher
+
+dispatcher :: Battlefield -> Rand StdGen Battlefield
+dispatcher battlefield@(Battlefield att def)
+  | att <= 2  = pure battlefield
+  | def <= 0  = pure battlefield
+  | otherwise = invade battlefield
