@@ -3,6 +3,7 @@
 module Risk where
 
 import Data.List
+import Data.Monoid
 import Control.Monad.Random
 
 ------------------------------------------------------------
@@ -61,14 +62,16 @@ roll :: (Battlefield -> Int) -> Battlefield -> Rand StdGen [DieValue]
 roll policy = (<$>) (reverse . sort) . rollDice . policy
 
 fight :: Battlefield -> Rand StdGen [Bool]
-fight battlefield = zipWith (>) 
-                 <$> roll policyAttackers battlefield 
-                 <*> roll policyDefenders battlefield
+fight battlefield 
+  = zipWith (>) 
+ <$> roll policyAttackers battlefield 
+ <*> roll policyDefenders battlefield
 
 countlosses :: Rand StdGen [Bool] -> Rand StdGen Battlefield
-countlosses losses = Battlefield
-                  <$> ((length . filter (==True))  <$> losses)
-                  <*> ((length . filter (==False)) <$> losses)
+countlosses losses 
+  = Battlefield
+ <$> ((length . filter (==True))  <$> losses)
+ <*> ((length . filter (==False)) <$> losses)
 
 battle :: Battlefield -> Rand StdGen Battlefield
 battle battlefield = ((-) battlefield) <$> losses
@@ -80,6 +83,17 @@ invade battlefield = battle battlefield >>= dispatcher
 
 dispatcher :: Battlefield -> Rand StdGen Battlefield
 dispatcher battlefield@(Battlefield att def)
-  | att <= 2  = pure battlefield
-  | def <= 0  = pure battlefield
-  | otherwise = invade battlefield
+  | att <= 2 || def <= 0 = pure   battlefield
+  | otherwise            = invade battlefield
+
+wl :: Battlefield -> Double
+wl battlefield@(Battlefield att def)
+  | att <= 2   = 1
+  | otherwise  = 0
+
+successProb :: Battlefield -> Rand StdGen Double
+successProb battlefield = (/) <$> num <*> dem
+ where
+  resolve f = (fmap) sum . sequence . (fmap . fmap) (f) . replicate 1000 . invade
+  num       = resolve wl        battlefield
+  dem       = resolve (const 1) battlefield
