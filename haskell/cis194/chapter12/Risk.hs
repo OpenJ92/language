@@ -38,8 +38,7 @@ instance Num Battlefield where
   (signum) _      = undefined
   (abs) _         = undefined
 
-
-battlefield = Battlefield 100 100
+battlefield = Battlefield 20 10
 
 rollDice :: Int -> Rand StdGen [DieValue]
 rollDice = sequence . flip replicate die
@@ -68,10 +67,10 @@ fight battlefield
  <*> roll policyDefenders battlefield
 
 countlosses :: [Bool] -> Rand StdGen Battlefield
-countlosses losses 
-  = pure (Battlefield 
-         ((length . filter (==True)) losses) 
-         ((length . filter (==False)) losses))
+countlosses losses = pure (Battlefield attackWin defendWin)
+  where 
+    attackWin = (length . filter (==True))  losses
+    defendWin = (length . filter (==False)) losses
 
 battle :: Battlefield -> Rand StdGen Battlefield
 battle battlefield 
@@ -88,8 +87,8 @@ dispatcher battlefield@(Battlefield att def)
   | otherwise            = invade battlefield
 
 wl :: Battlefield -> Double
-wl battlefield@(Battlefield att def)
-  | att <= 2   = 1
+wl (Battlefield att def)
+  | att >  2   = 1
   | otherwise  = 0
 
 successProb :: Battlefield -> Rand StdGen Double
