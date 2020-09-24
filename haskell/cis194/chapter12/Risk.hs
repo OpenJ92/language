@@ -67,14 +67,17 @@ fight battlefield
  <$> roll policyAttackers battlefield 
  <*> roll policyDefenders battlefield
 
-countlosses :: Rand StdGen [Bool] -> Rand StdGen Battlefield
+countlosses :: [Bool] -> Rand StdGen Battlefield
 countlosses losses 
-  = Battlefield
- <$> ((length . filter (==True))  <$> losses)
- <*> ((length . filter (==False)) <$> losses)
+  = pure (Battlefield 
+         ((length . filter (==True)) losses) 
+         ((length . filter (==False)) losses))
 
 battle :: Battlefield -> Rand StdGen Battlefield
-battle battlefield = (-) <$> pure battlefield <*> (countlosses . fight) battlefield
+battle battlefield 
+  = (-) 
+ <$> pure battlefield 
+ <*> (fight battlefield >>= countlosses)
 
 invade :: Battlefield -> Rand StdGen Battlefield
 invade battlefield = battle battlefield >>= dispatcher
