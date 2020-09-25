@@ -87,19 +87,20 @@ dispatcher battlefield@(Battlefield att def)
   | att <= 2 || def <= 0 = pure   battlefield
   | otherwise            = invade battlefield
 
-wl :: Battlefield -> Double
-wl (Battlefield att def)
+step :: Battlefield -> Double
+step (Battlefield att def)
   | att >  2   = 1
   | otherwise  = 0
 
 successProb :: Battlefield -> Rand StdGen Double
-successProb battlefield = (/) <$> num <*> dem
- where
-  -- resolve :: (Battlefield -> Double) -> Battlefield -> Rand StdGen Double
-  resolve f = (<$>) sum 
-            . sequence 
-            . ((<$>) . (<$>)) (f) 
-            . replicate 1000 
-            . invade
-  num       = resolve  wl       battlefield
-  dem       = resolve (const 1) battlefield
+successProb battlefield 
+  =  (/) 
+ <$> resolve step      battlefield
+ <*> resolve (const 1) battlefield
+  where
+   resolve f 
+     = (<$>) sum 
+     . sequence 
+     . ((<$>) . (<$>)) (f) 
+     . replicate 1000 
+     . invade
