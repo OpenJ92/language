@@ -38,7 +38,7 @@ instance Num Battlefield where
   (signum) _      = undefined
   (abs) _         = undefined
 
-battlefield = Battlefield 20 10
+battlefield = Battlefield 1000 1000
 
 rollDice :: Int -> Rand StdGen [DieValue]
 rollDice = sequence . flip replicate die
@@ -62,8 +62,9 @@ roll policy = (<$>) (reverse . sort) . rollDice . policy
 
 fight :: Battlefield -> Rand StdGen [Bool]
 fight battlefield 
-  = zipWith (>) 
- <$> roll policyAttackers battlefield 
+  =  zipWith 
+ <$> pure (>) 
+ <*> roll policyAttackers battlefield 
  <*> roll policyDefenders battlefield
 
 countlosses :: [Bool] -> Rand StdGen Battlefield
@@ -74,8 +75,8 @@ countlosses losses = pure (Battlefield attackWin defendWin)
 
 battle :: Battlefield -> Rand StdGen Battlefield
 battle battlefield 
-  = (-) 
- <$> pure battlefield 
+  =  (-) 
+ <$> (pure battlefield)
  <*> (pure battlefield >>= fight >>= countlosses)
 
 invade :: Battlefield -> Rand StdGen Battlefield
@@ -94,10 +95,11 @@ wl (Battlefield att def)
 successProb :: Battlefield -> Rand StdGen Double
 successProb battlefield = (/) <$> num <*> dem
  where
-  resolve f = (fmap) sum 
+  -- resolve :: (Battlefield -> Double) -> Battlefield -> Rand StdGen Double
+  resolve f = (<$>) sum 
             . sequence 
-            . (fmap . fmap) (f) 
+            . ((<$>) . (<$>)) (f) 
             . replicate 1000 
             . invade
-  num       = resolve wl        battlefield
+  num       = resolve  wl       battlefield
   dem       = resolve (const 1) battlefield
