@@ -4,6 +4,7 @@ module Risk where
 
 import Data.List
 import Data.Monoid
+import Control.Monad
 import Control.Monad.Random
 
 ------------------------------------------------------------
@@ -38,7 +39,7 @@ instance Num Battlefield where
   (signum) _      = undefined
   (abs) _         = undefined
 
-battlefield = Battlefield 1000 1000
+battlefield = Battlefield 100 100
 
 rollDice :: Int -> Rand StdGen [DieValue]
 rollDice = sequence . flip replicate die
@@ -73,14 +74,19 @@ countlosses losses = pure (Battlefield attackWin defendWin)
     attackWin = (length . filter (==True))  losses
     defendWin = (length . filter (==False)) losses
 
+-- (>=>) :: (Monad m) => (a -> m b) -> (b -> m c) -> a -> m c 
 battle :: Battlefield -> Rand StdGen Battlefield
 battle battlefield 
   =  (-) 
- <$> (pure battlefield)
- <*> (pure battlefield >>= fight >>= countlosses)
+ <$> (pure   battlefield)
+ <*> (losses battlefield)
+  where
+    losses = fight >=> countlosses
 
 invade :: Battlefield -> Rand StdGen Battlefield
-invade battlefield = pure battlefield >>= battle >>= dispatcher
+-- invade battlefield = pure battlefield >>= battle >>= dispatcher
+-- point-free with k-composition.
+invade = battle >=> dispatcher
 
 dispatcher :: Battlefield -> Rand StdGen Battlefield
 dispatcher battlefield@(Battlefield att def)
@@ -89,8 +95,8 @@ dispatcher battlefield@(Battlefield att def)
 
 step :: Battlefield -> Double
 step (Battlefield att def)
-  | att >  2   = 1
-  | otherwise  = 0
+  | att >  2   = 0
+  | otherwise  = 1
 
 successProb :: Battlefield -> Rand StdGen Double
 successProb battlefield 
