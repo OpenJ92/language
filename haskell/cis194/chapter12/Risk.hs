@@ -69,15 +69,15 @@ fight battlefield
  <*> roll policyDefenders battlefield
 
 countlosses :: [Bool] -> Rand StdGen Battlefield
-countlosses losses = pure (Battlefield attackWin defendWin)
+countlosses battlefield = pure (Battlefield attackWin defendWin)
   where 
-    attackWin = (length . filter (==True))  losses
-    defendWin = (length . filter (==False)) losses
+    attackWin = (length . filter (==True))  battlefield
+    defendWin = (length . filter (==False)) battlefield
 
 -- (>=>) :: (Monad m) => (a -> m b) -> (b -> m c) -> a -> m c 
 battle :: Battlefield -> Rand StdGen Battlefield
-battle battlefield 
-  =  (-) 
+battle battlefield
+  =  (-)
  <$> (pure   battlefield)
  <*> (losses battlefield)
   where

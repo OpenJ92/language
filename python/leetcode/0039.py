@@ -18,7 +18,7 @@ class Solution:
         else:
             ## copy array into new set, pass new subset into the recursive call.
             subset.append(considered)
-            for next_considered in candidates:
+            next_considered in candidates:
                 self.dfs(new_target, next_considered, candidates, subset, retval)
 
         return retval

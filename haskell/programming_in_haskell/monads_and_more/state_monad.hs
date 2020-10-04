@@ -1,5 +1,4 @@
--- State Monad -- We must consider what exactly is happening in this construction.
--- What is the logic of this?
+-- State Monad -- We must consider what exactly is happening in this construction.  -- What is the logic of this?
 
 type State = Int
 newtype ST a = S (State -> (a, State))
@@ -61,18 +60,5 @@ alabel (Node l r) = Node <$> alabel l <*> alabel r
 -- Using the fact that ST is also a monad, we might write the following;
 
 mlabel :: Tree a -> ST (Tree Int)
-mlabel (Leaf _)     = fresh >>= \n ->
-                      return (Leaf n)
-malabel (Node l r ) = mlabel l >>= \l' ->
-                      mlabel r >>= \r' ->
-                      return (Node l' r')
-
-module Queue (Queue(..)) where
-  import Prelude hiding (head, tail)
-
-  class Queue q where
-    empty :: q a
-    isEmpty :: q a -> Bool
-    snoc :: q a -> a -> q a
-    head :: q a -> a
-    tail :: q a -> q a
+mlabel (Leaf _)     = fresh >>= \n -> return (Leaf n)
+malabel (Node l r ) = mlabel l >>= \l' -> mlabel r >>= \r' -> return (Node l' r')

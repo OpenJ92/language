@@ -1,0 +1,4 @@
+src/Course/List.hs
+src/Course/State.hs
+src/Course/StateT.hs
+src/Course/Monad.hs
