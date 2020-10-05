@@ -57,20 +57,16 @@ instance (Traversable f, Traversable g) => Traversable (Compose f g) where
   traverse = undefined
 
 -- | The `Product` data type contains one value from each of the two type constructors.
-data Product f g a =
-  Product (f a) (g a)
+data Product f g a = Product (f a) (g a) deriving (Show)
 
-instance (Functor f, Functor g) =>
-  Functor (Product f g) where
--- Implement the (<$>) function for a Functor instance for Product
-  (<$>) =
-    error "todo: Course.Traversable (<$>)#instance (Product f g)"
+instance (Functor f, Functor g) => Functor (Product f g) where
+  (<$>) ab (Product fa ga) = Product (ab <$> fa) (ab <$> ga)
 
-instance (Traversable f, Traversable g) =>
-  Traversable (Product f g) where
--- Implement the traverse function for a Traversable instance for Product
-  traverse =
-    error "todo: Course.Traversable traverse#instance (Product f g)"
+instance (Traversable f, Traversable g) => Traversable (Product f g) where
+  traverse ayb (Product fa ga) 
+    = Product 
+   <$> traverse id (ayb <$> fa) 
+   <*> traverse id (ayb <$> ga)
 
 -- | The `Coproduct` data type contains one value from either of the two type constructors.
 data Coproduct f g a =
