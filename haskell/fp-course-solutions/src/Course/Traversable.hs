@@ -54,8 +54,7 @@ sequenceA = traverse id
 
 instance (Traversable f, Traversable g) => Traversable (Compose f g) where
 -- Implement the traverse function for a Traversable instance for Compose
-  traverse ayb (Compose fga) =
-    error ("todo: Course.Traverseable traverse#instance (Compose f g)")
+  traverse ayb (Compose fga) = Compose <$> (traverse id . (<$>) (traverse id) . ((<$>) . (<$>)) ayb) fga
 
 -- | The `Product` data type contains one value from each of the two type constructors.
 data Product f g a = Product (f a) (g a) deriving (Show)
