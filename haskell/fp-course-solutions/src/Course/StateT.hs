@@ -155,18 +155,18 @@ distinct' xs =
 --
 -- >>> distinctF $ listh [1,2,3,2,1,101]
 -- Empty
-distinctF :: (Ord a, Num a) => List a -> Optional (S.Set a)
+distinctF :: (Ord a, Num a) => List a -> Optional (List a)
 distinctF xs =
   let 
       f :: (Ord a, Num a) => a -> S.Set a -> Optional (Bool, S.Set a)
       f x s 
         | x > 100   = Empty
-        | otherwise = Full (S.member x s, S.insert x s)
+	| otherwise = Full (S.notMember x s, S.insert x s)
 
       p :: (Ord a, Num a) => a -> StateT (S.Set a) Optional Bool
       p x = StateT (f x)
 
-  in (execT (filtering p xs) S.empty)
+  in (evalT (filtering p xs) S.empty)
 
 -- | An `OptionalT` is a functor of an `Optional` value.
 data OptionalT f a = OptionalT { runOptionalT :: f (Optional a) }
@@ -270,14 +270,14 @@ log1 l = Logger (l :. Nil)
 logEvent :: (Integral a, Show a) => a -> S.Set a -> OptionalT (Logger Chars) (Bool, S.Set a)
 logEvent x s
   | x > 100   = OptionalT ((Logger (listh ("aborting > 100: " P.++ show x) :. Nil)) (Empty))
-  | even x    = OptionalT ((Logger (listh ("even number: " P.++ show x) :. Nil)) (Full (S.member x s, S.insert x s)))
-  | otherwise = OptionalT ((Logger (listh "" :. Nil)) (Full (S.member x s, S.insert x s)))
+  | even x    = OptionalT ((Logger (listh ("even number: " P.++ show x) :. Nil)) (Full (S.notMember x s, S.insert x s)))
+  | otherwise = OptionalT ((Logger (listh "" :. Nil)) (Full (S.notMember x s, S.insert x s)))
 
 p :: (Integral a, Show a) => a -> StateT (S.Set a) (OptionalT (Logger Chars)) Bool
 p x = StateT (logEvent x)
 
-distinctG :: (Integral a, Show a) => List a -> Logger Chars (Optional (S.Set a))
-distinctG xs = let (Logger log retval) = runOptionalT (execT (filtering p xs) S.empty)
+distinctG :: (Integral a, Show a) => List a -> Logger Chars (Optional (List a))
+distinctG xs = let (Logger log retval) = runOptionalT (evalT (filtering p xs) S.empty)
                in Logger (filter (/="") log) retval
 
 onFull :: Applicative f => (t -> f (Optional a)) -> Optional t -> f (Optional a)

@@ -73,14 +73,12 @@ data Coproduct f g a =
   InL (f a)
   | InR (g a)
 
-instance (Functor f, Functor g) =>
-  Functor (Coproduct f g) where
+instance (Functor f, Functor g) => Functor (Coproduct f g) where
 -- Implement the (<$>) function for a Functor instance for Coproduct
   (<$>) ab (InL fa) = InL (ab <$> fa)
   (<$>) ab (InR ga) = InR (ab <$> ga)
 
-instance (Traversable f, Traversable g) =>
-  Traversable (Coproduct f g) where
+instance (Traversable f, Traversable g) => Traversable (Coproduct f g) where
 -- Implement the traverse function for a Traversable instance for Coproduct
   traverse ayb (InL fa) = InL <$> traverse id (ayb <$> fa)
   traverse ayb (InR ga) = InR <$> traverse id (ayb <$> ga)

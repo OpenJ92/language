@@ -304,6 +304,7 @@ filtering pred
   = (<$>) (map fst . filter (\(_, b) -> b==True)) 
   . sequence 
   . map (applyCarry pred)
+
  
 -----------------------
 -- SUPPORT LIBRARIES --

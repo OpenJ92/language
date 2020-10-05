@@ -37,17 +37,11 @@ data ListZipper a =
   ListZipper (List a) a (List a)
   deriving Eq
 
-lefts ::
-  ListZipper a
-  -> List a
-lefts (ListZipper l _ _) =
-  l
+lefts :: ListZipper a -> List a
+lefts (ListZipper l _ _) = l
 
-rights ::
-  ListZipper a
-  -> List a
-rights (ListZipper _ _ r) =
-  r
+rights :: ListZipper a -> List a
+rights (ListZipper _ _ r) = r
 
 -- A `MaybeListZipper` is a data structure that allows us to "fail" zipper operations.
 -- e.g. Moving left when there are no values to the left.
@@ -64,16 +58,15 @@ data MaybeListZipper a =
 -- >>> (+1) <$> (zipper [3,2,1] 4 [5,6,7])
 -- [4,3,2] >5< [6,7,8]
 instance Functor ListZipper where
-  (<$>) =
-    error "todo: Course.ListZipper (<$>)#instance ListZipper"
+  (<$>) ab (ListZipper r a l) = ListZipper (ab <$> r) (ab a) (ab <$> l)
 
 -- | Implement the `Functor` instance for `MaybeListZipper`.
 --
 -- >>> (+1) <$> (IsZ (zipper [3,2,1] 4 [5,6,7]))
 -- [4,3,2] >5< [6,7,8]
 instance Functor MaybeListZipper where
-  (<$>) =
-    error "todo: Course.ListZipper (<$>)#instance MaybeListZipper"
+  (<$>) _   IsNotZ   = IsNotZ
+  (<$>) ab (IsZ lz ) =  IsZ (ab <$> lz)
 
 -- | Convert the given zipper back to a list.
 --
@@ -85,16 +78,11 @@ instance Functor MaybeListZipper where
 --
 -- >>> toList (ListZipper (3:.2:.1:.Nil) 4 (5:.6:.7:.Nil))
 -- [1,2,3,4,5,6,7]
-toList ::
-  ListZipper a
-  -> List a
-toList =
-  error "todo: Course.ListZipper#toList"
+toList :: ListZipper a -> List a
+toList (ListZipper r a l) = r ++ (a :. l)
 
 -- | Convert the given (maybe) zipper back to a list.
-toListZ ::
-  MaybeListZipper a
-  -> List a
+toListZ :: MaybeListZipper a -> List a
 toListZ IsNotZ =
   Nil
 toListZ (IsZ z) =
@@ -109,11 +97,9 @@ toListZ (IsZ z) =
 -- ><
 --
 -- prop> \xs -> xs == toListZ (fromList xs)
-fromList ::
-  List a
-  -> MaybeListZipper a
-fromList =
-  error "todo: Course.ListZipper#fromList"
+fromList :: List a -> MaybeListZipper a
+fromList Nil = IsNotZ
+fromList (x :. xs) = IsZ (ListZipper (Nil) (x) (xs))
 
 -- | Retrieve the `ListZipper` from the `MaybeListZipper` if there is one.
 --
