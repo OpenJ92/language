@@ -662,10 +662,8 @@ instance P.Functor List where
     listh . P.fmap f . hlist
 
 instance A.Applicative List where
-  (<*>) =
-    M.ap
-  pure =
-    (:. Nil)
+  (<*>) = M.ap
+  pure = (:. Nil)
 
 instance P.Monad List where
   (>>=) =

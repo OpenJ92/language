@@ -98,8 +98,13 @@ constantParser = P . const
 -- >>> isErrorResult (parse character "")
 -- True
 character :: Parser Char
-character = 
-  error "todo: Course.Parser#character"
+character = P f
+  where
+    f :: Input -> ParseResult Char
+    f (i :. nput)
+      | isAlpha i = Result nput i
+      | otherwise = UnexpectedChar i
+    f (Nil) = UnexpectedEof
 
 -- | Parsers can map.
 -- Write a Functor instance for a @Parser@.
@@ -108,18 +113,14 @@ character =
 -- Result >mz< 'A'
 instance Functor Parser where
   (<$>) :: (a -> b) -> Parser a -> Parser b
-  (<$>) =
-     error "todo: Course.Parser (<$>)#instance Parser"
+  (<$>) ab (P p) = P (\s -> let result' = p s in ab <$> result')
 
 -- | Return a parser that always succeeds with the given value and consumes no input.
 --
 -- >>> parse (valueParser 3) "abc"
 -- Result >abc< 3
-valueParser ::
-  a
-  -> Parser a
-valueParser =
-  error "todo: Course.Parser#valueParser"
+valueParser :: a -> Parser a
+valueParser x = P (\input -> Result input x)
 
 -- | Return a parser that tries the first parser for a successful value.
 --
@@ -138,12 +139,12 @@ valueParser =
 --
 -- >>> parse (constantParser UnexpectedEof ||| valueParser 'v') "abc"
 -- Result >abc< 'v'
-(|||) ::
-  Parser a
-  -> Parser a
-  -> Parser a
-(|||) =
-  error "todo: Course.Parser#(|||)"
+(|||) :: Parser a -> Parser a -> Parser a
+(|||) pl pr = P pn
+  where
+    pn s
+      | isErrorResult (parse pl s) = parse pr s
+      | otherwise                  = parse pl s
 
 infixl 3 |||
 
@@ -170,25 +171,15 @@ infixl 3 |||
 -- >>> isErrorResult (parse ((\c -> if c == 'x' then character else valueParser 'v') =<< character) "x")
 -- True
 instance Monad Parser where
-  (=<<) ::
-    (a -> Parser b)
-    -> Parser a
-    -> Parser b
-  (=<<) =
-    error "todo: Course.Parser (=<<)#instance Parser"
+  (=<<) :: (a -> Parser b) -> Parser a -> Parser b
+  (=<<) = undefined
 
 -- | Write an Applicative functor instance for a @Parser@.
 -- /Tip:/ Use @(=<<)@.
 instance Applicative Parser where
-  pure ::
-    a
-    -> Parser a
-  pure =
-    valueParser
-  (<*>) ::
-    Parser (a -> b)
-    -> Parser a
-    -> Parser b
+  pure :: a -> Parser a
+  pure = valueParser
+  (<*>) :: Parser (a -> b) -> Parser a -> Parser b
   (<*>) =
     error "todo: Course.Parser (<*>)#instance Parser"
 

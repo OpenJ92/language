@@ -111,7 +111,7 @@ run file =
 
 -- /Tip:/ use @getArgs@ and @run@
 main :: IO ()
-main = undefined
+main = getArgs >>= (\args -> run (headOr "" args))
 
 ----
 

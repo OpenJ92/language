@@ -106,57 +106,29 @@ fromList (x :. xs) = IsZ (ListZipper (Nil) (x) (xs))
 -- prop> \xs -> isEmpty xs == (toOptional (fromList xs) == Empty)
 --
 -- prop> \z -> toOptional (fromOptional z) == z
-toOptional ::
-  MaybeListZipper a
-  -> Optional (ListZipper a)
-toOptional =
-  error "todo: Course.ListZipper#toOptional"
+toOptional :: MaybeListZipper a -> Optional (ListZipper a)
+toOptional (IsZ lz) = Full lz
+toOptional IsNotZ   = Empty
 
-zipper ::
-  [a]
-  -> a
-  -> [a]
-  -> ListZipper a
-zipper l x r =
-  ListZipper (listh l) x (listh r)
+zipper :: [a] -> a -> [a] -> ListZipper a
+zipper l x r = ListZipper (listh l) x (listh r)
 
-fromOptional ::
-  Optional (ListZipper a)
-  -> MaybeListZipper a
-fromOptional Empty =
-  IsNotZ
-fromOptional (Full z) =
-  IsZ z
+fromOptional :: Optional (ListZipper a) -> MaybeListZipper a
+fromOptional Empty    = IsNotZ
+fromOptional (Full z) = IsZ z
 
-asZipper ::
-  (ListZipper a -> ListZipper a)
-  -> MaybeListZipper a
-  -> MaybeListZipper a
-asZipper f =
-  asMaybeZipper (IsZ . f)
+asZipper :: (ListZipper a -> ListZipper a) -> MaybeListZipper a -> MaybeListZipper a
+asZipper f = asMaybeZipper (IsZ . f)
 
-(>$>)::
-  (ListZipper a -> ListZipper a)
-  -> MaybeListZipper a
-  -> MaybeListZipper a
-(>$>) =
-  asZipper
+(>$>):: (ListZipper a -> ListZipper a) -> MaybeListZipper a -> MaybeListZipper a
+(>$>) = asZipper
 
-asMaybeZipper ::
-  (ListZipper a -> MaybeListZipper a)
-  -> MaybeListZipper a
-  -> MaybeListZipper a
-asMaybeZipper _ IsNotZ =
-  IsNotZ
-asMaybeZipper f (IsZ z) =
-  f z
+asMaybeZipper :: (ListZipper a -> MaybeListZipper a) -> MaybeListZipper a -> MaybeListZipper a
+asMaybeZipper _ IsNotZ = IsNotZ
+asMaybeZipper f (IsZ z) = f z
 
-(-<<) ::
-  (ListZipper a -> MaybeListZipper a)
-  -> MaybeListZipper a
-  -> MaybeListZipper a
-(-<<) =
-  asMaybeZipper
+(-<<) :: (ListZipper a -> MaybeListZipper a) -> MaybeListZipper a -> MaybeListZipper a
+(-<<) = asMaybeZipper
 
 -- | Update the focus of the zipper with the given function on the current focus.
 --
@@ -165,12 +137,8 @@ asMaybeZipper f (IsZ z) =
 --
 -- >>> withFocus (+1) (zipper [1,0] 2 [3,4])
 -- [1,0] >3< [3,4]
-withFocus ::
-  (a -> a)
-  -> ListZipper a
-  -> ListZipper a
-withFocus =
-  error "todo: Course.ListZipper#withFocus"
+withFocus :: (a -> a) -> ListZipper a -> ListZipper a
+withFocus f (ListZipper l x r) = ListZipper l (f x) r
 
 -- | Set the focus of the zipper to the given value.
 -- /Tip:/ Use `withFocus`.
@@ -180,22 +148,14 @@ withFocus =
 --
 -- >>> setFocus 1 (zipper [1,0] 2 [3,4])
 -- [1,0] >1< [3,4]
-setFocus ::
-  a
-  -> ListZipper a
-  -> ListZipper a
-setFocus =
-  error "todo: Course.ListZipper#setFocus"
+setFocus :: a -> ListZipper a -> ListZipper a
+setFocus a lz = withFocus (const a) lz
 
 -- A flipped infix alias for `setFocus`. This allows:
 --
 -- z .= "abc" -- sets the focus on the zipper z to the value "abc".
-(.=) ::
-  ListZipper a
-  -> a
-  -> ListZipper a
-(.=) =
-  flip setFocus
+(.=) :: ListZipper a -> a -> ListZipper a
+(.=) = flip setFocus
 
 -- | Returns whether there are values to the left of focus.
 --
@@ -204,9 +164,7 @@ setFocus =
 --
 -- >>> hasLeft (zipper [] 0 [1,2])
 -- False
-hasLeft ::
-  ListZipper a
-  -> Bool
+hasLeft :: ListZipper a -> Bool
 hasLeft =
   error "todo: Course.ListZipper#hasLeft"
 

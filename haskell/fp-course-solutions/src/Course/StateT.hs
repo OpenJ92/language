@@ -203,8 +203,18 @@ instance Functor f => Functor (OptionalT f) where
 -- [Full 2,Empty,Full 3,Empty]
 instance Monad f => Applicative (OptionalT f) where
   pure = OptionalT . pure . pure
-  (<*>) (OptionalT foab) (OptionalT foa) = OptionalT $ (<*>) <$> foab <*> foa
+  (<*>) (OptionalT foab) (OptionalT foa)
+    = OptionalT 
+    $ foab >>= \oab ->
+        case oab of
+          Empty   -> pure Empty
+          Full ab -> ((<$>) . (<$>)) ab foa
   
+onFull :: Applicative f => (t -> f (Optional a)) -> Optional t -> f (Optional a)
+onFull g o =
+  case o of
+    Empty  -> pure Empty
+    Full a -> g a
 -- | Implement the `Monad` instance for `OptionalT f` given a Monad f.
 --
 -- >>> runOptionalT $ (\a -> OptionalT (Full (a+1) :. Full (a+2) :. Nil)) =<< OptionalT (Full 1 :. Empty :. Nil)
@@ -280,8 +290,3 @@ distinctG :: (Integral a, Show a) => List a -> Logger Chars (Optional (List a))
 distinctG xs = let (Logger log retval) = runOptionalT (evalT (filtering p xs) S.empty)
                in Logger (filter (/="") log) retval
 
-onFull :: Applicative f => (t -> f (Optional a)) -> Optional t -> f (Optional a)
-onFull g o =
-  case o of
-    Empty  -> pure Empty
-    Full a -> g a
