@@ -165,8 +165,8 @@ setFocus a lz = withFocus (const a) lz
 -- >>> hasLeft (zipper [] 0 [1,2])
 -- False
 hasLeft :: ListZipper a -> Bool
-hasLeft =
-  error "todo: Course.ListZipper#hasLeft"
+hasLeft (ListZipper Nil _ _) = False 
+hasLeft (ListZipper _ _ _)   = True
 
 -- | Returns whether there are values to the right of focus.
 --
@@ -175,11 +175,9 @@ hasLeft =
 --
 -- >>> hasRight (zipper [1,0] 2 [])
 -- False
-hasRight ::
-  ListZipper a
-  -> Bool
-hasRight =
-  error "todo: Course.ListZipper#hasRight"
+hasRight :: ListZipper a -> Bool
+hasRight (ListZipper _ _ Nil) = False 
+hasRight (ListZipper _ _ _)   = True
 
 -- | Seek to the left for a location matching a predicate, starting from the
 -- current one.
@@ -202,12 +200,8 @@ hasRight =
 --
 -- >>> findLeft (== 1) (zipper [3, 4, 1, 5] 9 [2, 7])
 -- [5] >1< [4,3,9,2,7]
-findLeft ::
-  (a -> Bool)
-  -> ListZipper a
-  -> MaybeListZipper a
+findLeft :: (a -> Bool) -> ListZipper a -> MaybeListZipper a
 findLeft =
-  error "todo: Course.ListZipper#findLeft"
     
 -- | Seek to the right for a location matching a predicate, starting from the
 -- current one.
