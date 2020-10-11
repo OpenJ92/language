@@ -147,7 +147,7 @@ digits1 = list1 digit
 -- >>> isErrorResult (parse (oneof "abc") "def")
 -- True
 oneof :: Chars -> Parser Char
-oneof chars = foldRight (|||) (unexpectedCharParser '') (is <$> chars)
+oneof = satisfy . flip elem
 
 -- | Write a function that parses any character, but fails if it is in the given string.
 --
@@ -159,8 +159,7 @@ oneof chars = foldRight (|||) (unexpectedCharParser '') (is <$> chars)
 -- >>> isErrorResult (parse (noneof "abcd") "abc")
 -- True
 noneof :: Chars -> Parser Char
-noneof =
-  error "todo: Course.MoreParser#noneof"
+noneof = satisfy . flip notElem
 
 -- | Write a function that applies the first parser, runs the third parser keeping the result,
 -- then runs the second parser and produces the obtained result.
@@ -178,13 +177,8 @@ noneof =
 --
 -- >>> isErrorResult (parse (between (is '[') (is ']') character) "abc]")
 -- True
-between ::
-  Parser o
-  -> Parser c
-  -> Parser a
-  -> Parser a
-between =
-  error "todo: Course.MoreParser#between"
+between :: Parser o -> Parser c -> Parser a -> Parser a
+between o c a  = o *> a <* c
 
 -- | Write a function that applies the given parser in between the two given characters.
 --
@@ -201,13 +195,8 @@ between =
 --
 -- >>> isErrorResult (parse (betweenCharTok '[' ']' character) "abc]")
 -- True
-betweenCharTok ::
-  Char
-  -> Char
-  -> Parser a
-  -> Parser a
-betweenCharTok =
-  error "todo: Course.MoreParser#betweenCharTok"
+betweenCharTok :: Char -> Char -> Parser a -> Parser a
+betweenCharTok char char' = between (charTok char) (charTok char')
 
 -- | Write a function that parses 4 hex digits and return the character value.
 --
@@ -224,10 +213,12 @@ betweenCharTok =
 --
 -- >>> isErrorResult (parse hex "0axf")
 -- True
-hex ::
-  Parser Char
+hex :: Parser Char
 hex =
-  error "todo: Course.MoreParser#hex"
+  let f s = case readHex s of
+              Full x -> x
+              Empty  -> 0
+  in chr . f <$> replicateA 4 (satisfy isHexDigit)
 
 -- | Write a function that parses the character 'u' followed by 4 hex digits and return the character value.
 --
@@ -247,10 +238,8 @@ hex =
 --
 -- >>> isErrorResult (parse hexu "u0axf")
 -- True
-hexu ::
-  Parser Char
-hexu =
-  error "todo: Course.MoreParser#hexu"
+hexu :: Parser Char
+hexu = is 'u' *> hex
 
 -- | Write a function that produces a non-empty list of values coming off the given parser (which must succeed at least once),
 -- separated by the second given parser.
@@ -268,12 +257,9 @@ hexu =
 --
 -- >>> isErrorResult (parse (sepby1 character (is ',')) "")
 -- True
-sepby1 ::
-  Parser a
-  -> Parser s
-  -> Parser (List a)
-sepby1 =
-  error "todo: Course.MoreParser#sepby1"
+sepby1 :: Parser a -> Parser s -> Parser (List a)
+sepby1 val sep = val >>= \x -> list (sep >> val) >>= \xs -> valueParser (x :. xs)
+
 
 -- | Write a function that produces a list of values coming off the given parser,
 -- separated by the second given parser.
@@ -291,10 +277,7 @@ sepby1 =
 --
 -- >>> parse (sepby character (is ',')) "a,b,c,,def"
 -- Result >def< "abc,"
-sepby ::
-  Parser a
-  -> Parser s
-  -> Parser (List a)
+sepby :: Parser a -> Parser s -> Parser (List a)
 sepby =
   error "todo: Course.MoreParser#sepby"
 
@@ -305,8 +288,7 @@ sepby =
 --
 -- >>> isErrorResult (parse eof "abc")
 -- True
-eof ::
-  Parser ()
+eof :: Parser ()
 eof =
   error "todo: Course.MoreParser#eof"
 
@@ -328,9 +310,7 @@ eof =
 --
 -- >>> isErrorResult (parse (satisfyAll (isUpper :. (/= 'X') :. Nil)) "abc")
 -- True
-satisfyAll ::
-  List (Char -> Bool)
-  -> Parser Char
+satisfyAll :: List (Char -> Bool) -> Parser Char
 satisfyAll =
   error "todo: Course.MoreParser#satisfyAll"
 
@@ -349,9 +329,7 @@ satisfyAll =
 --
 -- >>> isErrorResult (parse (satisfyAny (isLower :. (/= 'X') :. Nil)) "")
 -- True
-satisfyAny ::
-  List (Char -> Bool)
-  -> Parser Char
+satisfyAny :: List (Char -> Bool) -> Parser Char
 satisfyAny =
   error "todo: Course.MoreParser#satisfyAny"
 
@@ -376,10 +354,6 @@ satisfyAny =
 --
 -- >>> isErrorResult (parse (betweenSepbyComma '[' ']' lower) "a]")
 -- True
-betweenSepbyComma ::
-  Char
-  -> Char
-  -> Parser a
-  -> Parser (List a)
+betweenSepbyComma :: Char -> Char -> Parser a -> Parser (List a)
 betweenSepbyComma =
   error "todo: Course.MoreParser#betweenSepbyComma"
