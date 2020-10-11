@@ -23,12 +23,9 @@ data Optional a =
 --
 -- >>> mapOptional (+1) (Full 8)
 -- Full 9
-mapOptional ::
-  (a -> b)
-  -> Optional a
-  -> Optional b
-mapOptional =
-  error "todo: Course.Optional#mapOptional"
+mapOptional :: (a -> b) -> Optional a -> Optional b
+mapOptional _  (Empty)  = Empty
+mapOptional ab (Full a) = Full (ab a)
 
 -- | Bind the given function on the possible value.
 --

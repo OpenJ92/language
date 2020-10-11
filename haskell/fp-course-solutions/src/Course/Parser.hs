@@ -428,10 +428,7 @@ smokerParser = True <$ is 'y' ||| False <$ is 'n'
 -- Result >a123-456< ""
 phoneBodyParser :: Parser Chars
 phoneBodyParser 
-  = list digit        >>= \xs  -> 
-    is '-' ||| is '.' >>= \h   -> 
-    list digit        >>= \xs' -> 
-    valueParser (xs ++ h :. xs')
+  = list (digit ||| is '-' ||| is '.')
 
 -- | Write a parser for Person.phone.
 --
@@ -508,17 +505,17 @@ phoneParser
 -- Result >< Person 123 "Fred" "Clarkson" True "123-456.789"
 personParser :: Parser Person
 personParser =
-  list digit      >>=~ \num       ->
+  ageParser       >>=~ \num       ->
   firstNameParser >>=~ \name      ->
   surnameParser   >>=~ \surname   ->
   smokerParser    >>=~ \is_smoker ->
   phoneParser     >>=~ \phone     ->
-  valueParser (Person (length num) name surname is_smoker phone)
+  valueParser (Person num name surname is_smoker phone)
 
 personParser' :: Parser Person
 personParser'
-  =   pure Person 
- <*>~ (length <$> list digit)
+  =   Person 
+ <$>  ageParser
  <*>~ firstNameParser
  <*>~ surnameParser
  <*>~ smokerParser
