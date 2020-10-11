@@ -382,12 +382,8 @@ span p x = (takeWhile p x, dropWhile p x)
 break :: (a -> Bool) -> List a -> (List a, List a)
 break p = span (not . p)
 
-dropWhile ::
-  (a -> Bool)
-  -> List a
-  -> List a
-dropWhile _ Nil =
-  Nil
+dropWhile :: (a -> Bool) -> List a -> List a
+dropWhile _ Nil = Nil
 dropWhile p xs@(x:.xs') =
   if p x
     then

@@ -201,7 +201,8 @@ hasRight (ListZipper _ _ _)   = True
 -- >>> findLeft (== 1) (zipper [3, 4, 1, 5] 9 [2, 7])
 -- [5] >1< [4,3,9,2,7]
 findLeft :: (a -> Bool) -> ListZipper a -> MaybeListZipper a
-findLeft =
+findLeft = 
+  error "todo: Course.ListZipper#findLeft"
     
 -- | Seek to the right for a location matching a predicate, starting from the
 -- current one.
@@ -221,10 +222,7 @@ findLeft =
 --
 -- >>> findRight (== 1) (zipper [2, 3] 1 [1, 4, 5, 1])
 -- [1,2,3] >1< [4,5,1]
-findRight ::
-  (a -> Bool)
-  -> ListZipper a
-  -> MaybeListZipper a
+findRight :: (a -> Bool) -> ListZipper a -> MaybeListZipper a
 findRight =
   error "todo: Course.ListZipper#findRight"
 

@@ -214,7 +214,7 @@ lift1 f fa = f <$> fa
 --
 -- prop> \x y -> Full x *> Full y == Full y
 (*>) :: Applicative f => f a -> f b -> f b
-(*>) fa fb = id <$ fa <*> fb
+(*>) fa fb = const id <$> fa <*> fb
 
 -- | Apply, discarding the value of the second argument.
 -- Pronounced, left apply.
@@ -235,7 +235,7 @@ lift1 f fa = f <$> fa
 --
 -- prop> \x y -> Full x <* Full y == Full x
 (<*) :: Applicative f => f b -> f a -> f b
-(<*) = flip (*>)
+(<*) fa fb = const <$> fa <*> fb
 
 -- | Sequences a list of structures to a structure of list.
 --

@@ -289,4 +289,3 @@ p x = StateT (logEvent x)
 distinctG :: (Integral a, Show a) => List a -> Logger Chars (Optional (List a))
 distinctG xs = let (Logger log retval) = runOptionalT (evalT (filtering p xs) S.empty)
                in Logger (filter (/="") log) retval
-
