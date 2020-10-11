@@ -520,6 +520,7 @@ personParser'
  <*>~ surnameParser
  <*>~ smokerParser
  <*>~ phoneParser
+ <*   spaces1
 
 -- Make sure all the tests pass!
 
