@@ -32,7 +32,7 @@ int main(void)
 	}
 
 	str[size] = '\0'; 
-	printf("%s :: has %d words\n", str, wordcount);
+	printf(":: has %d words\n", wordcount);
 	
 	return 0;
 }

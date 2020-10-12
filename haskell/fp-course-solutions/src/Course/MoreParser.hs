@@ -260,7 +260,6 @@ hexu = is 'u' *> hex
 sepby1 :: Parser a -> Parser s -> Parser (List a)
 sepby1 val sep = val >>= \x -> list (sep >> val) >>= \xs -> valueParser (x :. xs)
 
-
 -- | Write a function that produces a list of values coming off the given parser,
 -- separated by the second given parser.
 --
@@ -278,8 +277,7 @@ sepby1 val sep = val >>= \x -> list (sep >> val) >>= \xs -> valueParser (x :. xs
 -- >>> parse (sepby character (is ',')) "a,b,c,,def"
 -- Result >def< "abc,"
 sepby :: Parser a -> Parser s -> Parser (List a)
-sepby =
-  error "todo: Course.MoreParser#sepby"
+sepby val sep = sepby1 val sep ||| valueParser Nil
 
 -- | Write a parser that asserts that there is no remaining input.
 --
@@ -289,8 +287,10 @@ sepby =
 -- >>> isErrorResult (parse eof "abc")
 -- True
 eof :: Parser ()
-eof =
-  error "todo: Course.MoreParser#eof"
+eof = P p
+  where
+    p Nil = Result Nil ()
+    p inp = ExpectedEof inp
 
 -- | Write a parser that produces a character that satisfies all of the given predicates.
 --
@@ -311,8 +311,8 @@ eof =
 -- >>> isErrorResult (parse (satisfyAll (isUpper :. (/= 'X') :. Nil)) "abc")
 -- True
 satisfyAll :: List (Char -> Bool) -> Parser Char
-satisfyAll =
-  error "todo: Course.MoreParser#satisfyAll"
+-- This is not quite what I want. I want to maintain the state of the head whilst checking the predicates
+satisfyAll preds = sequenceParser (satisfy <$> preds)
 
 -- | Write a parser that produces a character that satisfies any of the given predicates.
 --
@@ -330,8 +330,7 @@ satisfyAll =
 -- >>> isErrorResult (parse (satisfyAny (isLower :. (/= 'X') :. Nil)) "")
 -- True
 satisfyAny :: List (Char -> Bool) -> Parser Char
-satisfyAny =
-  error "todo: Course.MoreParser#satisfyAny"
+satisfyAny preds = foldRight (|||) (satisfy (\_ -> False)) (satisfy <$> preds)
 
 -- | Write a parser that parses between the two given characters, separated by a comma character ','.
 --
