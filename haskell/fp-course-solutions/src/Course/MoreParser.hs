@@ -312,7 +312,7 @@ eof = P p
 -- True
 satisfyAll :: List (Char -> Bool) -> Parser Char
 -- This is not quite what I want. I want to maintain the state of the head whilst checking the predicates
-satisfyAll preds = sequenceParser (satisfy <$> preds)
+satisfyAll preds = foldRight (<&>) (satisfy (\_ -> True)) (satisfy <$> preds)
 
 -- | Write a parser that produces a character that satisfies any of the given predicates.
 --
@@ -354,5 +354,4 @@ satisfyAny preds = foldRight (|||) (satisfy (\_ -> False)) (satisfy <$> preds)
 -- >>> isErrorResult (parse (betweenSepbyComma '[' ']' lower) "a]")
 -- True
 betweenSepbyComma :: Char -> Char -> Parser a -> Parser (List a)
-betweenSepbyComma =
-  error "todo: Course.MoreParser#betweenSepbyComma"
+betweenSepbyComma char char' pa = betweenCharTok char char' (sepby pa (charTok ','))

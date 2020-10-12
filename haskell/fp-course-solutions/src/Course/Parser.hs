@@ -145,6 +145,18 @@ valueParser x = P (\input -> Result input x)
 
 infixl 3 |||
 
+-- added for satisfyAll function in MoreParser. 
+-- I'm not sure if the behavior works outside Parser Char
+(<&>) :: Parser a -> Parser a -> Parser a
+(<&>) pl pr = P pn
+  where
+    pn Nil                          = UnexpectedEof
+    pn s'@(s :. _)
+      | isErrorResult (parse pl s') = UnexpectedChar s
+      | otherwise                   = parse pr s'
+
+infixl 3 <&> 
+
 -- | Parsers can bind.
 -- Return a parser that puts its input into the given parser and
 --
