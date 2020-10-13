@@ -311,8 +311,8 @@ eof = P p
 -- >>> isErrorResult (parse (satisfyAll (isUpper :. (/= 'X') :. Nil)) "abc")
 -- True
 satisfyAll :: List (Char -> Bool) -> Parser Char
--- This is not quite what I want. I want to maintain the state of the head whilst checking the predicates
-satisfyAll preds = foldRight (<&>) (satisfy (\_ -> True)) (satisfy <$> preds)
+satisfyAll preds = satisfy (and . traverse id preds)
+-- satisfyAll preds = foldRight (<&>) (satisfy (\_ -> True)) (satisfy <$> preds)
 
 -- | Write a parser that produces a character that satisfies any of the given predicates.
 --
@@ -330,7 +330,8 @@ satisfyAll preds = foldRight (<&>) (satisfy (\_ -> True)) (satisfy <$> preds)
 -- >>> isErrorResult (parse (satisfyAny (isLower :. (/= 'X') :. Nil)) "")
 -- True
 satisfyAny :: List (Char -> Bool) -> Parser Char
-satisfyAny preds = foldRight (|||) (satisfy (\_ -> False)) (satisfy <$> preds)
+satisfyAny preds = satisfy (or . traverse id preds)
+-- satisfyAny preds = foldRight (|||) (satisfy (\_ -> False)) (satisfy <$> preds)
 
 -- | Write a parser that parses between the two given characters, separated by a comma character ','.
 --

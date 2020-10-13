@@ -145,18 +145,6 @@ valueParser x = P (\input -> Result input x)
 
 infixl 3 |||
 
--- added for satisfyAll function in MoreParser. 
--- I'm not sure if the behavior works outside Parser Char
-(<&>) :: Parser a -> Parser a -> Parser a
-(<&>) pl pr = P pn
-  where
-    pn Nil                          = UnexpectedEof
-    pn s'@(s :. _)
-      | isErrorResult (parse pl s') = UnexpectedChar s
-      | otherwise                   = parse pr s'
-
-infixl 3 <&> 
-
 -- | Parsers can bind.
 -- Return a parser that puts its input into the given parser and
 --
@@ -321,6 +309,10 @@ upper = satisfy isUpper
 -- /Tip:/ Use the @satisfy@ and @Data.Char#isAlpha@ functions.
 alpha :: Parser Char
 alpha = satisfy isAlpha
+
+-- Added for jsonString function in JsonParser.hs
+alphanum :: Parser Char
+alphanum = satisfy isAlphaNum
 
 -- | Return a parser that sequences the given list of parsers by producing all their results
 -- but fails on the first failing parser of the list.

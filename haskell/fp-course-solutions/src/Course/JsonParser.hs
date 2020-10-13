@@ -94,10 +94,15 @@ toSpecialCharacter c =
 --
 -- >>> isErrorResult (parse jsonString "\"\\abc\"def")
 -- True
-jsonString ::
-  Parser Chars
-jsonString =
-  error "todo: Course.JsonParser#jsonString"
+jsonString :: Parser Chars
+jsonString 
+  = between 
+      (is (fromSpecialCharacter DoubleQuote))
+      (is (fromSpecialCharacter DoubleQuote))
+      (list ( space
+          ||| alphanum
+          ||| is (fromSpecialCharacter Backslash) *> alpha
+          ||| is '\\' *> is 'u' *> hex ))
 
 -- | Parse a JSON rational.
 --
