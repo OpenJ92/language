@@ -48,7 +48,7 @@ spaces = list space
 -- >>> parse (tok (is 'a')) "abc"
 -- Result >bc< 'a'
 tok :: Parser a -> Parser a
-tok pa = pa <* spaces
+tok pa = spaces *> pa <* spaces
 
 -- | Write a function that parses the given char followed by 0 or more spaces.
 --
