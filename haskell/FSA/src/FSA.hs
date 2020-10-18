@@ -16,21 +16,24 @@ data FSA = FSA { getAlphabet           :: Alphabet
                , getTransitionFunction :: (Word' -> State' -> Maybe State')
                } 
 
-solve :: Sentence -> FSA -> Maybe Bool
-solve sentence fsa = elem <$> (computation' sentence fsa) <*> pure (getFinalState fsa)
+match :: FSA -> [Char] -> Bool
+match fsa sentence =
+  case computation sentence fsa of
+    Nothing -> False
+    Just _  -> True
 
-compute' :: Word' -> (FSA, Maybe State') -> (Bool, (FSA, Maybe State'))
-compute' word (fsa, Nothing) = (False, (fsa, Nothing))
-compute' word (fsa, Just s ) = (True , (fsa, updateState))
-  where
-    updateState = getTransitionFunction fsa word s
+transit :: FSA -> Char -> (State') -> Maybe ((), State')
+transit fsa char state = 
+  case getTransitionFunction fsa char state of
+    Nothing -> Nothing
+    Just s' -> Just ((), s')
 
-compute :: Word' -> State (FSA, Maybe State') Bool
-compute word = state (compute' word)
-
-computation' :: Sentence -> FSA -> Maybe (State')
-computation' sentence fsa = 
-   snd $ execState (traverse id (compute <$> sentence)) (fsa, Just (getInitState fsa)) 
+transitStateT' :: FSA -> Char -> StateT State' Maybe ()
+transitStateT' fsa char = StateT (transit fsa char)
+ 
+computation :: Sentence -> FSA -> Maybe State'
+computation sentence fsa 
+  = execStateT (traverse id ((transitStateT' fsa) <$> sentence)) (getInitState fsa)
   
 -- Look to construct a regular eexpression parser that constructs FSA
 -- Thereafter, make a CFG parser that builds RE given a grammer.
@@ -62,3 +65,19 @@ fsa' = FSA alpha init allstates final transition
           map' 'i' (State' 'i') = Just (State' 'i')
           map' _   _            = Nothing
       in map' w s
+
+compute' :: Word' -> (FSA, Maybe State') -> (Bool, (FSA, Maybe State'))
+compute' word (fsa, Nothing) = (False, (fsa, Nothing))
+compute' word (fsa, Just s ) = (True , (fsa, updateState))
+  where
+    updateState = getTransitionFunction fsa word s
+
+compute :: Word' -> State (FSA, Maybe State') Bool
+compute word = state (compute' word)
+
+computation' :: Sentence -> FSA -> Maybe (State')
+computation' sentence fsa = 
+   snd $ execState (traverse id (compute <$> sentence)) (fsa, Just (getInitState fsa)) 
+
+solve :: Sentence -> FSA -> Maybe Bool
+solve sentence fsa = elem <$> (computation' sentence fsa) <*> pure (getFinalState fsa)
