@@ -18,9 +18,12 @@ data FSA = FSA { getAlphabet           :: Alphabet
 
 match :: FSA -> [Char] -> Bool
 match fsa sentence =
-  case computation sentence fsa of
+  case computation fsa sentence of
     Nothing -> False
-    Just _  -> True
+    Just s  -> validFinal fsa s
+
+validFinal :: FSA -> State' -> Bool
+validFinal fsa s = elem s (getFinalState fsa)
 
 transit :: FSA -> Char -> (State') -> Maybe ((), State')
 transit fsa char state = 
@@ -31,12 +34,16 @@ transit fsa char state =
 transitStateT' :: FSA -> Char -> StateT State' Maybe ()
 transitStateT' fsa char = StateT (transit fsa char)
  
-computation :: Sentence -> FSA -> Maybe State'
-computation sentence fsa 
+computation :: FSA -> Sentence -> Maybe State'
+computation fsa sentence 
   = execStateT (traverse id ((transitStateT' fsa) <$> sentence)) (getInitState fsa)
   
+-- Now that we can build with containers (Set), we should reconstruct in 
+-- that context and move towards building fsas from input RE. 
+
 -- Look to construct a regular eexpression parser that constructs FSA
 -- Thereafter, make a CFG parser that builds RE given a grammer.
+
 fsa :: FSA
 fsa = FSA alpha init allstates final transition
   where
