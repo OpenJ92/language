@@ -33,6 +33,7 @@ computation' sentence fsa =
    snd $ execState (traverse id (compute <$> sentence)) (fsa, Just (getInitState fsa)) 
   
 -- Look to construct a regular eexpression parser that constructs FSA
+-- Thereafter, make a CFG parser that builds RE given a grammer.
 fsa :: FSA
 fsa = FSA alpha init allstates final transition
   where
