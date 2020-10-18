@@ -1,0 +1,63 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: f1965db27436731d738b0300fe27c9ad638f8c8c9b0a0c21d3a9983323c3671d
+
+name:           FSA
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/OpenJ92/FSA#readme>
+homepage:       https://github.com/OpenJ92/FSA#readme
+bug-reports:    https://github.com/OpenJ92/FSA/issues
+author:         Jacob Vartuli-Schonberg
+maintainer:     jacob.vartuli.schonberg@gmail.com
+copyright:      2020 Jacob Vartuli-Schonberg
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/OpenJ92/FSA
+
+library
+  exposed-modules:
+      FSA
+      Lib
+  other-modules:
+      Paths_FSA
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable FSA-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_FSA
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      FSA
+    , base >=4.7 && <5
+  default-language: Haskell2010
+
+test-suite FSA-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_FSA
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      FSA
+    , base >=4.7 && <5
+  default-language: Haskell2010
