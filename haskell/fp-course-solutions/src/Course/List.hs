@@ -408,8 +408,7 @@ zip ::
   List a
   -> List b
   -> List (a, b)
-zip =
-  zipWith (,)
+zip = zipWith (,)
 
 zipWith ::
   (a -> b -> c)
@@ -473,12 +472,8 @@ any ::
 any p =
   foldRight ((||) . p) False
 
-all ::
-  (a -> Bool)
-  -> List a
-  -> Bool
-all p =
-  foldRight ((&&) . p) True
+all :: (a -> Bool) -> List a -> Bool
+all p = foldRight ((&&) . p) True
 
 or ::
   List Bool
@@ -554,11 +549,8 @@ drop _ Nil =
 drop n (_:.xs) =
   drop (n-1) xs
 
-repeat ::
-  a
-  -> List a
-repeat x =
-  x :. repeat x
+repeat :: a -> List a
+repeat x = x :. repeat x
 
 replicate ::
   (Num n, Ord n) =>
