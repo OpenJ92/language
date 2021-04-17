@@ -51,3 +51,20 @@ ex = pure 1
   >>= func (\s -> not s) ((+) 10) 
   >>= func (\s -> not s) ((+) 12)
   >>= func (\s -> not s) ((+) 14)
+
+r :: State String Int
+r = state $ \s -> (10, s ++ "Run r :: State String Int ,\n")
+
+e :: Int -> State String (Int)
+e x = state $ \s -> (x + 1, "Run Function e, \n" <> s)
+
+func' :: State String (Int -> Int -> Int)
+func' = state f
+  where
+    f s = ((+), s <> "Run Add on ")
+
+number' :: Int -> State String Int
+number' x = state $ \s -> (x, s <> "Value " <> show x <> " ")
+
+one' = number' 1
+ten' = number' 10
