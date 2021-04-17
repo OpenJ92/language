@@ -66,5 +66,11 @@ func' = state f
 number' :: Int -> State String Int
 number' x = state $ \s -> (x, s <> "Value " <> show x <> " ")
 
+one' :: State String Int
 one' = number' 1
+
+ten' :: State String Int
 ten' = number' 10
+
+statefulCummulativeSum :: Int -> State String Int
+statefulCummulativeSum x = foldl (liftM2 (+)) (number' 0) (take x $ (($) number') <$> [1..])
