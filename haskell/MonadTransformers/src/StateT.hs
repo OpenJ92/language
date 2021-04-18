@@ -12,7 +12,11 @@ data DragonState = DragonState
 g True b c  = [1.0] 
 g False b c = [0.0]
 
+val :: DragonState
 val = DragonState {a=g, b=not, c=True, d=[]}
+
+snap :: Int -> [Float] -> State DragonState [Float]
+snap x = foldl1 (>=>) $ replicate x dragonApply
 
 dragonApply :: [Float] -> State DragonState [Float]
 dragonApply l@(_:[]) = state $ \s -> (l, s)
