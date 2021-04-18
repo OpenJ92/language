@@ -12,6 +12,17 @@ data DragonState = DragonState
 g True b c  = [1.0] 
 g False b c = [0.0]
 
+-- We'll have to pull over some code from HSOE to make use of this
+-- dragonTransform :: Float -> Float -> [Float]
+-- dragonTransform x y =
+--   let y' = subtractVertex y x
+--       scaf = multiplyVertex y' (1/2)
+--       scaf' = rotate (angleToRadian (90)) scaf
+--       ys = addVertex scaf scaf' : y' : []
+--       ys' = addVertex x <$> ys
+--   in x : ys'
+
+
 val :: DragonState
 val = DragonState {a=g, b=not, c=True, d=[]}
 
