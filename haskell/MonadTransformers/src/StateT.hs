@@ -2,6 +2,12 @@ module StateT where
 
 import Control.Monad.State.Lazy
 
+data DragonState = DragonState 
+  { parameterizedMap :: (Bool -> Float -> Float -> [Float])
+  , updateParameter  :: (Bool -> Bool) 
+  , currentResult    :: [Float]
+  } 
+
 type VitalForce = Int
 
 data Part 
@@ -19,6 +25,7 @@ data VitalityPart
 data Body = Body VitalityPart VitalityPart VitalityPart VitalityPart
   deriving (Show)
 
+makeBody :: StateT VitalForce Maybe Body
 makeBody = Body <$> f' (Dead Arm) <*> f' (Dead Torso) <*> f' (Live Head) <*> f' (Dead Leg)
 
 f :: VitalityPart -> State VitalForce VitalityPart
