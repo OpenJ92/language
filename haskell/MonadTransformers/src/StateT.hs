@@ -3,10 +3,26 @@ module StateT where
 import Control.Monad.State.Lazy
 
 data DragonState = DragonState 
-  { parameterizedMap :: (Bool -> Float -> Float -> [Float])
-  , updateParameter  :: (Bool -> Bool) 
-  , currentResult    :: [Float]
+  { a :: (Bool -> Float -> Float -> [Float])
+  , b :: (Bool -> Bool) 
+  , c :: Bool
+  , d :: [Float]
   } 
+
+g True b c  = [1.0] 
+g False b c = [0.0]
+
+val = DragonState {a=g, b=not, c=True, d=[]}
+
+dragonApply :: [Float] -> State DragonState [Float]
+dragonApply l@(_:[]) = state $ \s -> (l, s)
+dragonApply (x:y:zs) = state s'
+  where
+    s' :: DragonState -> ([Float], DragonState)
+    s' (DragonState a' b' c' d') = 
+      ( y:zs
+      , DragonState {a=a', b=b', c=b' c', d=(d' <> (a' c' x y))}
+      )
 
 type VitalForce = Int
 
