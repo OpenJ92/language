@@ -18,6 +18,8 @@ val = DragonState {a=g, b=not, c=True, d=[]}
 snap :: Int -> [Float] -> State DragonState [Float]
 snap x = foldl1 (>=>) $ replicate x dragonApply
 
+-- Should DragonState contain the resulting value, or should it be changed to'
+-- dragonApply :: ([Float], [Float]) -> State DragonState ([Float], [Float])?
 dragonApply :: [Float] -> State DragonState [Float]
 dragonApply l@(_:[]) = state $ \s -> (l, s)
 dragonApply (x:y:zs) = state s'
