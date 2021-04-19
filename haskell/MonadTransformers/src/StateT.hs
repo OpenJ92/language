@@ -6,11 +6,10 @@ data DragonState = DragonState
   { a :: (Bool -> Float -> Float -> [Float])
   , b :: (Bool -> Bool) 
   , c :: Bool
-  , d :: [Float]
   } 
 
-g True b c  = [1.0] 
-g False b c = [0.0]
+g True b c  = [123.0] 
+g False b c = [321.0]
 
 -- We'll have to pull over some code from HSOE to make use of this
 -- dragonTransform :: Float -> Float -> [Float]
@@ -24,22 +23,18 @@ g False b c = [0.0]
 
 
 val :: DragonState
-val = DragonState {a=g, b=not, c=True, d=[]}
+val = DragonState {a=g, b=not, c=True}
 
-snap :: Int -> [Float] -> State DragonState [Float]
+snap :: Int -> ([Float], [Float]) -> State DragonState ([Float], [Float])
 snap x = foldl1 (>=>) $ replicate x dragonApply
 
 -- Should DragonState contain the resulting value, or should it be changed to'
 -- dragonApply :: ([Float], [Float]) -> State DragonState ([Float], [Float])?
-dragonApply :: [Float] -> State DragonState [Float]
-dragonApply l@(_:[]) = state $ \s -> (l, s)
-dragonApply (x:y:zs) = state s' >>= dragonApply
+dragonApply :: ([Float], [Float]) -> State DragonState ([Float], [Float])
+dragonApply (m, l@(_:[])) = state $ \s -> (([], m), s)
+dragonApply (m, (x:y:zs)) = state s' >>= dragonApply
   where
-    s' :: DragonState -> ([Float], DragonState)
-    s' (DragonState a' b' c' d') = 
-      ( y:zs
-      , DragonState {a=a', b=b', c=b' c', d=(d' <> (a' c' x y))}
-      )
+    s' (DragonState a' b' c') = ((m <> (a' c' x y), y:zs), DragonState {a=a', b=b', c=b' c'})
 
 type VitalForce = Int
 
