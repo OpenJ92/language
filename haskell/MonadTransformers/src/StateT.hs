@@ -33,7 +33,7 @@ snap x = foldl1 (>=>) $ replicate x dragonApply
 -- dragonApply :: ([Float], [Float]) -> State DragonState ([Float], [Float])?
 dragonApply :: [Float] -> State DragonState [Float]
 dragonApply l@(_:[]) = state $ \s -> (l, s)
-dragonApply (x:y:zs) = state s'
+dragonApply (x:y:zs) = state s' >>= dragonApply
   where
     s' :: DragonState -> ([Float], DragonState)
     s' (DragonState a' b' c' d') = 
