@@ -2,14 +2,13 @@ module StateT where
 
 import Control.Monad.State.Lazy
 
-data DragonState = DragonState 
-  { a :: (Bool -> Float -> Float -> [Float])
-  , b :: (Bool -> Bool) 
-  , c :: Bool
-  } 
+type UpdateStateFn = Bool -> Bool
+type StatefulFn = Bool -> Float -> Float -> [Float]
 
-g True b c  = [123.0] 
-g False b c = [321.0]
+data DragonState = DragonState { c :: Bool } 
+
+g True b c  = [1.0, 10] 
+g False b c = [2.0, 22.0]
 
 -- We'll have to pull over some code from HSOE to make use of this
 -- dragonTransform :: Float -> Float -> [Float]
@@ -23,18 +22,22 @@ g False b c = [321.0]
 
 
 val :: DragonState
-val = DragonState {a=g, b=not, c=True}
+val = DragonState {c=True}
 
 snap :: Int -> ([Float], [Float]) -> State DragonState ([Float], [Float])
-snap x = foldl1 (>=>) $ replicate x dragonApply
+snap x = foldl1 (>=>) $ replicate x (dragonApply not g)
 
--- Should DragonState contain the resulting value, or should it be changed to'
--- dragonApply :: ([Float], [Float]) -> State DragonState ([Float], [Float])?
-dragonApply :: ([Float], [Float]) -> State DragonState ([Float], [Float])
-dragonApply (m, l@(_:[])) = state $ \s -> (([], m), s)
-dragonApply (m, (x:y:zs)) = state s' >>= dragonApply
+-- Parameterized stateful computation over list type. Look to generalize. Notice
+-- that all that's needed is that that which is computed upon is a Monoid.
+dragonApply 
+  :: UpdateStateFn
+  -> StatefulFn
+  -> ([Float], [Float]) 
+  -> State DragonState ([Float], [Float])
+dragonApply a' b' (m, l@(_:[])) = state $ \s -> (([], m), s)
+dragonApply a' b' (m, (x:y:zs)) = state s' >>= dragonApply a' b'
   where
-    s' (DragonState a' b' c') = ((m <> (a' c' x y), y:zs), DragonState {a=a', b=b', c=b' c'})
+    s' (DragonState c') = ((m <> (b' c' x y), y:zs), DragonState {c=a' c'})
 
 type VitalForce = Int
 
