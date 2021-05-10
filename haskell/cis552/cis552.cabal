@@ -1,0 +1,64 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.4.
+--
+-- see: https://github.com/sol/hpack
+
+name:           cis552
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/OpenJ92/cis552#readme>
+homepage:       https://github.com/OpenJ92/cis552#readme
+bug-reports:    https://github.com/OpenJ92/cis552/issues
+author:         Jacob Vartuli-Schonberg
+maintainer:     jacob.vartuli.schonberg@gmail.com
+copyright:      2021 Jacob Vartuli-Schonberg
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/OpenJ92/cis552
+
+library
+  exposed-modules:
+      Lec1
+      Lib
+  other-modules:
+      Paths_cis552
+  hs-source-dirs:
+      src
+  build-depends:
+      HUnit
+    , base >=4.7 && <5
+  default-language: Haskell2010
+
+executable cis552-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_cis552
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      HUnit
+    , base >=4.7 && <5
+    , cis552
+  default-language: Haskell2010
+
+test-suite cis552-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_cis552
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      HUnit
+    , base >=4.7 && <5
+    , cis552
+  default-language: Haskell2010
