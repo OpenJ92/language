@@ -7,5 +7,7 @@ import Lec1
 import Lec2
 import Lec3
 
+import SecretCode
+
 main :: IO ()
 main = someFunc

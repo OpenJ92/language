@@ -29,6 +29,7 @@ library
       Lec2
       Lec3
       Lib
+      SecretCode
   other-modules:
       Paths_cis552
   hs-source-dirs:
