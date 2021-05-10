@@ -26,6 +26,8 @@ source-repository head
 library
   exposed-modules:
       Lec1
+      Lec2
+      Lec3
       Lib
   other-modules:
       Paths_cis552
