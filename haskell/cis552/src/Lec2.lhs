@@ -142,7 +142,8 @@ See if you can come up with a slightly simpler way to write `jn` using two
 patterns instead of three.
 
 > jn' :: Maybe (Maybe a) -> Maybe a
-> jn' = undefined
+> jn' (Just x) = x
+> jn' Nothing  = Nothing
 
 
 
@@ -170,7 +171,7 @@ a sequence of comma-separated values inside square brackets.
 > l1 = [1.0,2.0,3.0,4.0]
 
 > l2 :: [Int]
-> l2 = undefined -- make a list of numbers
+> l2 = [1, 2, 3, 4] -- make a list of numbers
 
 Lists can contain structured data...
 
@@ -180,7 +181,7 @@ Lists can contain structured data...
 ...and can be nested:
 
 > l4 :: [[Int]]
-> l4 = undefined
+> l4 = [l2, l2, l2]
 
 List elements *must* have the same type.
 
@@ -287,13 +288,14 @@ This function replicates any type of value, so the type of the first argument
 is polymorphic.
 
 > clone :: a -> Int -> [a]
+> clone = flip replicate
 
 
 Step 3: Implement the function
 
 We implement this function by recursion on the integer argument.
 
-> clone x n = if n<=0 then [] else x : clone x (n-1)
+> -- clone x n = if n<=0 then [] else x : clone x (n-1)
 
 
 Step 4: Run the tests
@@ -343,7 +345,10 @@ Step 2: Declare the type
 
 Step 3: Define the function
 
-> range i j = undefined
+> range i j 
+>  | i < j  = [i..j]
+>  | i == j = [i]
+>  | otherwise = []
 
 
 Step 4: run tests
@@ -415,8 +420,9 @@ Step 3: implementation
 (using pattern matching to define the function by
 case analysis.)
 
-> listAdd []     = 0
-> listAdd (x:xs) = x + listAdd xs
+> -- listAdd []     = 0
+> -- listAdd (x:xs) = x + listAdd xs
+> listAdd = foldr (+) 0
 
 
 Step 4: run the tests
@@ -463,7 +469,7 @@ Step 2: write function type
 
 Step 3: define the function
 
-> listIncr = undefined
+> listIncr = (<$>) (+1)
 
 Step 4: run the tests
 
