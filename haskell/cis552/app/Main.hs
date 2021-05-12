@@ -9,6 +9,8 @@ import Lec3
 import Lec4
 
 import SecretCode
+import DList
+import Kata
 
 main :: IO ()
 main = someFunc

@@ -358,7 +358,7 @@ We can accumulate all of the elements in a tree into a list:
 
 > prefixOrder :: Tree a -> [a]
 > prefixOrder Empty = []
-> prefixOrder (Branch x l r) = undefined
+> prefixOrder (Branch x l r) = [x] ++ prefixOrder l ++ prefixOrder r
 
 > testPrefixOrder = "prefixOrder" ~: prefixOrder exTree ~?= [5,2,1,4,9,7]
 
@@ -368,18 +368,12 @@ number of nodes in the tree. Why?  Can you think of a way to rewrite
 `infixOrder` so that it runs in linear time?)
 
 
-
-
 But, of course, what we should really do is reimplement our
 higher-order patterns for trees!
 
 > treeMap :: (a -> b) -> Tree a -> Tree b
 > treeMap f Empty = Empty
 > treeMap f (Branch x l r) = Branch (f x) (treeMap f l) (treeMap f r)
-
-
-
-
 
 So that, for example, to increment each node in a `Tree Int` by one, we could
 write this:
