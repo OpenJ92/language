@@ -11,6 +11,8 @@ import Lec4
 import SecretCode
 import DList
 import Kata
+import Classes
+import MonoidFoldable
 
 main :: IO ()
 main = someFunc

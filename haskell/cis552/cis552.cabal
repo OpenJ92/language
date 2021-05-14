@@ -25,12 +25,15 @@ source-repository head
 
 library
   exposed-modules:
+      Classes
       DList
+      Kata
       Lec1
       Lec2
       Lec3
       Lec4
       Lib
+      MonoidFoldable
       SecretCode
   other-modules:
       Paths_cis552

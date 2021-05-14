@@ -164,15 +164,15 @@ Questions to discuss and answer with your partner:
 >   str <- readFile "soccer.dat"
 >   soccer str @?= "Aston_Villa"
 
-> main :: IO ()
-> main = do
->   _ <- runTestTT $ TestList [
->        "A" ~: testWeather weather2_A,
->        "B" ~: testWeather weather2_B,
->        "C" ~: testWeather weather2_C,
->        "A" ~: testSoccer soccer2_A,
->        "B" ~: testSoccer soccer2_B,
->        "C" ~: testSoccer soccer2_C ]
->   return ()
+> -- main :: IO ()
+> -- main = do
+> --   _ <- runTestTT $ TestList [
+> --        "A" ~: testWeather weather2_A,
+> --        "B" ~: testWeather weather2_B,
+> --        "C" ~: testWeather weather2_C,
+> --        "A" ~: testSoccer soccer2_A,
+> --        "B" ~: testSoccer soccer2_B,
+> --        "C" ~: testSoccer soccer2_C ]
+> --   return ()
 
 
