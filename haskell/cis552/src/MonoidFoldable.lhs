@@ -61,13 +61,17 @@ Your job is to complete these instances that can tell us whether `any` of the
 booleans in a list are true, or whether `all` of the booleans in a list are
 true. (See two test cases below for an example of the behavior.)
 
+> instance Semigroup All where
+>   (<>) (All a) (All b) = All $ a && b
+
+> instance Semigroup Any where
+>   (<>) (Any a) (Any b) = Any $ a || b
+
 > instance Monoid All where
->   mempty                  = All $ True
->   mappend (All a) (All b) = All $ a && b
+>   mempty = All $ True
 
 > instance Monoid Any where
->   mempty                  = Any $ False
->   mappend (Any a) (Any b) = Any $ a || b
+>   mempty = Any $ False
 
 > tm1 :: Test
 > tm1 = getAny (reduce (map Any [True, False, True])) ~?= True

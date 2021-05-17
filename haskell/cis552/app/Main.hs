@@ -13,6 +13,7 @@ import DList
 import Kata
 import Classes
 import MonoidFoldable
+import QuickCheck
 
 main :: IO ()
 main = someFunc
