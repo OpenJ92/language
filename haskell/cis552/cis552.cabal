@@ -27,6 +27,7 @@ library
   exposed-modules:
       Classes
       DList
+      HW01
       Kata
       Lec1
       Lec2
@@ -35,6 +36,7 @@ library
       Lib
       MonoidFoldable
       QuickCheck
+      QuickList
       SecretCode
   other-modules:
       Paths_cis552
