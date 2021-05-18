@@ -87,7 +87,10 @@ intersperse _ y'@[x] = y'
 intersperse x (y:ys) = y : x : intersperse x ys
 
 tintersperse :: Test
-tintersperse = "intersperse" ~: (assertFailure "testcase for intersperse" :: Assertion)
+tintersperse = "intersperse" ~: 
+  TestList [ HW01.intersperse ',' ['H', 'i'] ~?= List.intersperse ',' ['H', 'i']
+           , HW01.intersperse 10 [1..20]  ~?= List.intersperse 10 [1..20] 
+           ]
  
 
 -- invert lst returns a list with each pair reversed.
@@ -103,7 +106,10 @@ invert ((x, y):xys) = (y, x) : invert xys
 invert [          ] = []
 
 tinvert :: Test
-tinvert = "invert" ~: (assertFailure "testcase for invert" :: Assertion)
+tinvert = "invert" ~: 
+  TestList [ invert [("a",1),("a",2)] ~?= [(1,"a"),(2,"a")]
+           , invert ([] :: [(Int, Char)]) ~?= []
+           ]
  
 
 -- concat
@@ -120,7 +126,8 @@ concat [      ] = []
 concat (xs:xss) = xs ++ concat xss
 
 tconcat :: Test
-tconcat = "concat" ~: (assertFailure "testcase for concat" :: Assertion)
+tconcat = "concat" ~:
+  TestList [ concat [[1,2,3],[4,5,6],[7,8,9]] ~?= [1,2,3,4,5,6,7,8,9] ]
 
 -- transpose  (WARNING: this one is tricky!)
 
@@ -137,10 +144,14 @@ tconcat = "concat" ~: (assertFailure "testcase for concat" :: Assertion)
 
 transpose :: [[a]] -> [[a]]
 transpose xss | Prelude.any (null) xss = []
-              | otherwise = List.head <$> xss : transpose (List.tail <$> xss)
+              | otherwise = [List.head <$> xss] ++ transpose (List.tail <$> xss)
 
 ttranspose :: Test
-ttranspose = "transpose" ~: (assertFailure "testcase for transpose" :: Assertion)
+ttranspose = "transpose" ~: 
+  TestList [ transpose [[1,2,3],[4,5,6]] ~?= [[1,4],[2,5],[3,6]]
+           , transpose [[1,2],[3,4,5]] ~?= [[1,3],[2,4]] 
+           -- , transpose [[]] ~?= []
+           ]
 
 -- countSub sub str
 
@@ -149,28 +160,33 @@ ttranspose = "transpose" ~: (assertFailure "testcase for transpose" :: Assertion
 -- for example:
 --      countSub "aa" "aaa" returns 2
 
-countSub = undefined
+countSub :: String -> String -> Int
+countSub sub str = length . filter (List.isPrefixOf sub) . List.tails $ str 
+
 tcountSub :: Test
-tcountSub = "countSub" ~: (assertFailure "testcase for countSub" :: Assertion)
+tcountSub = "countSub" ~: 
+  TestList [ countSub "aa" "aaa" ~?= 2
+           , countSub "abc" "abcababc" ~?= 2
+           ]
 
 --------------------------------------------------------------------------------
 
 -- Part One: Hottest Day
+-- Lets spend some time looking into finding a way to parse this test file.
 
 weather :: String -> String
-weather str = error "unimplemented"
- 
+weather str = str
 
 weatherProgram :: IO ()
 weatherProgram = do
-  str <- readFile "jul17.dat"
+  str <- readFile "src/jul17.dat"
   putStrLn (weather str)
 
 readInt :: String -> Maybe Int
 readInt = Read.readMaybe
 
 testWeather :: Test
-testWeather = "weather" ~: do str <- readFile "jul17.dat"
+testWeather = "weather" ~: do str <- readFile "src/jul17.dat"
                               weather str @?= "6"
 
 --------
@@ -183,12 +199,12 @@ soccer = error "unimplemented"
 
 soccerProgram :: IO ()
 soccerProgram = do
-  str <- readFile "soccer.dat"
+  str <- readFile "src/soccer.dat"
   putStrLn (soccer str)
 
 testSoccer :: Test
 testSoccer = "soccer" ~: do
-  str <- readFile "soccer.dat"
+  str <- readFile "src/soccer.dat"
   soccer str @?= "Aston_Villa"
 
 -- Part Three: DRY Fusion
