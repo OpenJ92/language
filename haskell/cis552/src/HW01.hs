@@ -10,6 +10,9 @@ import qualified Data.Char as Char
 import qualified Data.Maybe as Maybe
 import qualified Text.Read as Read
 
+import Text.ParserCombinators.Parsec
+import Control.Monad
+
 hw01main :: IO ()
 hw01main = do
    _ <- runTestTT $ TestList [ testStyle,
@@ -170,12 +173,36 @@ tcountSub = "countSub" ~:
            ]
 
 --------------------------------------------------------------------------------
+-- Parsers
+
+data Weather = Weather
+  { dy'  :: Int
+  , max' :: Int
+  , min' :: Int
+  , avg' :: Int
+  , dep' :: Int
+  , hdd' :: Int
+  , cdd' :: Int
+  , wtr' :: Float
+  , snw' :: Float
+  , dpth' :: Int
+  , avgspd' :: Float
+  , mxspd'  :: Int
+  , mindir' :: Int
+  , min'' :: String
+  , psbl' :: String
+  , ss'  :: Int
+  , wx' :: Maybe Int
+  , spd' :: Int
+  , dr'' :: Int
+  }
+     
 
 -- Part One: Hottest Day
 -- Lets spend some time looking into finding a way to parse this test file.
 
 weather :: String -> String
-weather str = str
+weather str = undefined
 
 weatherProgram :: IO ()
 weatherProgram = do
@@ -234,6 +261,3 @@ shortAnswer2 = "Fill in your answer here"
 
 shortAnswer3 :: String
 shortAnswer3 = "Fill in your answer here"
-
-
-
