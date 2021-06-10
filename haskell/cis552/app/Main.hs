@@ -18,6 +18,7 @@ import Classes
 import MonoidFoldable
 import QuickCheck
 import Persistent
+import GenericMonads
 
 -- Homework
 import HW01
@@ -58,3 +59,4 @@ lM' f ma = pure f `n` ma
 
 lM2' :: Monad m => (a -> b -> c) -> m a -> m b -> m c
 lM2' f ma mb = pure f `n` ma `n` mb
+
