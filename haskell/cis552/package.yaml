@@ -24,6 +24,7 @@ dependencies:
 - containers
 - QuickCheck
 - HUnit
+- parsec
 
 library:
   source-dirs: src
