@@ -27,14 +27,34 @@ main :: IO ()
 main = getLine >>= putStrLn
 
 g :: Monad m => (a -> m b) -> [a] -> m [b]
-g f [    ]  = return []
+g f [    ]  = pure []
 g f (x:xs)  = f x >>= \x' -> g f xs >>= \xs' -> pure $ (:) x' xs'
 
 h :: Monad m => (a -> b -> m a) -> a -> [b] -> m a
-h _ acc [    ] = return acc
+h _ acc [    ] = pure acc
 h f acc (y:ys) = f acc y >>= \acc' -> h f acc' ys
 
 i' :: Monad m => [m a] -> m [a]
-i' [      ] = return []
+i' [      ] = pure []
 i' (mx:mxs) = mx >>= \x -> i' mxs >>= \xs -> pure $ (:) x xs
 
+c :: Monad m => (a -> m b) -> (b -> m c) -> a -> m c
+c amb bmc a = amb a >>= \b -> bmc b
+
+j' :: Monad m => m (m a) -> m a
+j' mma = mma >>= id
+
+lM :: Monad m => (a -> b) -> m a -> m b
+lM f ma = ma >>= \a -> pure $ f a
+
+lM2 :: Monad m => (a -> b -> c) -> m a -> m b -> m c
+lM2 f ma mb = ma >>= \a -> mb >>= \b -> pure $ f a b
+
+n :: Monad m => (m (a -> b)) -> m a -> m b
+n mab ma = mab >>= \ab -> ma >>= \a -> pure $ ab a
+
+lM' :: Monad m => (a -> b) -> m a -> m b
+lM' f ma = pure f `n` ma
+
+lM2' :: Monad m => (a -> b -> c) -> m a -> m b -> m c
+lM2' f ma mb = pure f `n` ma `n` mb
